@@ -527,7 +527,7 @@ flowchart TD
 - **Acceptance Criteria**: `PAR-TXT-001` passes using synthetic text fixture; existing 16 tests remain green.
 - **Verification Commands**: `pytest tests/test_parsers.py -v`
 - **Expected Evidence**: Clean passing parser test run.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -548,7 +548,7 @@ flowchart TD
 - **Acceptance Criteria**: `PAR-USAB-001` through `PAR-USAB-004` and `REG-007` pass cleanly.
 - **Verification Commands**: `pytest tests/test_usability.py -v`
 - **Expected Evidence**: Passing usability test suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -569,7 +569,7 @@ flowchart TD
 - **Acceptance Criteria**: `PAR-DOCX-001`, `PAR-PDF-001/002`, `PAR-XLSX-001` pass on synthetic fixtures.
 - **Verification Commands**: `pytest tests/test_parsers.py -v`
 - **Expected Evidence**: 100% pass on synthetic documents.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
