@@ -10,6 +10,13 @@ from src.parsers.excel_parser import ExcelParser
 from src.parsers.pdf_parser import PdfParser
 from src.parsers.text_parser import TextParser
 from src.parsers.usability_validator import UsabilityAssessment, assess_text_usability
+from src.parsers.vision_adapter import (
+    BaseVisionAdapter,
+    MockVisionAdapter,
+    normalize_pixel_box,
+    recover_document_if_needed,
+    validate_bounding_box,
+)
 
 _text_parser = TextParser()
 _docx_parser = DocxParser()
@@ -78,6 +85,11 @@ __all__ = [
     "ExcelParser",
     "PdfParser",
     "DocumentAIAdapter",
+    "BaseVisionAdapter",
+    "MockVisionAdapter",
+    "recover_document_if_needed",
+    "validate_bounding_box",
+    "normalize_pixel_box",
     "parse_document",
     "parse_attachment",
     "UsabilityAssessment",

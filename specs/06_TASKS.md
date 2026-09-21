@@ -589,7 +589,7 @@ flowchart TD
 - **Acceptance Criteria**: `AI-OCR-001`, `AI-OCR-005`, `AI-OCR-006` pass under simulated adapter conditions.
 - **Verification Commands**: `pytest tests/test_vision_adapter.py -v`
 - **Expected Evidence**: Passing OCR fallback tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -609,7 +609,7 @@ flowchart TD
 - **Acceptance Criteria**: `AI-OCR-002`, `AI-OCR-003`, `AI-OCR-004` pass cleanly.
 - **Verification Commands**: `pytest tests/test_vision_adapter.py -k "AI-OCR-002 or AI-OCR-003 or AI-OCR-004" -v`
 - **Expected Evidence**: Passing partial legibility tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
