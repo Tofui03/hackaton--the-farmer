@@ -630,7 +630,7 @@ flowchart TD
 - **Acceptance Criteria**: `AI-ADP-001` through `AI-ADP-004` pass cleanly in mocked offline mode.
 - **Verification Commands**: `pytest tests/test_ai_adapter.py -k "AI-ADP-001 or AI-ADP-002 or AI-ADP-003 or AI-ADP-004" -v`
 - **Expected Evidence**: Passing offline adapter contract tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -651,7 +651,7 @@ flowchart TD
 - **Acceptance Criteria**: `AI-BUD-001` through `AI-BUD-005` pass cleanly.
 - **Verification Commands**: `pytest tests/test_ai_adapter.py -k "AI-BUD" -v`
 - **Expected Evidence**: Passing retry budget test suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -671,7 +671,7 @@ flowchart TD
 - **Acceptance Criteria**: `AI-ADP-005`, `REG-011`, `UT-EXT-013` pass cleanly.
 - **Verification Commands**: `pytest tests/test_ai_adapter.py -k "AI-ADP-005 or REG-011 or UT-EXT-013" -v`
 - **Expected Evidence**: Passing evidence validation tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -691,7 +691,7 @@ flowchart TD
 - **Acceptance Criteria**: Adapter instantiates, passes interface assertions, and passes mock integration tests.
 - **Verification Commands**: `pytest tests/test_gemini_adapter.py -v`
 - **Expected Evidence**: Passing adapter implementation tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
