@@ -43,3 +43,10 @@ venv.bak/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Local Pipeline Caches & Environment Secrets
+.env
+*.env
+.cache_pipeline.json
+.pytest_cache/
+
