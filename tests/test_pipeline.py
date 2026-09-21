@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from src.pipeline.stage1_classify import rule_based_classify
 from src.pipeline.stage2_extract import Stage2Extractor
-from src.pipeline.stage3_compare import rule_based_compare
+from src.pipeline.stage3_compare import rule_based_compare_audit
 from src.pipeline.validator import validate_submission_dict
 
 BUNDLE_DIR = Path(__file__).resolve().parent.parent / "sdoc-hackathon-bundle"
@@ -29,8 +29,13 @@ def test_stage2_missing_attachment():
     ready, early = extractor.extract_comparison_pair(e507)
     assert ready is None
     assert early is not None
-    assert early["status"] == "NEEDS_REVIEW"
-    assert early["review_reason"] == "missing_attachment"
+    assert early.hitl_escalation.needed is True
+    assert early.hitl_escalation.reason == "missing_attachment"
+    assert "email_507" in early.hitl_escalation.evidence or "attachment" in early.hitl_escalation.evidence
+
+    comp = early.to_competition_dict()
+    assert comp["status"] == "NEEDS_REVIEW"
+    assert comp["review_reason"] == "missing_attachment"
 
 
 def test_stage2_corrupted_pdf():
@@ -39,26 +44,39 @@ def test_stage2_corrupted_pdf():
     ready, early = extractor.extract_comparison_pair(e511)
     assert ready is None
     assert early is not None
-    assert early["status"] == "NEEDS_REVIEW"
-    assert early["review_reason"] == "unreadable"
+    assert early.hitl_escalation.needed is True
+    assert early.hitl_escalation.reason == "unreadable"
+
+    comp = early.to_competition_dict()
+    assert comp["status"] == "NEEDS_REVIEW"
+    assert comp["review_reason"] == "unreadable"
 
 
 def test_stage3_matching_pair():
     si_text = (BUNDLE_DIR / "attachments" / "email_001_SI.txt").read_text()
     bl_text = (BUNDLE_DIR / "attachments" / "email_001_BL.txt").read_text()
-    res = rule_based_compare(si_text, bl_text)
-    assert res["status"] == "OK"
-    assert res["has_defect"] is False
-    assert res["defect_fields"] == []
+    rec = rule_based_compare_audit("email_001", si_text, bl_text)
+    assert rec.mismatch_detected is False
+    assert rec.result_summary == "No mismatch detected"
+    assert len(rec.discrepancies) == 0
+
+    comp = rec.to_competition_dict()
+    assert comp["status"] == "OK"
+    assert comp["has_defect"] is False
+    assert comp["defect_fields"] == []
 
 
 def test_stage3_discrepancy_pair():
     si_text = (BUNDLE_DIR / "attachments" / "email_025_SI.txt").read_text()
     bl_text = (BUNDLE_DIR / "attachments" / "email_025_BL.txt").read_text()
-    res = rule_based_compare(si_text, bl_text)
-    assert res["status"] == "MISMATCH"
-    assert res["has_defect"] is True
-    assert "container_count" in res["defect_fields"]
+    rec = rule_based_compare_audit("email_025", si_text, bl_text)
+    assert rec.mismatch_detected is True
+    assert any(d.field == "container_count" for d in rec.discrepancies)
+
+    comp = rec.to_competition_dict()
+    assert comp["status"] == "MISMATCH"
+    assert comp["has_defect"] is True
+    assert "container_count" in comp["defect_fields"]
 
 
 def test_validator():
