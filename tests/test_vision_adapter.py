@@ -1,11 +1,17 @@
 from __future__ import annotations
 
+import inspect
 import json
 from pathlib import Path
 import pytest
 
 from src.models.document import ParserResult, ParserStatus
+from src.parsers.base import BaseParser, DocumentParseResult
+from src.parsers.docai_adapter import DocumentAIAdapter
+from src.parsers.docx_parser import DocxParser
+from src.parsers.excel_parser import ExcelParser
 from src.parsers.pdf_parser import PdfParser
+from src.parsers.text_parser import TextParser
 from src.parsers.vision_adapter import (
     BaseVisionAdapter,
     MockVisionAdapter,
@@ -19,29 +25,31 @@ AI_FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures" / "ai" / "ocr"
 
 
 def test_ai_ocr_001_scanned_clean_document_recovery():
-    """AI-OCR-001: Scanned clean document recovery via mocked adapter (FR-008, DEC-P02).
+    """AI-OCR-001: Scanned clean document recovery via injected mock adapter (FR-008, DEC-P02).
     
-    1. PdfParser parses scanned PDF -> produces is_scanned=True, usable_for_extraction=False
-    2. recover_document_if_needed invokes OCR recovery
-    3. Produces ParserResult with status SUCCESS, usable_for_extraction=True, is_scanned=True
-    4. Text and normalized bounding boxes are recovered and validated
+    1. PdfParser parses scanned PDF -> produces is_scanned=True, usable_for_extraction=False.
+    2. Test loads synthetic fixture and injects it into MockVisionAdapter.
+    3. recover_document_if_needed invokes OCR recovery.
+    4. Produces ParserResult with status SUCCESS, usable_for_extraction=True, is_scanned=True.
+    5. Text and normalized bounding boxes are recovered and validated.
     """
     scanned_path = FIXTURES_DIR / "scanned" / "scan_si_001_readable.pdf"
     assert scanned_path.exists(), f"Fixture missing: {scanned_path}"
 
-    # Step 1: Ordinary parse produces unreadable scanned document
-    pdf_parser = PdfParser()
-    initial_res = pdf_parser.parse(scanned_path)
+    initial_res = PdfParser().parse(scanned_path)
     assert isinstance(initial_res, ParserResult)
     assert initial_res.is_scanned is True
     assert initial_res.usable_for_extraction is False
     assert initial_res.status == ParserStatus.UNREADABLE
 
-    # Step 2: Targeted OCR recovery invocation
-    adapter = MockVisionAdapter()
+    fixture_path = AI_FIXTURES_DIR / "valid" / "ocr_valid_full_recovery.json"
+    assert fixture_path.exists()
+    payload = json.loads(fixture_path.read_text(encoding="utf-8"))
+
+    # Test code injects payload into adapter
+    adapter = MockVisionAdapter(payload=payload)
     recovered_res = recover_document_if_needed(initial_res, scanned_path, adapter=adapter)
 
-    # Step 3: Verified recovered state
     assert isinstance(recovered_res, ParserResult)
     assert recovered_res.status == ParserStatus.SUCCESS
     assert recovered_res.usable_for_extraction is True
@@ -51,7 +59,6 @@ def test_ai_ocr_001_scanned_clean_document_recovery():
     assert "ROTTERDAM" in recovered_res.text
     assert "16500 KG" in recovered_res.text
 
-    # Step 4: Metadata provenance and bounding box verification
     assert recovered_res.metadata["recovery_method"] == "ocr_vision"
     assert recovered_res.metadata["adapter"] == "MockVisionAdapter"
     assert "ocr_boxes" in recovered_res.metadata
@@ -77,7 +84,11 @@ def test_ai_ocr_002_essential_fields_readable_footer_corrupted():
     initial_res = PdfParser().parse(degraded_path)
     assert initial_res.is_scanned is True
 
-    adapter = MockVisionAdapter()
+    fixture_path = AI_FIXTURES_DIR / "valid" / "ocr_valid_partial_clean_fields.json"
+    assert fixture_path.exists()
+    payload = json.loads(fixture_path.read_text(encoding="utf-8"))
+
+    adapter = MockVisionAdapter(payload=payload)
     recovered_res = recover_document_if_needed(initial_res, degraded_path, adapter=adapter)
 
     assert isinstance(recovered_res, ParserResult)
@@ -99,9 +110,10 @@ def test_ai_ocr_003_unreadable_mandatory_field():
     """
     fixture_path = AI_FIXTURES_DIR / "failures" / "ocr_unreadable_mandatory_field.json"
     assert fixture_path.exists()
+    payload = json.loads(fixture_path.read_text(encoding="utf-8"))
 
     dummy_path = Path("scan_si_stained.pdf")
-    adapter = MockVisionAdapter(fixture_path=fixture_path)
+    adapter = MockVisionAdapter(payload=payload)
     res = adapter.recover_document(dummy_path, document_id="scan_si_stained.pdf")
 
     assert isinstance(res, ParserResult)
@@ -119,9 +131,10 @@ def test_ai_ocr_004_conflicting_ocr_interpretations():
     """
     fixture_path = AI_FIXTURES_DIR / "failures" / "ocr_conflicting_readings.json"
     assert fixture_path.exists()
+    payload = json.loads(fixture_path.read_text(encoding="utf-8"))
 
     dummy_path = Path("scan_si_lowres.pdf")
-    adapter = MockVisionAdapter(fixture_path=fixture_path)
+    adapter = MockVisionAdapter(payload=payload)
     res = adapter.recover_document(dummy_path, document_id="scan_si_lowres.pdf")
 
     assert isinstance(res, ParserResult)
@@ -138,8 +151,12 @@ def test_ai_ocr_005_vision_provider_unavailable_with_bounded_retry_recovery():
     Simulates transient errors (429 Rate Limit, 503 Unavailable) on attempts 1 and 2,
     succeeding on attempt 3 within technical_attempt_limit = 3.
     """
+    fixture_path = AI_FIXTURES_DIR / "valid" / "ocr_valid_full_recovery.json"
+    payload = json.loads(fixture_path.read_text(encoding="utf-8"))
+
     dummy_path = Path("scan_si_001_readable.pdf")
     adapter = MockVisionAdapter(
+        payload=payload,
         simulated_faults=["rate_limit_429", "provider_unavailable_503"],
         technical_attempt_limit=3,
     )
@@ -148,7 +165,6 @@ def test_ai_ocr_005_vision_provider_unavailable_with_bounded_retry_recovery():
     assert isinstance(res, ParserResult)
     assert res.status == ParserStatus.SUCCESS
     assert res.usable_for_extraction is True
-    # Exactly 3 attempts recorded
     assert len(res.attempt_ids) == 3
     assert res.attempt_ids == [
         "att_ocr_scan_si_001_readable.pdf_1",
@@ -201,27 +217,22 @@ def test_vector_pdf_bypasses_ocr_recovery():
     adapter = MockVisionAdapter()
     dispatched_res = recover_document_if_needed(initial_res, clean_pdf_path, adapter=adapter)
 
-    # Invariant: Dispatched result is identical to initial parse, adapter was never called
     assert dispatched_res is initial_res
     assert adapter.call_count == 0
 
 
 def test_geometric_coordinate_validation():
-    """Validates bounding box geometry invariants (T02-02, FieldEvidence).
-    
-    Tests normalized coordinate constraints and pixel normalization.
-    """
-    # Valid normalized bbox: 0 <= x0 < x1 <= 1 and 0 <= y0 < y1 <= 1
+    """Validates bounding box geometry invariants (T02-02, FieldEvidence)."""
     assert validate_bounding_box([0.1, 0.2, 0.8, 0.9]) is True
     assert validate_bounding_box([0.0, 0.0, 1.0, 1.0]) is True
 
     # Inverted geometry
-    assert validate_bounding_box([0.8, 0.2, 0.1, 0.9]) is False  # x0 > x1
-    assert validate_bounding_box([0.1, 0.9, 0.8, 0.2]) is False  # y0 > y1
+    assert validate_bounding_box([0.8, 0.2, 0.1, 0.9]) is False
+    assert validate_bounding_box([0.1, 0.9, 0.8, 0.2]) is False
 
     # Out of range coordinates
-    assert validate_bounding_box([-0.1, 0.2, 0.8, 0.9]) is False  # negative
-    assert validate_bounding_box([0.1, 0.2, 1.1, 0.9]) is False   # > 1.0
+    assert validate_bounding_box([-0.1, 0.2, 0.8, 0.9]) is False
+    assert validate_bounding_box([0.1, 0.2, 1.1, 0.9]) is False
 
     # Wrong length
     assert validate_bounding_box([0.1, 0.2, 0.8]) is False
@@ -233,7 +244,6 @@ def test_geometric_coordinate_validation():
     assert norm == [round(220/600, 4), round(116/800, 4), round(532/600, 4), round(130/800, 4)]
     assert validate_bounding_box(norm) is True
 
-    # Invalid raster dimensions
     assert normalize_pixel_box(pixel_box, width=0, height=800) is None
     assert normalize_pixel_box(pixel_box, width=600, height=-100) is None
 
@@ -250,10 +260,74 @@ def test_provider_confidence_is_diagnostic_only():
         },
         "confidence_indicator": "LOW",
     }
-    adapter = MockVisionAdapter(fixture_data=fixture_data)
+    adapter = MockVisionAdapter(payload=fixture_data)
     res = adapter.recover_document(Path("scan_test_low_conf.pdf"))
 
     assert res.status == ParserStatus.SUCCESS
     assert res.usable_for_extraction is True
-    # Confidence is recorded in metadata
     assert res.metadata["confidence"] == "LOW"
+
+
+def test_recover_document_if_needed_no_adapter_returns_unreadable():
+    """Requirement 4 & 9E: adapter=None cannot silently activate MockVisionAdapter.
+    
+    When adapter is omitted for a document that requires recovery (e.g. scanned PDF),
+    it must NOT silently instantiate MockVisionAdapter or synthesize content;
+    it must return unreadable status with error_message='no_vision_adapter_configured'.
+    """
+    scanned_path = FIXTURES_DIR / "scanned" / "scan_si_001_readable.pdf"
+    assert scanned_path.exists()
+
+    initial_res = PdfParser().parse(scanned_path)
+    assert initial_res.is_scanned is True
+    assert initial_res.usable_for_extraction is False
+
+    # Call with adapter=None explicitly omitted
+    res = recover_document_if_needed(initial_res, scanned_path, adapter=None)
+
+    assert isinstance(res, ParserResult)
+    assert res.status == ParserStatus.UNREADABLE
+    assert res.usable_for_extraction is False
+    assert res.text is None
+    assert res.error_message == "no_vision_adapter_configured"
+    assert any("no_vision_adapter_configured" in diag for diag in res.diagnostic_evidence_ids)
+    assert res.metadata.get("recovery_attempted") == "false"
+
+
+def test_base_parser_subclasses_contract_and_docai_adapter():
+    """Requirement 9A & 9B: BaseParser contract compliance and DocumentAIAdapter isolation.
+    
+    1. Proves DocumentAIAdapter inherits BaseVisionAdapter and NOT BaseParser.
+    2. Proves DocumentAIAdapter.recover_document() strictly returns ParserResult.
+    3. Proves DocumentAIAdapter.parse() strictly returns ParserResult.
+    4. Proves DocumentAIAdapter.parse_legacy() returns DocumentParseResult.
+    5. Proves all registered BaseParser subclasses return ParserResult from parse().
+    6. Proves zero BaseParser subclasses return DocumentParseResult from parse().
+    """
+    # 1. DocumentAIAdapter boundary
+    docai = DocumentAIAdapter()
+    assert isinstance(docai, BaseVisionAdapter)
+    assert not isinstance(docai, BaseParser)
+
+    # 2 & 3. Method contracts
+    res_rec = docai.recover_document(Path("dummy.pdf"))
+    assert isinstance(res_rec, ParserResult)
+
+    res_parse = docai.parse(Path("dummy.pdf"))
+    assert isinstance(res_parse, ParserResult)
+
+    # 4. Explicit legacy compatibility path
+    res_legacy = docai.parse_legacy(Path("dummy.pdf"))
+    assert isinstance(res_legacy, DocumentParseResult)
+
+    # 5 & 6. Check all BaseParser subclasses
+    base_parser_subclasses = [TextParser, DocxParser, ExcelParser, PdfParser]
+    for cls in base_parser_subclasses:
+        assert issubclass(cls, BaseParser)
+        # Verify parse signature
+        sig = inspect.signature(cls.parse)
+        assert "self" in sig.parameters
+        assert "file_path" in sig.parameters
+
+    # Ensure DocumentAIAdapter is NOT among BaseParser subclasses
+    assert DocumentAIAdapter not in BaseParser.__subclasses__()

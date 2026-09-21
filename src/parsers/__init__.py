@@ -70,9 +70,9 @@ def parse_attachment(file_path: Path) -> DocumentParseResult:
 
     # Scanned PDF fallback if DocAI is configured
     if res.is_scanned and _docai_adapter.is_configured:
-        docai_res = _docai_adapter.parse(file_path)
-        if docai_res.success and docai_res.text and len(docai_res.text) > 0:
-            return docai_res
+        recovered = _docai_adapter.recover_document(file_path)
+        if recovered.usable_for_extraction and recovered.text:
+            return DocumentParseResult.from_parser_result(recovered)
 
     return res
 

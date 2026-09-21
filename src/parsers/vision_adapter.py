@@ -4,14 +4,11 @@ from abc import ABC, abstractmethod
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from src.models.document import ParserResult, ParserStatus
 
 logger = logging.getLogger(__name__)
-
-# Standard directory for synthetic AI/OCR fixtures
-_OCR_FIXTURES_DIR = Path(__file__).resolve().parent.parent.parent / "tests" / "fixtures" / "ai" / "ocr"
 
 
 def validate_bounding_box(
@@ -79,79 +76,42 @@ class BaseVisionAdapter(ABC):
 class MockVisionAdapter(BaseVisionAdapter):
     """Deterministic, offline-testable Vision/OCR adapter for CI and automated testing.
     
-    Supports:
-    - Loading synthetic OCR fixtures from tests/fixtures/ai/ocr/
-    - Simulating technical transient faults with bounded retries (DEC-AI-P01)
-    - Simulating total provider exhaustion escalating to processing_or_provider_failure
-    - Partial degradation handling (DEC-AI-P04 / AI-OCR-002)
-    - Unreadable mandatory fields (AI-OCR-003) and conflicting readings (AI-OCR-004)
+    Operates strictly on injected payload data or response providers.
+    Does NOT access or depend on test-directory filesystem paths.
     """
 
     def __init__(
         self,
-        fixture_path: Optional[Path] = None,
-        fixture_data: Optional[Dict[str, Any]] = None,
+        payload: Optional[Dict[str, Any]] = None,
+        payloads_by_document_id: Optional[Dict[str, Dict[str, Any]]] = None,
+        response_provider: Optional[Callable[[Path, str], Optional[Dict[str, Any]]]] = None,
         simulated_faults: Optional[List[str]] = None,
         technical_attempt_limit: int = 3,
-        fixtures_dir: Optional[Path] = None,
     ):
-        self.fixture_path = fixture_path
-        self.fixture_data = fixture_data
+        self.payload = payload
+        self.payloads_by_document_id = dict(payloads_by_document_id or {})
+        self.response_provider = response_provider
         self.simulated_faults = list(simulated_faults) if simulated_faults else []
         self.technical_attempt_limit = technical_attempt_limit
-        self.fixtures_dir = fixtures_dir or _OCR_FIXTURES_DIR
         self.call_count = 0
         self.recorded_attempts: List[str] = []
 
-    def _find_fixture_payload(self, doc_id: str) -> Optional[Dict[str, Any]]:
-        """Find matching synthetic fixture payload by document_id or filename."""
-        if self.fixture_data is not None:
-            return self.fixture_data
-
-        if self.fixture_path is not None and self.fixture_path.exists():
+    def _resolve_payload(self, file_path: Path, doc_id: str) -> Optional[Dict[str, Any]]:
+        """Resolve payload from injected provider, mapping, or single payload."""
+        if self.response_provider is not None:
             try:
-                return json.loads(self.fixture_path.read_text(encoding="utf-8"))
+                return self.response_provider(file_path, doc_id)
             except Exception as e:
-                logger.warning("Failed to load specified fixture %s: %s", self.fixture_path, e)
+                logger.warning("Response provider raised error: %s", e)
                 return None
 
-        # Search in fixtures_dir (both valid and failures subdirectories)
-        candidates = [
-            self.fixtures_dir / "valid" / "ocr_valid_full_recovery.json",
-            self.fixtures_dir / "valid" / "ocr_valid_partial_clean_fields.json",
-            self.fixtures_dir / "failures" / "ocr_unreadable_mandatory_field.json",
-            self.fixtures_dir / "failures" / "ocr_conflicting_readings.json",
-        ]
+        if doc_id in self.payloads_by_document_id:
+            return self.payloads_by_document_id[doc_id]
 
-        for cand in candidates:
-            if cand.exists():
-                try:
-                    payload = json.loads(cand.read_text(encoding="utf-8"))
-                    cand_doc_id = payload.get("document_id", "")
-                    if cand_doc_id == doc_id or cand.name == doc_id:
-                        return payload
-                except Exception:
-                    continue
+        if file_path.name in self.payloads_by_document_id:
+            return self.payloads_by_document_id[file_path.name]
 
-        # If doc_id specifically hints at readable vs degraded
-        if "001" in doc_id or "readable" in doc_id:
-            target = self.fixtures_dir / "valid" / "ocr_valid_full_recovery.json"
-            if target.exists():
-                return json.loads(target.read_text(encoding="utf-8"))
-        elif "002" in doc_id or "degraded" in doc_id:
-            target = self.fixtures_dir / "valid" / "ocr_valid_partial_clean_fields.json"
-            if target.exists():
-                return json.loads(target.read_text(encoding="utf-8"))
-        elif "stained" in doc_id:
-            target = self.fixtures_dir / "failures" / "ocr_unreadable_mandatory_field.json"
-            if target.exists():
-                return json.loads(target.read_text(encoding="utf-8"))
-        elif "lowres" in doc_id or "ambiguous" in doc_id:
-            target = self.fixtures_dir / "failures" / "ocr_conflicting_readings.json"
-            if target.exists():
-                return json.loads(target.read_text(encoding="utf-8"))
-
-        return None
+        return self.payload
 
     def recover_document(
         self,
@@ -163,7 +123,6 @@ class MockVisionAdapter(BaseVisionAdapter):
         attempts: List[str] = []
 
         # 1. Bounded Technical Retry Simulation (DEC-AI-P01, AI-OCR-005, AI-OCR-006)
-        # Process configured simulated technical faults
         attempt_num = 1
         while self.simulated_faults and attempt_num <= self.technical_attempt_limit:
             fault = self.simulated_faults.pop(0)
@@ -197,15 +156,14 @@ class MockVisionAdapter(BaseVisionAdapter):
                 )
             attempt_num += 1
 
-        # Current successful attempt
+        # Current attempt
         att_id = f"att_ocr_{doc_id}_{attempt_num}"
         attempts.append(att_id)
         self.recorded_attempts.append(att_id)
 
-        # 2. Retrieve fixture data
-        payload = self._find_fixture_payload(doc_id)
+        # 2. Retrieve payload strictly from injected sources
+        payload = self._resolve_payload(file_path, doc_id)
         if payload is None:
-            # Empty / missing payload -> Recovery failure
             return ParserResult(
                 document_id=doc_id,
                 status=ParserStatus.UNREADABLE,
@@ -231,7 +189,6 @@ class MockVisionAdapter(BaseVisionAdapter):
         confidence = str(payload.get("confidence_indicator", "HIGH"))
         footer_legible = payload.get("footer_terms_legible", True)
 
-        # Extract textual fragments and validate bounding boxes
         text_fragments: List[str] = []
         valid_ocr_boxes: Dict[str, List[float]] = {}
         unreadable_fields: List[str] = []
@@ -259,14 +216,12 @@ class MockVisionAdapter(BaseVisionAdapter):
                 else:
                     logger.warning("Rejected invalid bounding box geometry for %s: %s", field_name, pixel_box)
 
-        # In case explicit text is provided in payload
         if "text" in payload and payload["text"]:
             text_fragments.append(payload["text"])
 
-        # Assembled recovered text
         recovered_text = "\n".join(text_fragments) if text_fragments else None
 
-        # 4. Determine Recovered Usability State & Diagnostic Evidence
+        # 4. Diagnostic Evidence and Usability Metadata
         diagnostic_ids: List[str] = [f"diag_ocr_recovered_{doc_id}"]
         metadata: Dict[str, str] = {
             "recovery_method": "ocr_vision",
@@ -296,7 +251,6 @@ class MockVisionAdapter(BaseVisionAdapter):
 
         # Evaluate final status under contract rules
         if not recovered_text or not recovered_text.strip():
-            # If no usable text recovered at all
             return ParserResult(
                 document_id=doc_id,
                 status=ParserStatus.UNREADABLE,
@@ -309,7 +263,7 @@ class MockVisionAdapter(BaseVisionAdapter):
                 metadata=metadata,
             )
 
-        # If footer is blurry but essential comparison fields are sharp (AI-OCR-002)
+        # If footer is blurry but essential fields are sharp (AI-OCR-002),
         # or if mandatory fields are stained/conflicting but partial text was recovered
         if not footer_legible or unreadable_fields or conflicting_fields:
             return ParserResult(
@@ -349,9 +303,12 @@ def recover_document_if_needed(
 ) -> ParserResult:
     """Assess if document needs OCR/Vision recovery and invoke adapter if needed.
     
-    Architectural invariant:
+    Architectural invariants:
     - If ordinary parse is already usable and not scanned (e.g. vector PDF) -> BYPASS OCR.
-    - If ordinary parse is scanned (is_scanned = True) or unusable -> INVOKE OCR recovery.
+    - If ordinary parse is scanned (is_scanned = True) or unusable:
+        - If adapter is provided: INVOKE adapter.recover_document().
+        - If adapter is None: DO NOT invoke MockVisionAdapter or invent data;
+          return unreadable ParserResult indicating no vision adapter is configured.
     """
     # 1. Routing bypass: usable vector PDF / document bypasses OCR
     if parser_result.usable_for_extraction and not parser_result.is_scanned:
@@ -361,9 +318,31 @@ def recover_document_if_needed(
     if not parser_result.is_scanned and parser_result.status != ParserStatus.UNREADABLE:
         return parser_result
 
-    # 3. Invoke targeted OCR / Vision recovery
-    active_adapter = adapter or MockVisionAdapter()
-    return active_adapter.recover_document(
+    # 3. Guard against unconfigured recovery adapter (Mock must never be production default)
+    if adapter is None:
+        doc_id = str(parser_result.document_id)
+        diag_ids = list(parser_result.diagnostic_evidence_ids)
+        diag_unconf = f"no_vision_adapter_configured_{doc_id}"
+        if diag_unconf not in diag_ids:
+            diag_ids.append(diag_unconf)
+        return ParserResult(
+            document_id=doc_id,
+            status=ParserStatus.UNREADABLE,
+            text=None,
+            usable_for_extraction=False,
+            diagnostic_evidence_ids=diag_ids,
+            attempt_ids=list(parser_result.attempt_ids) or [f"att_ocr_{doc_id}_none"],
+            error_message="no_vision_adapter_configured",
+            is_scanned=parser_result.is_scanned,
+            metadata={
+                **parser_result.metadata,
+                "recovery_attempted": "false",
+                "recovery_error": "no_vision_adapter_configured",
+            },
+        )
+
+    # 4. Invoke configured OCR / Vision recovery
+    return adapter.recover_document(
         file_path=file_path,
         document_id=str(parser_result.document_id),
     )
