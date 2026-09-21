@@ -421,7 +421,7 @@ flowchart TD
 - **Acceptance Criteria**: `UT-NORM-001`, `UT-NORM-002`, `UT-NORM-003` pass cleanly.
 - **Verification Commands**: `pytest tests/test_normalization.py -k "UT-NORM-001 or UT-NORM-002 or UT-NORM-003" -v`
 - **Expected Evidence**: Passing unit normalization tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -441,7 +441,7 @@ flowchart TD
 - **Acceptance Criteria**: `UT-NORM-004`, `UT-NORM-005` pass cleanly.
 - **Verification Commands**: `pytest tests/test_normalization.py -k "UT-NORM-004 or UT-NORM-005" -v`
 - **Expected Evidence**: Passing unit test assertions for exact Decimal conversions.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -462,7 +462,7 @@ flowchart TD
 - **Acceptance Criteria**: All 3 negative guard tests pass cleanly.
 - **Verification Commands**: `pytest tests/test_normalization_guards.py -v`
 - **Expected Evidence**: Regression guard tests passing 100%.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
