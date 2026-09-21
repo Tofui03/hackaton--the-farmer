@@ -818,7 +818,7 @@ flowchart TD
 - **Acceptance Criteria**: `UT-EXT-001` through `UT-EXT-010` pass cleanly.
 - **Verification Commands**: `pytest tests/test_extraction.py -k "UT-EXT" -v`
 - **Expected Evidence**: Passing deterministic extraction tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -840,7 +840,7 @@ flowchart TD
 - **Acceptance Criteria**: `UT-EXT-012` and `UT-EXT-013` pass cleanly.
 - **Verification Commands**: `pytest tests/test_extraction.py -k "UT-EXT-012 or UT-EXT-013" -v`
 - **Expected Evidence**: Passing grounded AI extraction tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -862,7 +862,7 @@ flowchart TD
 - **Acceptance Criteria**: `UT-EXT-011`, `HITL-PART-001`, `REG-009` pass cleanly.
 - **Verification Commands**: `pytest tests/test_extraction.py -k "HITL-PART-001 or REG-009" -v`
 - **Expected Evidence**: Passing partial work preservation tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 

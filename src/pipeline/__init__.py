@@ -11,6 +11,11 @@ from src.pipeline.stage2_role_binding import (
     bind_attachment_roles,
 )
 from src.pipeline.stage3_compare import Stage3Comparator, rule_based_compare_audit
+from src.pipeline.stage3_extract import (
+    FIELD_ALIASES,
+    Stage3Extractor,
+    extract_fields_from_text,
+)
 from src.pipeline.validator import validate_submission_dict
 
 # Backward-compatibility alias
@@ -24,6 +29,9 @@ __all__ = [
     "Stage2RoleBinder",
     "RoleBindingResult",
     "bind_attachment_roles",
+    "Stage3Extractor",
+    "extract_fields_from_text",
+    "FIELD_ALIASES",
     "Stage3Comparator",
     "rule_based_compare",
     "rule_based_compare_audit",
