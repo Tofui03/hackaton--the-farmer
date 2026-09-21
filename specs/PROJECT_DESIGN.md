@@ -1,4 +1,4 @@
-# 01_PROJECT_DESIGN.md — System Architecture & Technical Design Specification
+# PROJECT_DESIGN.md — System Architecture & Technical Design Specification
 
 > **Document Type**: Technical Architecture & System Design Document  
 > **Implements**: [`specs/00_PRODUCT_SPEC.md`](file:///d:/ship/specs/00_PRODUCT_SPEC.md) / [`specs/PRODUCT_SPEC.md`](file:///d:/ship/specs/PRODUCT_SPEC.md)  
@@ -336,7 +336,7 @@ The system enforces a multi-tier automated test suite:
   $$\text{Evaluation Metrics} = \text{TBD (Determined by the official evaluation endpoint / participant guide)}$$
   > [!IMPORTANT]
   > The system **MUST NOT** assume undocumented scoring weights or formulas. The evaluation endpoint (`POST /submit`) evaluates results against a private reference set without returning reference answers.
-- **Self-Evaluation Integration (`OPEN QUESTION 2 DECISION - APPROVED`)**:
+- **Self-Evaluation Integration (`OPEN QUESTION 2 DECISION - APPROVED`)`:
   - The official local `/submit` self-evaluation endpoint (via local server or `loader.py`) is approved for integration into the development validation loop once baseline pipeline operations are stable.
   - **Strict Anti-Leakage Guardrail**: Evaluation feedback must **never** result in email-ID-specific logic, hardcoded answers, or dataset-specific overrides.
 - **Core Optimization Vectors** `[REQUIRED BY SOURCE - PDF Page 2, 4]`:

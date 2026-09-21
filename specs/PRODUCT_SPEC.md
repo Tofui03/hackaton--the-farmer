@@ -1,9 +1,13 @@
-# PRODUCT_SPEC.md — Shipping Document Verification Product Specification
+# 00_PRODUCT_SPEC.md — Shipping Document Verification Product Specification
 
 > **Document Type**: Authoritative Product Requirements Specification  
 > **Source of Truth**: [`Shipping Document Verification Use Case.pdf`](file:///d:/ship/Shipping%20Document%20Verification%20Use%20Case.pdf)  
 > **Methodology**: Spec-Driven Development (SDD) — Phase 1 Requirements Engineering  
-> **Status**: Awaiting User Review & Approval  
+> **Status**: APPROVED / BASELINED  
+> **Revision**: 3.1 (Approved handoff synchronization, 2026-09-22)  
+> **Change Record**: [AMENDMENT_2026-09-22.md](AMENDMENT_2026-09-22.md)  
+
+Requirement levels are `CORE`, `ADVANCED`, `DESIGN EXTENSION`, and `EVALUATION`. A source citation identifies the capability in the original use case; concrete implementation policies are identified separately as design decisions. Proposed operational targets are not approved acceptance criteria.
 
 ---
 
@@ -20,10 +24,10 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 ## 2. Project Goals
 
 1. **Automated Triage**: Automatically classify 100% of inbound emails into verified operational categories.
-2. **Zero False Alarms in Verification**: Accurately extract and compare the 7 mandatory shipment fields between the reference SI and candidate draft BL, distinguishing benign formatting variations from real commercial discrepancies.
+2. **Accurate Verification**: Extract and compare the seven mandatory shipment fields, distinguishing approved formatting variations from real discrepancies. Do not claim zero false alarms without empirical evaluation evidence.
 3. **Audit-Ready Discrepancy Reporting**: Produce structured reports displaying exact mismatched fields with side-by-side values (`SI: <val> / BL: <val>`), or confirm `"No mismatch detected"`.
 4. **Dependable Human-in-the-Loop (HITL)**: Proactively detect corrupted, missing, ambiguous, or illegible documents and escalate them to human operators with explicit reason codes and source evidence snippets.
-5. **Standardized Evaluation Delivery**: Comply with automated evaluation contracts and expose a public HTTP interface for automated scoring and examiner inspection.
+5. **Evaluation Delivery**: When self-evaluation is used, provide the agreed submission format. The approved REST application architecture is defined in `01_PROJECT_DESIGN.md`; public hosting is not a source requirement.
 
 ---
 
@@ -46,13 +50,16 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 - **FR-004** `[SOURCE: PDF Page 1]`: For all non-document-comparison emails, the system MUST terminate document checking immediately after classification.
 
 ### 4.2 Document Extraction & Ingestion
-- **FR-005** `[SOURCE: PDF Page 1, 3]`: The system MUST parse plain-text (`.txt`) attachments referenced in email records.
-- **FR-006** `[SOURCE: PDF Page 2]`: The system MUST support advanced attachment formats, specifically Microsoft Word (`.docx`), Excel spreadsheets (`.xlsx`), and Adobe PDF (`.pdf`).
+- **FR-005** `[CORE; SOURCE: PDF Page 1, 3]`: The system MUST parse plain-text (`.txt`) attachments referenced in email records.
+- **FR-006**: Format support beyond TXT is separated by requirement level:
+  - **FR-006A** `[ADVANCED; SOURCE: PDF Page 2]`: Word (`.docx`).
+  - **FR-006B** `[ADVANCED; SOURCE: PDF Page 2]`: PDF (`.pdf`).
+  - **FR-006C** `[DESIGN EXTENSION; APPROVED DESIGN]`: Excel (`.xlsx`), not an explicit original-use-case requirement.
 - **FR-007** `[SOURCE: PDF Page 2]`: The system MUST handle table layouts, key-value listings, and free-form paragraph structures within attachments.
 - **FR-008** `[SOURCE: PDF Page 2]`: The system MUST support scanned or image-only PDF documents via OCR or vision-capable models.
 
 ### 4.3 Comparison Engine
-- **FR-009** `[SOURCE: PDF Page 1]`: The system MUST treat the Shipping Instruction (SI) as the sole reference ground truth for comparison.
+- **FR-009** `[CORE; SOURCE: PDF Page 1; APPROVED RELIABILITY POLICY]`: The SI is the reference document for comparison, not infallible truth. Missing, unreadable, conflicting, or uncertain SI information requires HITL when it cannot be reliably resolved.
 - **FR-010** `[SOURCE: PDF Page 2]`: The system MUST verify exactly and only seven mandatory fields:
   1. `shipper`
   2. `consignee`
@@ -61,17 +68,17 @@ A maritime shipping operations team manages a high-volume shared email inbox con
   5. `port of discharge` (or `port_of_discharge`)
   6. `container count` (or `container_count`)
   7. `gross weight` (or `gross_weight_kg`)
-- **FR-011** `[SOURCE: PDF Page 2]`: If all seven fields agree between the SI and BL, the system MUST return the exact phrase `"No mismatch detected"`.
+- **FR-011** `[SOURCE: PDF Page 2; APPROVED FIELD-LEVEL GATE]`: Only after all seven fields are reliably established in both documents and match under approved deterministic normalization may the system return the final phrase `"No mismatch detected"`.
 - **FR-012** `[SOURCE: PDF Page 2]`: If one or more fields differ, the system MUST flag the specific mismatched fields and present the values side by side in the format: `SI: <value> / BL: <value>`.
 
 ### 4.4 Human-in-the-Loop (HITL) Escalation
 - **FR-013** `[SOURCE: PDF Page 1, 2]`: When the system cannot form a dependable decision, it MUST escalate the case for human review rather than guessing or failing silently.
-- **FR-014** `[SOURCE: PDF Page 2]`: The system MUST trigger human review when:
+- **FR-014** `[SOURCE: PDF Page 2; APPROVED RECOVERY POLICY: DEC-P02]`: The system MUST trigger human review when the required result cannot be reliably established. For unusable/scanned content, attempt applicable OCR/Vision and approved recovery before escalation; record why recovery is unavailable or fails. Cases include:
   - An attachment is missing or cannot be opened/read.
   - A mandatory comparison field is missing from either document.
-  - A document is a scanned image with illegible or low-confidence text.
+  - A document is a scanned image whose required fields remain illegible or uncertain after applicable recovery; model-reported confidence alone is not a reliability gate.
   - An attachment represents the wrong document type.
-- **FR-015** `[SOURCE: PDF Page 2]`: Every escalation MUST provide the human reviewer with the specific `review_reason` and an extracted `source_evidence` text snippet.
+- **FR-015** `[SOURCE: PDF Page 2; APPROVED DESIGN: DEC-AI-P05]`: Every escalation MUST provide the reason and source-grounded evidence, which may include text spans, table cells, page locations, OCR regions, metadata, or processing-error context. Exact evidence contracts belong to `03_DATA_CONTRACTS.md`.
 - **FR-016** `[SOURCE: PDF Page 2]`: The system SHOULD allow human operators to review, confirm, or correct findings and subsequently update the report.
 - **FR-017** `[SOURCE: PDF Page 2]`: The system MUST handle processing failures visibly and allow retries.
 
@@ -79,24 +86,24 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 5. Non-Functional Requirements
 
-- **NFR-001 (Deterministic Repeatability)** `[PROPOSED DESIGN DECISION]`: Running the pipeline against the static dataset MUST produce identical classifications and comparison results across multiple executions.
-- **NFR-002 (Performance & Throughput)** `[PROPOSED DESIGN DECISION]`: The pipeline SHOULD process the entire 520-email inbox bundle in under 60 seconds when utilizing local heuristic/parser engines, or under 5 minutes when utilizing batched LLM APIs.
+- **NFR-001 (Deterministic Repeatability)** `[APPROVED DESIGN: DEC-01]`: Identical validated canonical inputs and approved rule versions MUST produce identical deterministic comparison results. This does not assert that independent AI calls always return identical extractions or classifications.
+- **NFR-002 (Performance & Throughput)** `[PROPOSED; NOT AN ACCEPTANCE GATE]`: Measure throughput and latency during evaluation. Numeric performance targets require a separately approved benchmark; no fixed dataset size or unapproved time threshold is normative.
 - **NFR-003 (Robustness against Corrupted Files)** `[SOURCE: PDF Page 2]`: Truncated, malformed, or unreadable attachments (e.g. EOF stream errors) MUST NOT crash the process; they must be gracefully captured and recorded as unreadable.
-- **NFR-004 (Extensibility & Pluggability)** `[PROPOSED DESIGN DECISION]`: Document parsers and OCR modules MUST be decoupled via abstract interfaces (`BaseParser`) to enable plug-and-play addition of cloud OCR engines (e.g. Google Cloud Document AI).
-- **NFR-005 (Schema Integrity)** `[SOURCE: PDF Page 4]`: All output files MUST strictly adhere to the expected JSON schemas without missing email IDs or invalid field types.
+- **NFR-004 (Extensibility & Pluggability)** `[APPROVED DESIGN: DEC-P01, DEC-P02]`: Decouple parsers and provider-agnostic AI/OCR adapters as defined in `01_PROJECT_DESIGN.md`. A new provider still requires the applicable approval; extensibility is not blanket provider authorization.
+- **NFR-005 (Schema Integrity)** `[EVALUATION; SOURCE: PDF Page 4]`: When self-evaluation is used, the submission MUST follow `sample_submission.json` and include every input email ID. This evaluation format does not constrain internal models, which require their own validated contracts.
 
 ---
 
 ## 6. Email Classification Requirements
 
-- **EC-001 (Target Categories)** `[SOURCE: PDF Page 1, Bundle README]`: Every email MUST be categorized into one of the following five classes:
+- **EC-001 (Target Categories)** `[SOURCE: PDF Page 1; APPROVED NAMING: HANDOFF / 02 §4.1]`: Every email MUST receive exactly one operational category. Evaluation aliases below are adapter mappings, not additional categories:
   1. `document_comparison` (or `BL_COMPARISON`): Emails requesting draft BL confirmation or cross-check against SI.
-  2. `new_si_request` (or `SI_REQUEST`): Emails requesting, submitting, or reminding about Shipping Instructions.
+  2. `new_shipping_instruction` (evaluation: `SI_REQUEST`): Emails requesting, submitting, or reminding about Shipping Instructions.
   3. `invoice_query` (or `INVOICE_QUERY`): Questions regarding billing, THC, telex release fees, or freight payment.
-  4. `general_message` (or `GENERAL`): Routine vessel schedules, shipment status summaries, or operational announcements.
+  4. `general` (evaluation: `GENERAL`): Routine vessel schedules, shipment status summaries, or operational announcements.
   5. `spam` (or `SPAM`): Unsolicited marketing, sales pitches, or promotional noise.
 - **EC-002 (Single-Label Exclusivity)** `[SOURCE: PDF Page 1]`: Each email MUST belong to exactly one category.
-- **EC-003 (Attachment Pre-Filter Heuristic)** `[PROPOSED DESIGN DECISION]`: Emails with zero attachments that do not mention draft BL checking MUST NOT be classified as `document_comparison`.
+- **EC-003 (Intent Independent of Attachment Completeness)** `[APPROVED DESIGN: 02 §4.4]`: Attachment count MUST NOT act as a negative email-intent gate. A comparison request with missing attachments remains `document_comparison` and proceeds to attachment validation, then HITL for the missing document. Evidence is not limited to explicit keywords.
 
 ---
 
@@ -114,50 +121,53 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 8. SI vs BL Comparison Requirements
 
-- **CR-001 (Golden Reference)** `[SOURCE: PDF Page 1]`: The Shipping Instruction (SI) is the benchmark. Any difference in the draft Bill of Lading (BL) relative to the SI constitutes a defect.
+- **CR-001 (Reference Document)** `[SOURCE: PDF Page 1; APPROVED DESIGN: DEC-01]`: Compare reliable SI and draft BL values after approved normalization. AI may extract candidate values but MUST NOT make the final equality or mismatch decision. Unresolved SI values require review.
 - **CR-002 (Numeric Container Verification)** `[SOURCE: PDF Page 2]`: Container counts MUST be compared as pure numeric quantities. Variations such as `"3 containers"` vs `"3 x 40'HC"` MUST match if the count is 3.
-- **CR-003 (Gross Weight Unit Normalization)** `[SOURCE: PDF Page 2]`: Gross weight MUST be normalized to kilograms (kg) before comparison:
+- **CR-003 (Gross Weight Unit Normalization)** `[SOURCE: PDF Page 2: kilograms; APPROVED DESIGN: DEC-P06A/B; TOLERANCE: DEC-P06E TBD]`: Gross weight MUST be normalized to kilograms before deterministic comparison:
   - Metric Tons (MT) MUST be multiplied by 1000.
-  - Commas and formatting characters MUST be removed.
-  - Numeric values MUST match within a tolerance of $\pm 1.0\text{ kg}$.
-- **CR-004 (Port Matching & Code Resolution)** `[SOURCE: PDF Page 2]`: Ports MUST be evaluated by matching either the UN/LOCODE (e.g. `MYPKG`) or the normalized port city and country name.
-- **CR-005 (Corporate Suffix Tolerance)** `[PROPOSED DESIGN DECISION]`: Variations in legal entity punctuation or standard abbreviations (`LTD` vs `LTD.` vs `LIMITED`; `SDN BHD` vs `SDN. BHD.`) representing the same legal entity MUST NOT be flagged as defects.
-- **CR-006 (Zero False Alarms)** `[SOURCE: PDF Page 2]`: The comparison engine MUST NOT trigger false alarms on benign formatting or capitalization differences.
+  - Apply approved formatting and numeric-separator normalization.
+  - Compare mathematically normalized values exactly. Numeric tolerance remains TBD; no implicit ±1 kg or other tolerance is authorized.
+- **CR-004 (Port Value Equivalence)** `[TBD: DEC-P06C]`: Do not assume UN/LOCODE, city, port, and terminal names are equivalent without an approved canonical mapping amendment. Field-label aliases do not authorize field-value equivalence.
+- **CR-005 (Organization Value Equivalence)** `[TBD: DEC-P06D]`: Do not broadly remove legal suffixes or infer company identity. Semantic aliases require explicit approved rules. Approved formatting normalization remains permitted.
+- **CR-006 (Formatting Differences)** `[SOURCE: PDF Page 2; APPROVED DESIGN: DEC-P06A]`: Approved formatting and capitalization normalization must prevent spurious mismatches. Accuracy claims require evaluation evidence.
 
 ---
 
 ## 9. Human-in-the-Loop (HITL) Requirements
 
 - **HL-001 (Escalation Triggering)** `[SOURCE: PDF Page 2]`: When automated comparison cannot proceed with high confidence, the system MUST generate an escalation record.
-- **HL-002 (Structured Escalation Reasons)** `[SOURCE: PDF Bundle README]`: The system MUST assign one of four standardized reason codes:
+- **HL-002 (Evaluation Escalation Reasons)** `[EVALUATION; BUNDLE CONTRACT]`: The evaluation adapter uses four standardized reason codes:
   1. `wrong_doc_type`: Attachment is not a valid SI or draft BL.
   2. `missing_attachment`: Missing either the SI or draft BL file.
   3. `unreadable`: Corrupt stream, unparseable binary, or illegible image scan.
   4. `missing_value`: One of the 7 mandatory fields is absent or empty in the document.
+  Internal logical causes also include uncertainty, conflicting candidates, and unresolved processing/provider failure as defined in `02` §13. Exact internal enums and any lossy evaluation mapping belong to `03`; do not silently invent mappings.
 - **HL-003 (Audit Evidence Preservation)** `[SOURCE: PDF Page 2]`: Escalation records MUST preserve the specific source evidence (e.g. error message, file name, or surrounding text snippet).
 - **HL-004 (No Silent Guessing)** `[SOURCE: PDF Page 1, 2]`: The system is strictly forbidden from hallucinating or guessing values for unreadable or missing fields.
+- **HL-005 (Partial Reliable Work)** `[APPROVED DESIGN: DEC-AI-P04]`: HITL MUST retain reliable extractions, deterministic comparisons for fields reliable on both sides, and their evidence. Preserve unresolved fields and reasons separately; do not publish a definitive clean result before all seven fields are resolved.
 
 ---
 
 ## 10. Error Handling Requirements
 
 - **EH-001 (File System Fault Tolerance)** `[PROPOSED DESIGN DECISION]`: If an attachment referenced by an email does not exist on disk, the system MUST catch the error and escalate with `missing_attachment`.
-- **EH-002 (Parser Exceptions)** `[PROPOSED DESIGN DECISION]`: Corrupt PDF streams (`PdfStreamError`), malformed Word archives, or unreadable Excel workbooks MUST be intercepted and recorded as `unreadable`.
-- **EH-003 (LLM API Failure Fallback)** `[PROPOSED DESIGN DECISION]`: If an external LLM call encounters rate limits (HTTP 429) or network outages, the system MUST retry with exponential backoff, and fall back to local deterministic rule engines if retries expire.
+- **EH-002 (Parser Exceptions)** `[APPROVED RECOVERY POLICY]`: Intercept and record parser failures visibly. Assess usable content and applicable recovery/OCR paths; escalate when the required result cannot be reliably recovered. No empty-string success or fixed character-count OCR gate is permitted.
+- **EH-003 (LLM API Failure Fallback)** `[APPROVED DESIGN: 02 §§14–15]`: Apply bounded, stage-specific retries and validated fallbacks. Provider failure alone does not require HITL if an approved fallback reliably produces the required result. Technical and semantic attempt defaults remain configurable as specified in `02`.
 
 ---
 
 ## 11. Input Data Contract
 
 ### 11.1 Email Record JSON Schema (`inbox/email_*.json`)
+This illustrates the input bundle shape; canonical models and validation belong to `03_DATA_CONTRACTS.md`. IDs below are synthetic placeholders, not evaluation records.
 ```json
 {
-  "email_id": "string (e.g. 'email_001')",
+  "email_id": "string (e.g. 'example-message')",
   "from": "string (email address)",
   "subject": "string",
   "body": "string",
   "attachments": [
-    "string (relative path, e.g. 'attachments/email_001_SI.txt')"
+    "string (relative path, e.g. 'attachments/example-si.txt')"
   ]
 }
 ```
@@ -172,10 +182,12 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 12. Output Data Contract
 
+The examples below illustrate reporting and evaluation shapes, not complete internal contracts. `03_DATA_CONTRACTS.md` must define evidence, partial results, review updates, and serialization consistently with `01` and `02`. Existing lower-level drafts require review where they differ from this amendment.
+
 ### 12.1 Contract A: Strict Operator Audit Schema (`audit_report.json` / REST `/audit`)
 ```json
 {
-  "email_id": "email_025",
+  "email_id": "example-mismatch",
   "category": "document_comparison",
   "mismatch_detected": true,
   "result_summary": "Mismatches detected: container_count (SI: 6 / BL: 5)",
@@ -197,7 +209,7 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 ### 12.2 Contract B: Official Competition Schema (`submission.json` / REST `/submission`)
 ```json
 {
-  "email_001": {
+  "example-general": {
     "category": "GENERAL",
     "status": "OK",
     "review_reason": null,
@@ -222,21 +234,21 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 14. Acceptance Criteria
 
-- **AC-001**: 100% of the 520 emails in the inbox dataset MUST be present in the output submission.
+- **AC-001** `[EVALUATION]`: Every input email ID MUST be present in the output submission when self-evaluation is used; no fixed dataset size is assumed.
 - **AC-002**: For matching document pairs, `mismatch_detected` MUST be `false` and `result_summary` MUST equal `"No mismatch detected"`.
 - **AC-003**: For defective document pairs, `mismatch_detected` MUST be `true`, `has_defect` MUST be `true`, and all differing fields MUST be listed.
-- **AC-004**: Single-attachment emails (e.g. `email_507`, `email_509`) MUST be escalated to `NEEDS_REVIEW` with reason `missing_attachment`.
-- **AC-005**: Corrupted PDFs with EOF errors (e.g. `email_511`, `email_515`) MUST be escalated to `NEEDS_REVIEW` with reason `unreadable`.
+- **AC-004**: A document-comparison request missing the required SI or draft BL MUST require review with `missing_attachment`, including when there are no attachments. Non-comparison emails still terminate after classification.
+- **AC-005**: Parser failures MUST be visible; where applicable, attempt approved recovery/OCR. If required content remains unreadable or no applicable recovery exists, escalate to review with the failure evidence. Preserve already reliable work.
 - **AC-006**: Non-comparison emails (`SI_REQUEST`, `INVOICE_QUERY`, `GENERAL`, `SPAM`) MUST NOT trigger document comparison and MUST have `mismatch_detected: false` and `has_defect: false`.
-- **AC-007**: The output schema MUST pass 100% compliance against `sample_submission.json`.
+- **AC-007** `[EVALUATION]`: When self-evaluation is used, its output MUST comply with `sample_submission.json`; this does not prescribe the internal schema.
 
 ---
 
-## 15. Edge Cases Discovered in Dataset
+## 15. General Reliability Scenarios
 
-1. **Missing Attachment**: `email_507` and `email_509` contain only 1 attachment (`_SI.txt` only, no BL).
-2. **Truncated / Corrupt PDF Streams**: `email_511_BL.pdf` and `email_515_BL.pdf` trigger `EOF marker not found` / `PdfStreamError`.
-3. **Scanned Image PDFs with Zero Text**: `email_512`, `email_513`, and `email_514` contain no machine-readable font text layer (require OCR or escalation to `unreadable`).
+1. **Missing Attachment**: A comparison request lacks the SI or draft BL, regardless of filename or email ID.
+2. **Truncated / Corrupt Streams**: Capture parser errors and recovery outcomes; escalate if required information cannot be recovered reliably.
+3. **Scanned Documents**: Assess text usability, attempt applicable OCR/Vision, and escalate unresolved required fields.
 4. **Header and Label Variations**: Headers such as `No. of Containers or Packages:`, `Total Containers:`, `Port of Loading (POL):`, and `POD:`.
 5. **Metric Ton vs Kilogram Units**: Invoices and SIs using `MT` (Metric Tons) which require multiplication by 1000 to compare against BL values in `KG`.
 
@@ -244,10 +256,10 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 16. Assumptions
 
-1. The provided static dataset (`sdoc-hackathon-bundle`) represents the benchmark ground truth distribution for testing and evaluation.
-2. An email with 2 attachments named `*_SI.*` and `*_BL.*` is intended for document comparison.
-3. The Shipping Instruction (SI) is always the authoritative reference; discrepancies in the BL must be changed to match the SI, not vice versa.
-4. Corporate legal suffix differences (such as `Ltd` vs `Limited`) do not constitute commercial defects in shipping operations unless the company name itself differs.
+1. Input records and source documents are read-only; the supplied dataset is not a source of hardcoded business rules or expected answers.
+2. Filenames and metadata may help identify document roles, but do not independently determine email intent.
+3. The SI is the comparison reference; uncertain SI content requires review. The application reports differences without modifying original documents.
+4. Company and port semantic equivalence and numeric tolerances remain governed by DEC-P06C/D/E; current implementation behavior does not approve these rules.
 
 ---
 
@@ -262,9 +274,11 @@ A maritime shipping operations team manages a high-volume shared email inbox con
 
 ## 18. Open Questions & Architectural Decisions for User Review
 
-- **OQ-001 (OCR Engine Choice for Scanned Documents)**: For image-only PDFs (`email_512` to `email_514`), should the production deployment enforce Gemini Multimodal vision, local Tesseract OCR, or escalate directly to human review (`NEEDS_REVIEW` / `unreadable`)?  
-  *(Currently implemented: Defaults to Gemini Multimodal with pluggable Google Cloud Document AI; escalates to `NEEDS_REVIEW` if OCR text is unavailable).*
-- **OQ-002 (Weight Tolerance Window)**: What is the maximum acceptable rounding variance between SI and BL weights?  
-  *(Currently implemented: $\pm 1.0\text{ kg}$).*
-- **OQ-003 (Port UN/LOCODE vs Full Name)**: If an SI specifies `PORT KLANG (MYPKG)` and the draft BL specifies only `PORT KLANG`, is this considered a match or a defect?  
-  *(Currently implemented: Match, because both resolve to the same underlying port facility).*
+- **OQ-001 (OCR Architecture)** `[APPROVED: DEC-P01/P02]`: Use provider-agnostic adapters and attempt applicable OCR/Vision before escalating unusable/scanned content. This does not approve an additional cloud provider.
+- **OQ-002 (Weight Tolerance)** `[TBD: DEC-P06E]`: Exact mathematically normalized comparison remains the default. A business tolerance requires an approved amendment.
+- **OQ-003 (Port Equivalence)** `[TBD: DEC-P06C]`: An explicit canonical mapping requires an approved amendment; code/city/terminal equivalence is not presumed.
+- **OQ-004 (Organization Equivalence)** `[TBD: DEC-P06D]`: Legal-suffix and company-name aliases require explicit approved rules; broad suffix stripping is not authorized.
+
+## 19. Change Control
+
+This synchronized product baseline implements the user's approved handoff decisions under the 2026-09-22 amendment. It does not authorize implementation changes, resolve DEC-P06C/D/E, or certify existing tests or runtime behavior. The numbered file is authoritative under `AGENTS.md`; `PRODUCT_SPEC.md` is maintained as an identical compatibility copy.

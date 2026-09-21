@@ -1,0 +1,5264 @@
+{
+  "complete_match": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "COMPLETE",
+      "outcome": "MATCH",
+      "mismatch_detected": false,
+      "result_summary": "No mismatch detected",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_shipper",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_consignee",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_container_count",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [
+          {
+            "field": "shipper",
+            "si_value": "ACME CORP",
+            "bl_value": "ACME CORP",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "consignee",
+            "si_value": "GLOBAL LOGISTICS",
+            "bl_value": "GLOBAL LOGISTICS",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "notify_party",
+            "si_value": "SAME AS CONSIGNEE",
+            "bl_value": "SAME AS CONSIGNEE",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_loading",
+            "si_value": "SHANGHAI",
+            "bl_value": "SHANGHAI",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_discharge",
+            "si_value": "ROTTERDAM",
+            "bl_value": "ROTTERDAM",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "container_count",
+            "si_value": 2,
+            "bl_value": 2,
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "gross_weight_kg",
+            "si_value": "22500",
+            "bl_value": "22500",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          }
+        ],
+        "unresolved_fields": []
+      },
+      "discrepancies": [],
+      "review": null,
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "complete_mismatch": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "COMPLETE",
+      "outcome": "MISMATCH",
+      "mismatch_detected": true,
+      "result_summary": "Discrepancy detected: container_count (SI: 2 / BL: 3)",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "3",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 3,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_shipper",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_consignee",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_notify_party",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_container_count",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "3",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [
+          {
+            "field": "shipper",
+            "si_value": "ACME CORP",
+            "bl_value": "ACME CORP",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "consignee",
+            "si_value": "GLOBAL LOGISTICS",
+            "bl_value": "GLOBAL LOGISTICS",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "notify_party",
+            "si_value": "SAME AS CONSIGNEE",
+            "bl_value": "SAME AS CONSIGNEE",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_loading",
+            "si_value": "SHANGHAI",
+            "bl_value": "SHANGHAI",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_discharge",
+            "si_value": "ROTTERDAM",
+            "bl_value": "ROTTERDAM",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "container_count",
+            "si_value": 2,
+            "bl_value": 3,
+            "outcome": "MISMATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "gross_weight_kg",
+            "si_value": "22500",
+            "bl_value": "22500",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          }
+        ],
+        "unresolved_fields": []
+      },
+      "discrepancies": [
+        {
+          "field": "container_count",
+          "si_value": 2,
+          "bl_value": 3
+        }
+      ],
+      "review": null,
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "missing_attachment": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-miss-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-miss-001",
+        "sender": "ops@shipper.com",
+        "subject": "Compare Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_3"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "result_summary": "Human review required: missing BL attachment",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_3",
+          "source_type": "email",
+          "source_id": "email-miss-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_miss_bl",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft BL attachment not found in email"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [],
+        "unresolved_fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ]
+      },
+      "discrepancies": [],
+      "review": {
+        "review_id": "rev-3",
+        "state": "OPEN",
+        "issues": [
+          {
+            "issue_id": "iss-3",
+            "stage": "identification",
+            "logical_reason": "missing_attachment",
+            "evaluation_reason": "missing_attachment",
+            "document_ids": [],
+            "expected_role": "BL",
+            "fields": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "evidence_ids": [
+              "ev_miss_bl"
+            ],
+            "suggested_action": "Request Draft BL attachment from sender",
+            "recovery_state": "UNAVAILABLE",
+            "recovery_detail": "No second attachment provided in message",
+            "attempt_ids": [
+              "att-1"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "unreadable_source": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "result_summary": "Human review required: BL document unreadable",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "UNREADABLE",
+          "text": null,
+          "usable_for_extraction": false,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_fail"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_fail",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "processing_error",
+          "quote": null,
+          "location": null,
+          "detail": "Corrupted image bytes; OCR text empty"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [],
+        "unresolved_fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ]
+      },
+      "discrepancies": [],
+      "review": {
+        "review_id": "rev-4",
+        "state": "OPEN",
+        "issues": [
+          {
+            "issue_id": "iss-4",
+            "stage": "ocr",
+            "logical_reason": "unreadable_document",
+            "evaluation_reason": "unreadable",
+            "document_ids": [
+              "doc-bl-1"
+            ],
+            "expected_role": "BL",
+            "fields": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "evidence_ids": [
+              "ev_p_bl_fail"
+            ],
+            "suggested_action": "Request clearer scan of Draft BL",
+            "recovery_state": "EXHAUSTED",
+            "recovery_detail": "Parser and OCR both failed to produce usable text",
+            "attempt_ids": [
+              "att-1"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "conflicting_partial": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "result_summary": "Review needed: conflicting gross_weight_kg. Partial mismatch noted in container_count (SI: 2 / BL: 3)",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "3",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl2_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 3,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "CONFLICTING",
+              "candidates": [
+                {
+                  "raw_value": "22000 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_w1"
+                  ]
+                },
+                {
+                  "raw_value": "23000 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_w2"
+                  ]
+                }
+              ],
+              "selected_candidate": null,
+              "normalized": null,
+              "explanation": "Conflicting weight values found on page 1 (22000 KGS) and page 2 (23000 KGS)"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_w1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22000 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_w2",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "23000 KGS",
+          "location": {
+            "section": null,
+            "page": 2,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_shipper",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_consignee",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_notify_party",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl2_container_count",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "3",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [
+          {
+            "field": "shipper",
+            "si_value": "ACME CORP",
+            "bl_value": "ACME CORP",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "consignee",
+            "si_value": "GLOBAL LOGISTICS",
+            "bl_value": "GLOBAL LOGISTICS",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "notify_party",
+            "si_value": "SAME AS CONSIGNEE",
+            "bl_value": "SAME AS CONSIGNEE",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_loading",
+            "si_value": "SHANGHAI",
+            "bl_value": "SHANGHAI",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_discharge",
+            "si_value": "ROTTERDAM",
+            "bl_value": "ROTTERDAM",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "container_count",
+            "si_value": 2,
+            "bl_value": 3,
+            "outcome": "MISMATCH",
+            "rule_version": "norm-v1.0"
+          }
+        ],
+        "unresolved_fields": [
+          "gross_weight_kg"
+        ]
+      },
+      "discrepancies": [
+        {
+          "field": "container_count",
+          "si_value": 2,
+          "bl_value": 3
+        }
+      ],
+      "review": {
+        "review_id": "rev-5",
+        "state": "OPEN",
+        "issues": [
+          {
+            "issue_id": "iss-5",
+            "stage": "reliability",
+            "logical_reason": "conflicting_candidate_values",
+            "evaluation_reason": null,
+            "document_ids": [
+              "doc-bl-1"
+            ],
+            "expected_role": "BL",
+            "fields": [
+              "gross_weight_kg"
+            ],
+            "evidence_ids": [
+              "ev_w1",
+              "ev_w2"
+            ],
+            "suggested_action": "Review page 1 and page 2 to select correct gross weight",
+            "recovery_state": "UNRELIABLE",
+            "recovery_detail": "Two conflicting candidate values extracted from separate pages",
+            "attempt_ids": [
+              "att-1"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "non_comparison": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-gen-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-gen-001",
+        "sender": "customer@corp.com",
+        "subject": "Office Holiday Schedule",
+        "body": "Hi, are you open this Friday?",
+        "attachments": []
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "general",
+        "reason": "General inquiry about office schedule",
+        "evidence_ids": [
+          "ev_email_6"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "COMPLETE",
+      "outcome": "NOT_APPLICABLE",
+      "mismatch_detected": null,
+      "result_summary": "General message classified; document verification not applicable",
+      "documents": [],
+      "parsers": [],
+      "extractions": [],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_6",
+          "source_type": "email",
+          "source_id": "email-gen-001",
+          "kind": "text_span",
+          "quote": "Hi, are you open this Friday?",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": null,
+      "discrepancies": [],
+      "review": null,
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": []
+      }
+    }
+  },
+  "fallback_success": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "COMPLETE",
+      "outcome": "MATCH",
+      "mismatch_detected": false,
+      "result_summary": "No mismatch detected",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI text",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-7b"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL text",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-7b"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_shipper",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_consignee",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_container_count",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [
+          {
+            "field": "shipper",
+            "si_value": "ACME CORP",
+            "bl_value": "ACME CORP",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "consignee",
+            "si_value": "GLOBAL LOGISTICS",
+            "bl_value": "GLOBAL LOGISTICS",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "notify_party",
+            "si_value": "SAME AS CONSIGNEE",
+            "bl_value": "SAME AS CONSIGNEE",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_loading",
+            "si_value": "SHANGHAI",
+            "bl_value": "SHANGHAI",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_discharge",
+            "si_value": "ROTTERDAM",
+            "bl_value": "ROTTERDAM",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "container_count",
+            "si_value": 2,
+            "bl_value": 2,
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "gross_weight_kg",
+            "si_value": "22500",
+            "bl_value": "22500",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          }
+        ],
+        "unresolved_fields": []
+      },
+      "discrepancies": [],
+      "review": null,
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-7a",
+            "operation_id": "op-ocr",
+            "stage": "ocr",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "FAILED",
+            "error_code": "TIMEOUT",
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          },
+          {
+            "attempt_id": "att-7b",
+            "operation_id": "op-ocr",
+            "stage": "ocr",
+            "kind": "fallback",
+            "attempt_number": 2,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "exhausted_recovery": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "result_summary": "Human review required: Provider extraction failed after 3 attempts",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI text",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-8a"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL text",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-8a"
+          ]
+        }
+      ],
+      "extractions": [],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_fail_8",
+          "source_type": "processing",
+          "source_id": "email-match-001",
+          "kind": "processing_error",
+          "quote": null,
+          "location": null,
+          "detail": "Provider 503 error repeated across all 3 attempts"
+        }
+      ],
+      "partial_result": {
+        "comparisons": [],
+        "unresolved_fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ]
+      },
+      "discrepancies": [],
+      "review": {
+        "review_id": "rev-8",
+        "state": "OPEN",
+        "issues": [
+          {
+            "issue_id": "iss-8",
+            "stage": "extraction",
+            "logical_reason": "processing_or_provider_failure",
+            "evaluation_reason": null,
+            "document_ids": [
+              "doc-si-1",
+              "doc-bl-1"
+            ],
+            "expected_role": null,
+            "fields": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "evidence_ids": [
+              "ev_fail_8"
+            ],
+            "suggested_action": "Retry processing when external provider service recovers",
+            "recovery_state": "EXHAUSTED",
+            "recovery_detail": "Maximum technical attempts (3) exhausted without successful response",
+            "attempt_ids": [
+              "att-8a",
+              "att-8b",
+              "att-8c"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-8a",
+            "operation_id": "op-llm",
+            "stage": "extraction",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "FAILED",
+            "error_code": "503_SERVICE_UNAVAILABLE",
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          },
+          {
+            "attempt_id": "att-8b",
+            "operation_id": "op-llm",
+            "stage": "extraction",
+            "kind": "technical_retry",
+            "attempt_number": 2,
+            "outcome": "FAILED",
+            "error_code": "503_SERVICE_UNAVAILABLE",
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          },
+          {
+            "attempt_id": "att-8c",
+            "operation_id": "op-llm",
+            "stage": "extraction",
+            "kind": "technical_retry",
+            "attempt_number": 3,
+            "outcome": "FAILED",
+            "error_code": "503_SERVICE_UNAVAILABLE",
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "unresolved_classification": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-unres-001",
+      "revision": 1,
+      "previous_revision": null,
+      "email": {
+        "email_id": "email-unres-001",
+        "sender": "client@shipping.com",
+        "subject": "Question regarding shipment",
+        "body": "See attached file. What is the status?",
+        "attachments": []
+      },
+      "classification": {
+        "state": "NEEDS_REVIEW",
+        "category": null,
+        "reason": "Ambiguous intent requiring operator categorization",
+        "evidence_ids": [],
+        "confidence_indicator": null
+      },
+      "state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "result_summary": "Human review required: Email intent ambiguous",
+      "documents": [],
+      "parsers": [],
+      "extractions": [],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_9",
+          "source_type": "email",
+          "source_id": "email-unres-001",
+          "kind": "text_span",
+          "quote": "See attached file. What is the status?",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_unres_9",
+          "source_type": "processing",
+          "source_id": "email-unres-001",
+          "kind": "processing_error",
+          "quote": null,
+          "location": null,
+          "detail": "Classifier cannot discern if inquiry is status query, invoice query, or general request"
+        }
+      ],
+      "partial_result": null,
+      "discrepancies": [],
+      "review": {
+        "review_id": "rev-9",
+        "state": "OPEN",
+        "issues": [
+          {
+            "issue_id": "iss-9",
+            "stage": "classification",
+            "logical_reason": "uncertain_result",
+            "evaluation_reason": null,
+            "document_ids": [],
+            "expected_role": null,
+            "fields": [],
+            "evidence_ids": [
+              "ev_unres_9"
+            ],
+            "suggested_action": "Manually categorize email intent",
+            "recovery_state": "UNRELIABLE",
+            "recovery_detail": "Intent confidence low; text insufficient to distinguish category",
+            "attempt_ids": [
+              "att-9"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-9",
+            "operation_id": "op-cls",
+            "stage": "classification",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "INVALID",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "human_correction_request": {
+    "model": "ReviewUpdate",
+    "payload": {
+      "review_id": "rev-5",
+      "expected_revision": 1,
+      "actor_id": "operator-alex",
+      "action": "CORRECT",
+      "rationale": "Verified gross weight on BL Box 14 is 22500 KGS; resolving conflict",
+      "category": null,
+      "classification_evidence_ids": [],
+      "role_corrections": [
+        {
+          "document_id": "doc-bl-1",
+          "assigned_role": "BL",
+          "evidence_ids": [
+            "ev_bl_id_1"
+          ],
+          "rationale": "Verified Bill of Lading header on document"
+        }
+      ],
+      "corrections": [
+        {
+          "document_id": "doc-bl-1",
+          "field": "gross_weight_kg",
+          "raw_value": "22500 KGS",
+          "evidence_ids": [
+            "ev_w1"
+          ],
+          "rationale": "Page 1 Box 14 contains the authoritative weight"
+        },
+        {
+          "document_id": "doc-bl-1",
+          "field": "container_count",
+          "raw_value": "2",
+          "evidence_ids": [
+            "ev_bl2_container_count"
+          ],
+          "rationale": "Corrected misread container count from 3 back to 2 as printed"
+        }
+      ],
+      "added_evidence": [
+        {
+          "evidence_id": "ev_human_corr_1",
+          "source_type": "human_review",
+          "source_id": "email-match-001",
+          "kind": "human_review",
+          "quote": null,
+          "location": null,
+          "detail": "Operator verified weight on Bill of Lading Box 14 matches 22500 kg"
+        }
+      ]
+    }
+  },
+  "human_correction_result": {
+    "model": "AuditRecord",
+    "payload": {
+      "schema_version": "1.0-draft",
+      "email_id": "email-match-001",
+      "revision": 2,
+      "previous_revision": 1,
+      "email": {
+        "email_id": "email-match-001",
+        "sender": "ops@shipper.com",
+        "subject": "SI vs Draft BL",
+        "body": "Please compare attached SI and Draft BL",
+        "attachments": [
+          {
+            "document_id": "doc-si-1",
+            "path": "attachments/si_001.pdf",
+            "mime_type": "application/pdf"
+          },
+          {
+            "document_id": "doc-bl-1",
+            "path": "attachments/bl_001.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      "classification": {
+        "state": "RESOLVED",
+        "category": "document_comparison",
+        "reason": "Comparison request",
+        "evidence_ids": [
+          "ev_email_1"
+        ],
+        "confidence_indicator": null
+      },
+      "state": "COMPLETE",
+      "outcome": "MATCH",
+      "mismatch_detected": false,
+      "result_summary": "No mismatch detected",
+      "documents": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "identification_evidence_ids": [
+            "ev_si_id_1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "identification_evidence_ids": [
+            "ev_bl_id_1"
+          ]
+        }
+      ],
+      "parsers": [
+        {
+          "document_id": "doc-si-1",
+          "status": "SUCCESS",
+          "text": "SI Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_si_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        },
+        {
+          "document_id": "doc-bl-1",
+          "status": "SUCCESS",
+          "text": "BL Document Text Content...",
+          "usable_for_extraction": true,
+          "diagnostic_evidence_ids": [
+            "ev_p_bl_1"
+          ],
+          "attempt_ids": [
+            "att-1"
+          ]
+        }
+      ],
+      "extractions": [
+        {
+          "document_id": "doc-si-1",
+          "role": "SI",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_si1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        },
+        {
+          "document_id": "doc-bl-1",
+          "role": "BL",
+          "fields": {
+            "shipper": {
+              "field": "shipper",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ACME CORP",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_shipper"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "shipper",
+                "state": "VALID",
+                "value": "ACME CORP",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of shipper"
+            },
+            "consignee": {
+              "field": "consignee",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "GLOBAL LOGISTICS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_consignee"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "consignee",
+                "state": "VALID",
+                "value": "GLOBAL LOGISTICS",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of consignee"
+            },
+            "notify_party": {
+              "field": "notify_party",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SAME AS CONSIGNEE",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_notify_party"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "notify_party",
+                "state": "VALID",
+                "value": "SAME AS CONSIGNEE",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of notify_party"
+            },
+            "port_of_loading": {
+              "field": "port_of_loading",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "SHANGHAI",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_loading"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_loading",
+                "state": "VALID",
+                "value": "SHANGHAI",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_loading"
+            },
+            "port_of_discharge": {
+              "field": "port_of_discharge",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "ROTTERDAM",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_port_of_discharge"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "port_of_discharge",
+                "state": "VALID",
+                "value": "ROTTERDAM",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of port_of_discharge"
+            },
+            "container_count": {
+              "field": "container_count",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "2",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_container_count"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "container_count",
+                "state": "VALID",
+                "value": 2,
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of container_count"
+            },
+            "gross_weight_kg": {
+              "field": "gross_weight_kg",
+              "reliability": "RELIABLE",
+              "candidates": [
+                {
+                  "raw_value": "22500.00 KGS",
+                  "source_unit": null,
+                  "evidence_ids": [
+                    "ev_bl1_gross_weight_kg"
+                  ]
+                }
+              ],
+              "selected_candidate": 0,
+              "normalized": {
+                "field": "gross_weight_kg",
+                "state": "VALID",
+                "value": "22500",
+                "rule_version": "norm-v1.0"
+              },
+              "explanation": "Reliable extraction of gross_weight_kg"
+            }
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "evidence_id": "ev_email_1",
+          "source_type": "email",
+          "source_id": "email-match-001",
+          "kind": "text_span",
+          "quote": "Please compare attached SI and Draft BL",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si_id_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Shipping Instruction PDF Header"
+        },
+        {
+          "evidence_id": "ev_bl_id_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Draft Bill of Lading PDF Header"
+        },
+        {
+          "evidence_id": "ev_p_si_1",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1420 chars successfully"
+        },
+        {
+          "evidence_id": "ev_p_bl_1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "document_metadata",
+          "quote": null,
+          "location": null,
+          "detail": "Parser extracted 1510 chars successfully"
+        },
+        {
+          "evidence_id": "ev_si1_shipper",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_consignee",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_container_count",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_si1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-si-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_shipper",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ACME CORP",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_consignee",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "GLOBAL LOGISTICS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_notify_party",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SAME AS CONSIGNEE",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_loading",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "SHANGHAI",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_port_of_discharge",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "ROTTERDAM",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_container_count",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "2",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_bl1_gross_weight_kg",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22500.00 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_human_corr_1",
+          "source_type": "human_review",
+          "source_id": "email-match-001",
+          "kind": "human_review",
+          "quote": null,
+          "location": null,
+          "detail": "Operator verified weight on Bill of Lading Box 14 matches 22500 kg"
+        },
+        {
+          "evidence_id": "ev_w1",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "22000 KGS",
+          "location": {
+            "section": null,
+            "page": 1,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        },
+        {
+          "evidence_id": "ev_w2",
+          "source_type": "document",
+          "source_id": "doc-bl-1",
+          "kind": "text_span",
+          "quote": "23000 KGS",
+          "location": {
+            "section": null,
+            "page": 2,
+            "table": null,
+            "row": null,
+            "column": null,
+            "bbox": null
+          },
+          "detail": null
+        }
+      ],
+      "partial_result": {
+        "comparisons": [
+          {
+            "field": "shipper",
+            "si_value": "ACME CORP",
+            "bl_value": "ACME CORP",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "consignee",
+            "si_value": "GLOBAL LOGISTICS",
+            "bl_value": "GLOBAL LOGISTICS",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "notify_party",
+            "si_value": "SAME AS CONSIGNEE",
+            "bl_value": "SAME AS CONSIGNEE",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_loading",
+            "si_value": "SHANGHAI",
+            "bl_value": "SHANGHAI",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "port_of_discharge",
+            "si_value": "ROTTERDAM",
+            "bl_value": "ROTTERDAM",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "container_count",
+            "si_value": 2,
+            "bl_value": 2,
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          },
+          {
+            "field": "gross_weight_kg",
+            "si_value": "22500",
+            "bl_value": "22500",
+            "outcome": "MATCH",
+            "rule_version": "norm-v1.0"
+          }
+        ],
+        "unresolved_fields": []
+      },
+      "discrepancies": [],
+      "review": {
+        "review_id": "rev-5",
+        "state": "RESOLVED",
+        "issues": [
+          {
+            "issue_id": "iss-5",
+            "stage": "reliability",
+            "logical_reason": "conflicting_candidate_values",
+            "evaluation_reason": null,
+            "document_ids": [
+              "doc-bl-1"
+            ],
+            "expected_role": "BL",
+            "fields": [
+              "gross_weight_kg"
+            ],
+            "evidence_ids": [
+              "ev_w1",
+              "ev_w2"
+            ],
+            "suggested_action": "Review page 1 and page 2 to select correct gross weight",
+            "recovery_state": "UNRELIABLE",
+            "recovery_detail": "Two conflicting candidate values extracted from separate pages",
+            "attempt_ids": [
+              "att-1"
+            ]
+          }
+        ]
+      },
+      "processing": {
+        "technical_attempt_limit": 3,
+        "semantic_attempt_limit": 2,
+        "attempts": [
+          {
+            "attempt_id": "att-1",
+            "operation_id": "op-1",
+            "stage": "parsing",
+            "kind": "primary",
+            "attempt_number": 1,
+            "outcome": "SUCCEEDED",
+            "error_code": null,
+            "provider_adapter": null,
+            "model_identifier": null,
+            "prompt_version": null,
+            "token_usage": null,
+            "latency_ms": null
+          }
+        ]
+      }
+    }
+  },
+  "evaluation_match": {
+    "model": "SubmissionRecord",
+    "payload": {
+      "category": "BL_COMPARISON",
+      "status": "OK",
+      "review_reason": null,
+      "has_defect": false,
+      "defect_fields": []
+    }
+  },
+  "evaluation_mismatch": {
+    "model": "SubmissionRecord",
+    "payload": {
+      "category": "BL_COMPARISON",
+      "status": "MISMATCH",
+      "review_reason": null,
+      "has_defect": true,
+      "defect_fields": [
+        "container_count"
+      ]
+    }
+  },
+  "evaluation_review": {
+    "model": "SubmissionRecord",
+    "payload": {
+      "category": "BL_COMPARISON",
+      "status": "NEEDS_REVIEW",
+      "review_reason": "missing_attachment",
+      "has_defect": false,
+      "defect_fields": []
+    }
+  },
+  "blocked_export_error": {
+    "model": "ErrorResponse",
+    "payload": {
+      "code": "EXPORT_BLOCKED",
+      "message": "Cannot export submission: unresolved internal state cannot be losslessly represented under official evaluation schema",
+      "details": [
+        "email-match-001: conflicting_candidate_values cannot be truthfully mapped to official submission without human adjudication"
+      ],
+      "retryable": false
+    }
+  }
+}
