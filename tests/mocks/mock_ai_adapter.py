@@ -32,6 +32,10 @@ class MockAIAdapter(BaseAIAdapter):
         self.response_fn = response_fn
         self.invocations: List[Dict[str, Any]] = []
 
+    @property
+    def total_calls(self) -> int:
+        return len(self.invocations)
+
     def invoke_raw(
         self,
         prompt: str,

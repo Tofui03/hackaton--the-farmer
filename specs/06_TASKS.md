@@ -713,7 +713,7 @@ flowchart TD
 - **Acceptance Criteria**: `PIPE-CLS-001`, `002`, `003`, `005`, `007` pass cleanly.
 - **Verification Commands**: `pytest tests/test_stage1.py -k "PIPE-CLS" -v`
 - **Expected Evidence**: Passing Stage 1 classification suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -734,7 +734,7 @@ flowchart TD
 - **Acceptance Criteria**: `PIPE-CLS-004` and `REG-001` pass cleanly.
 - **Verification Commands**: `pytest tests/test_stage1.py -k "REG-001 or PIPE-CLS-004" -v`
 - **Expected Evidence**: Passing regression test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -754,7 +754,7 @@ flowchart TD
 - **Acceptance Criteria**: `PIPE-CLS-006` passes cleanly.
 - **Verification Commands**: `pytest tests/test_stage1.py -k "PIPE-CLS-006" -v`
 - **Expected Evidence**: Passing null category test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
