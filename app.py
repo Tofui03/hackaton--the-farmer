@@ -128,3 +128,12 @@ def verify_documents(req: DynamicVerifyRequest):
         si_text=req.si_text,
         bl_text=req.bl_text,
     )
+
+
+if __name__ == "__main__":
+    import os
+    import uvicorn
+
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
