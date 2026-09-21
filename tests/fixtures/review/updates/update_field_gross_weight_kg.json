@@ -1,0 +1,37 @@
+{
+  "review_id": "rev_case_008",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Found gross weight in BL table cell 3, column 4",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_bl_008",
+      "field": "gross_weight_kg",
+      "raw_value": "22 MT",
+      "evidence_ids": [
+        "ev_added_bl_wt_008"
+      ],
+      "rationale": "Extracted from weight column in metric tons"
+    }
+  ],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_bl_wt_008",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "table_cell",
+      "quote": "22.000 MT",
+      "location": {
+        "page": 1,
+        "table": "CargoManifest",
+        "row": 2,
+        "column": 3
+      },
+      "detail": null
+    }
+  ]
+}

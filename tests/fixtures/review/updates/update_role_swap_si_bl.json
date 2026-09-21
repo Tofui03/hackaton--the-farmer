@@ -1,0 +1,54 @@
+{
+  "review_id": "rev_case_swap_001",
+  "expected_revision": 1,
+  "actor_id": "operator_carol",
+  "action": "CORRECT",
+  "rationale": "Initial heuristic mistakenly inverted SI and Draft BL attachments",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [
+    {
+      "document_id": "doc_file_001",
+      "assigned_role": "BL",
+      "evidence_ids": [
+        "ev_swap_doc1_header"
+      ],
+      "rationale": "doc_file_001 header contains BILL OF LADING title"
+    },
+    {
+      "document_id": "doc_file_002",
+      "assigned_role": "SI",
+      "evidence_ids": [
+        "ev_swap_doc2_header"
+      ],
+      "rationale": "doc_file_002 header contains SHIPPING INSTRUCTION title"
+    }
+  ],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_swap_doc1_header",
+      "source_type": "document",
+      "source_id": "doc_file_001",
+      "kind": "text_span",
+      "quote": "NON-NEGOTIABLE DRAFT BILL OF LADING",
+      "location": {
+        "page": 1,
+        "section": "Title"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_swap_doc2_header",
+      "source_type": "document",
+      "source_id": "doc_file_002",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION FORM",
+      "location": {
+        "page": 1,
+        "section": "Title"
+      },
+      "detail": null
+    }
+  ]
+}

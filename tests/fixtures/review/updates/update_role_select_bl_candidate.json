@@ -1,0 +1,29 @@
+{
+  "review_id": "rev_case_003",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Selected bl_rev2.pdf (doc_cand_c) as authoritative final Draft BL",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [
+    {
+      "document_id": "doc_cand_c",
+      "assigned_role": "BL",
+      "evidence_ids": [
+        "ev_cand_c_id"
+      ],
+      "rationale": "doc_cand_c contains final timestamped Draft BL revision 2"
+    },
+    {
+      "document_id": "doc_cand_b",
+      "assigned_role": "UNKNOWN",
+      "evidence_ids": [
+        "ev_cand_b_id"
+      ],
+      "rationale": "Superceded draft version marked UNKNOWN"
+    }
+  ],
+  "corrections": [],
+  "added_evidence": []
+}

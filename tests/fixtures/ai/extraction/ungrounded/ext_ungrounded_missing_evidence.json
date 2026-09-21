@@ -1,0 +1,12 @@
+{
+  "document_id": "txt_si_001_clean.txt",
+  "role": "SI",
+  "fields": {
+    "container_count": {
+      "raw_value": 4,
+      "status": "FOUND",
+      "evidence": null
+    }
+  },
+  "confidence_indicator": "MEDIUM"
+}

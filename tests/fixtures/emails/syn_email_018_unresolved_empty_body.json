@@ -1,0 +1,13 @@
+{
+  "email_id": "syn_email_018_unresolved_empty_body",
+  "sender": "forwarder@empty-body.test",
+  "subject": "Fwd: docs",
+  "body": "",
+  "attachments": [
+    {
+      "document_id": "doc_syn_018_scan",
+      "path": "attachments/Scan_20260922.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "category": "BL_COMPARISON",
+  "reason": "Leaked evaluation uppercase enum instead of internal canonical enum.",
+  "evidence": [
+    "compare SI and BL"
+  ],
+  "confidence_indicator": "HIGH"
+}

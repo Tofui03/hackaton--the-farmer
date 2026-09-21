@@ -1,0 +1,21 @@
+{
+  "stage": "Stage 3A: Field Extraction",
+  "primary_status": "AI_EXTRACTION_UNAVAILABLE",
+  "fallback_mechanism": "deterministic_plain_text_regex_and_cell_parser",
+  "fallback_output": {
+    "all_seven_fields_extracted": true,
+    "reliability_gate_passed": true,
+    "fields": {
+      "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+      "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+      "notify_party": "MARITIME CUSTOMS BROKERS INC",
+      "port_of_loading": "SINGAPORE",
+      "port_of_discharge": "ROTTERDAM",
+      "container_count": 4,
+      "gross_weight_kg": "22000"
+    }
+  },
+  "pipeline_action": "CONTINUE_TO_COMPARISON",
+  "hitl_escalated": false,
+  "rationale": "Deterministic parser has already reliably extracted all 7 fields; AI timeout does not block pipeline."
+}

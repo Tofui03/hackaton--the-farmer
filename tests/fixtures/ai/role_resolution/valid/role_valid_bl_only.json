@@ -1,0 +1,7 @@
+{
+  "document_roles": {
+    "attachment_02_draft_bl.pdf": "BL"
+  },
+  "rationale": "attachment_02 is definitively a Draft Bill of Lading; no SI candidate attached.",
+  "confidence_indicator": "HIGH"
+}

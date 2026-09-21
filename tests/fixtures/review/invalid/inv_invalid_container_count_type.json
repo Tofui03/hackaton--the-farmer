@@ -1,0 +1,18 @@
+{
+  "review_id": "rev_case_inv_007",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Invalid container count string",
+  "corrections": [
+    {
+      "document_id": "doc_si_001",
+      "field": "container_count",
+      "raw_value": "four containers approx",
+      "evidence_ids": [
+        "ev_001"
+      ],
+      "rationale": "Prose string cannot convert to strict integer"
+    }
+  ]
+}

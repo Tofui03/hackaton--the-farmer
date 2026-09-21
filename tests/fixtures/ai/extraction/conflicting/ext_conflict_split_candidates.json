@@ -1,0 +1,21 @@
+{
+  "document_id": "txt_si_008_conflicting_candidates.txt",
+  "role": "SI",
+  "fields": {
+    "gross_weight_kg": {
+      "raw_value": null,
+      "status": "CONFLICTING",
+      "candidates": [
+        {
+          "raw_value": "24500 KG",
+          "evidence": "ESTIMATED GROSS WEIGHT: 24500 KG"
+        },
+        {
+          "raw_value": "28000 KG",
+          "evidence": "FINAL CERTIFIED GROSS WEIGHT: 28000 KG"
+        }
+      ]
+    }
+  },
+  "confidence_indicator": "LOW"
+}

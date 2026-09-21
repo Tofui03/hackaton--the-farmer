@@ -1,0 +1,18 @@
+{
+  "review_id": "rev_case_inv_008",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Invalid weight prose",
+  "corrections": [
+    {
+      "document_id": "doc_si_001",
+      "field": "gross_weight_kg",
+      "raw_value": "approx two truckloads",
+      "evidence_ids": [
+        "ev_001"
+      ],
+      "rationale": "Prose string cannot convert to plain decimal"
+    }
+  ]
+}

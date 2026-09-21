@@ -1,0 +1,809 @@
+{
+  "manifest_version": "1.1",
+  "total_documents": 30,
+  "total_pairs": 9,
+  "format_distribution": {
+    "txt": 13,
+    "docx": 5,
+    "pdf": 4,
+    "pdf_raster": 2,
+    "xlsx": 3,
+    "malformed": 3
+  },
+  "baseline_acceptance_count": 28,
+  "exploratory_count": 2,
+  "governance_rules": {
+    "default_discovery_filter": "is_baseline_acceptance == true",
+    "exploratory_opt_in_required": true,
+    "forbidden_as_implicit_baseline": [
+      "POL",
+      "POD",
+      "Total Containers",
+      "SAME AS CONSIGNEE dereferencing"
+    ]
+  },
+  "pairs": {
+    "PAIR-001": {
+      "si_fixture": "txt_si_001_clean",
+      "bl_fixture": "txt_bl_001_clean_match",
+      "scenario": "exact_match",
+      "expected_mismatches": [],
+      "mismatch_detected": false,
+      "rationale": "Clean exact match across all seven mandatory fields."
+    },
+    "PAIR-002": {
+      "si_fixture": "txt_si_001_clean",
+      "bl_fixture": "txt_bl_002_count_mismatch",
+      "scenario": "single_mismatch",
+      "expected_mismatches": [
+        "container_count"
+      ],
+      "mismatch_detected": true,
+      "rationale": "SI specifies 4 containers, draft BL specifies 5 containers."
+    },
+    "PAIR-003": {
+      "si_fixture": "txt_si_001_clean",
+      "bl_fixture": "txt_bl_003_multi_mismatch",
+      "scenario": "multiple_mismatches",
+      "expected_mismatches": [
+        "shipper",
+        "port_of_discharge",
+        "gross_weight_kg"
+      ],
+      "mismatch_detected": true,
+      "rationale": "Multiple fields differ between SI and BL."
+    },
+    "PAIR-004": {
+      "si_fixture": "txt_si_007_missing_field",
+      "bl_fixture": "txt_bl_001_clean_match",
+      "scenario": "unresolved_missing_field",
+      "expected_mismatches": null,
+      "mismatch_detected": null,
+      "expected_hitl_reason": "missing_required_value",
+      "rationale": "SI is missing notify_party. Reliability gate routes to NEEDS_REVIEW."
+    },
+    "PAIR-005": {
+      "si_fixture": "txt_si_008_conflicting_candidates",
+      "bl_fixture": "txt_bl_001_clean_match",
+      "scenario": "conflicting_candidates",
+      "expected_mismatches": null,
+      "mismatch_detected": null,
+      "expected_hitl_reason": "conflicting_candidate_values",
+      "rationale": "SI provides conflicting gross weight candidates (24,500 vs 28,000 KG). Escalates to review."
+    },
+    "PAIR-006": {
+      "si_fixture": "txt_si_011_unit_mt",
+      "bl_fixture": "txt_bl_001_clean_match",
+      "scenario": "exact_unit_conversion",
+      "expected_mismatches": [],
+      "mismatch_detected": false,
+      "rationale": "Exact unit conversion: SI specifies 22 MT (22 * 1000 = 22,000 KG) and BL specifies 22,000 KG. Normalized equality matches with zero mismatch."
+    },
+    "PAIR-DOCX-001": {
+      "si_fixture": "docx_si_001_paragraph",
+      "bl_fixture": "docx_bl_001_table",
+      "scenario": "clean_docx_pair_match",
+      "expected_mismatches": [],
+      "mismatch_detected": false,
+      "rationale": "Cross-format DOCX pair (paragraph SI vs table BL) with exact 7-field match."
+    },
+    "PAIR-PDF-001": {
+      "si_fixture": "pdf_si_001_clean",
+      "bl_fixture": "pdf_bl_001_clean_match",
+      "scenario": "clean_vector_pdf_match",
+      "expected_mismatches": [],
+      "mismatch_detected": false,
+      "rationale": "Vector PDF pair with extractable text layers matching 100%."
+    },
+    "PAIR-XLSX-001": {
+      "si_fixture": "xlsx_si_001_clean",
+      "bl_fixture": "xlsx_bl_001_clean_match",
+      "scenario": "clean_xlsx_pair_match",
+      "expected_mismatches": [],
+      "mismatch_detected": false,
+      "rationale": "Excel spreadsheet SI matched against Excel Draft BL with 100% field equality."
+    }
+  },
+  "documents": {
+    "txt_si_001_clean": {
+      "file": "txt/txt_si_001_clean.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "clean_baseline",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-001",
+      "tags": [
+        "PAR-TXT-001",
+        "clean_match_si"
+      ]
+    },
+    "txt_bl_001_clean_match": {
+      "file": "txt/txt_bl_001_clean_match.txt",
+      "format": "txt",
+      "role": "BL",
+      "scenario": "clean_baseline_match",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-001",
+      "tags": [
+        "PAR-TXT-001",
+        "clean_match_bl"
+      ]
+    },
+    "txt_bl_002_count_mismatch": {
+      "file": "txt/txt_bl_002_count_mismatch.txt",
+      "format": "txt",
+      "role": "BL",
+      "scenario": "single_mismatch",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 5,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-002",
+      "tags": [
+        "PAR-TXT-001",
+        "single_mismatch"
+      ]
+    },
+    "txt_bl_003_multi_mismatch": {
+      "file": "txt/txt_bl_003_multi_mismatch.txt",
+      "format": "txt",
+      "role": "BL",
+      "scenario": "multiple_mismatches",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "DIFFERENT SHIPPER TRADING CO",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "HAMBURG",
+        "container_count": 4,
+        "gross_weight_kg": "25500"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-003",
+      "tags": [
+        "PAR-TXT-001",
+        "multi_mismatch"
+      ]
+    },
+    "txt_si_005_alt_labels": {
+      "file": "txt/txt_si_005_alt_labels.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "authoritative_label_variant_load_port",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-TXT-001",
+        "authoritative_label_variant",
+        "load_port"
+      ],
+      "rationale": "Uses the label variant 'Load Port' for port_of_loading supported by the original use case and baselined specification."
+    },
+    "txt_si_012_exploratory_aliases": {
+      "file": "txt/txt_si_012_exploratory_aliases.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "PROPOSED / EXPLORATORY \u2014 NOT A BASELINE ACCEPTANCE EXPECTATION",
+      "is_baseline_acceptance": false,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "exploratory",
+        "non_baseline_aliases"
+      ],
+      "rationale": "Exploratory fixture testing shorthand acronyms (POL, POD). Marked explicitly as PROPOSED / EXPLORATORY \u2014 NOT A BASELINE ACCEPTANCE EXPECTATION."
+    },
+    "txt_si_006_multiline_orgs": {
+      "file": "txt/txt_si_006_multiline_orgs.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "multiline_organizations",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD\nSUITE 400, 128 HARBOR WAY\nSINGAPORE 049318",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH\nINDUSTRIESTRASSE 12\n20457 HAMBURG, GERMANY",
+        "notify_party": "MARITIME NOTIFY SERVICES LTD\n100 SHIPPING PLAZA, SINGAPORE 049319",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-TXT-001",
+        "multiline_address"
+      ]
+    },
+    "txt_si_013_exploratory_same_as_consignee": {
+      "file": "txt/txt_si_013_exploratory_same_as_consignee.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "PROPOSED / EXPLORATORY \u2014 NOT A BASELINE ACCEPTANCE EXPECTATION",
+      "is_baseline_acceptance": false,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "SAME AS CONSIGNEE",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "exploratory",
+        "raw_literal_same_as_consignee"
+      ],
+      "rationale": "Exploratory fixture testing literal 'SAME AS CONSIGNEE'. Does not assert automatic dereferencing. Marked as PROPOSED / EXPLORATORY \u2014 NOT A BASELINE ACCEPTANCE EXPECTATION."
+    },
+    "txt_si_007_missing_field": {
+      "file": "txt/txt_si_007_missing_field.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "missing_required_field",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": null,
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [
+        "notify_party"
+      ],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-004",
+      "tags": [
+        "HITL-RSN-004",
+        "missing_required_value"
+      ]
+    },
+    "txt_si_008_conflicting_candidates": {
+      "file": "txt/txt_si_008_conflicting_candidates.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "conflicting_candidate_values",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": null
+      },
+      "missing_fields": [],
+      "conflicting_fields": [
+        "gross_weight_kg"
+      ],
+      "pair_id": "PAIR-005",
+      "tags": [
+        "HITL-RSN-006",
+        "conflicting_candidate_values"
+      ]
+    },
+    "txt_si_009_short_valid": {
+      "file": "txt/txt_si_009_short_valid.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "short_valid_content",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "SYNTHETIC CHEM",
+        "consignee": "ALPHA IMPORTS",
+        "notify_party": "MARITIME NOTIFY CORP",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "44000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-USAB-001",
+        "qualitative_usability"
+      ]
+    },
+    "txt_si_010_long_unusable": {
+      "file": "txt/txt_si_010_long_unusable.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "long_unusable_content",
+      "is_baseline_acceptance": true,
+      "expected_fields": {},
+      "missing_fields": [
+        "shipper",
+        "consignee",
+        "notify_party",
+        "port_of_loading",
+        "port_of_discharge",
+        "container_count",
+        "gross_weight_kg"
+      ],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-USAB-002",
+        "unusable_document"
+      ]
+    },
+    "txt_si_011_unit_mt": {
+      "file": "txt/txt_si_011_unit_mt.txt",
+      "format": "txt",
+      "role": "SI",
+      "scenario": "unit_conversion_mt",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-006",
+      "tags": [
+        "UT-NORM-004",
+        "unit_conversion"
+      ]
+    },
+    "docx_si_001_paragraph": {
+      "file": "docx/docx_si_001_paragraph.docx",
+      "format": "docx",
+      "role": "SI",
+      "scenario": "clean_paragraph_docx",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-DOCX-001",
+      "tags": [
+        "PAR-DOCX-001",
+        "docx_paragraph"
+      ]
+    },
+    "docx_bl_001_table": {
+      "file": "docx/docx_bl_001_table.docx",
+      "format": "docx",
+      "role": "BL",
+      "scenario": "clean_table_docx",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-DOCX-001",
+      "tags": [
+        "PAR-DOCX-001",
+        "docx_table"
+      ]
+    },
+    "docx_si_003_multiline_cell": {
+      "file": "docx/docx_si_003_multiline_cell.docx",
+      "format": "docx",
+      "role": "SI",
+      "scenario": "multiline_cell_table",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS\n128 HARBOR WAY\nSINGAPORE",
+        "consignee": "ATLANTIC IMPORTS GMBH\nINDUSTRIESTR 12\nHAMBURG",
+        "notify_party": "MARITIME NOTIFY SERVICES\n100 SHIPPING PLAZA\nSINGAPORE",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-DOCX-001",
+        "docx_multiline"
+      ]
+    },
+    "docx_si_004_missing_field": {
+      "file": "docx/docx_si_004_missing_field.docx",
+      "format": "docx",
+      "role": "SI",
+      "scenario": "missing_required_field",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": null,
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [
+        "port_of_discharge"
+      ],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-DOCX-001",
+        "missing_value"
+      ]
+    },
+    "docx_si_005_conflicting_values": {
+      "file": "docx/docx_si_005_conflicting_values.docx",
+      "format": "docx",
+      "role": "SI",
+      "scenario": "conflicting_candidate_values",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": null,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [
+        "container_count"
+      ],
+      "pair_id": null,
+      "tags": [
+        "PAR-DOCX-001",
+        "conflicting_candidate_values"
+      ]
+    },
+    "pdf_si_001_clean": {
+      "file": "pdf/pdf_si_001_clean.pdf",
+      "format": "pdf",
+      "role": "SI",
+      "scenario": "vector_pdf_clean",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-PDF-001",
+      "tags": [
+        "PAR-PDF-001",
+        "vector_clean_si"
+      ]
+    },
+    "pdf_bl_001_clean_match": {
+      "file": "pdf/pdf_bl_001_clean_match.pdf",
+      "format": "pdf",
+      "role": "BL",
+      "scenario": "vector_pdf_clean_match",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-PDF-001",
+      "tags": [
+        "PAR-PDF-001",
+        "vector_clean_bl"
+      ]
+    },
+    "pdf_si_003_missing_field": {
+      "file": "pdf/pdf_si_003_missing_field.pdf",
+      "format": "pdf",
+      "role": "SI",
+      "scenario": "missing_required_field",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": null,
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [
+        "consignee"
+      ],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-PDF-001",
+        "missing_consignee"
+      ]
+    },
+    "pdf_si_004_conflicting_values": {
+      "file": "pdf/pdf_si_004_conflicting_values.pdf",
+      "format": "pdf",
+      "role": "SI",
+      "scenario": "conflicting_candidate_values",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 4,
+        "gross_weight_kg": null
+      },
+      "missing_fields": [],
+      "conflicting_fields": [
+        "gross_weight_kg"
+      ],
+      "pair_id": null,
+      "tags": [
+        "PAR-PDF-001",
+        "conflicting_weight"
+      ]
+    },
+    "scan_si_001_readable": {
+      "file": "scanned/scan_si_001_readable.pdf",
+      "format": "pdf_raster",
+      "role": "SI",
+      "scenario": "raster_image_only_pdf_zero_text_layer",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": false,
+      "has_visible_text_glyphs": true,
+      "expected_fields": {
+        "shipper": "MARITIME EXPORT CARGO CORP",
+        "consignee": "NORDIC GLOBAL TRADING BV",
+        "notify_party": "NORDIC GLOBAL TRADING BV",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "16500"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-USAB-003",
+        "OCR_INPUT",
+        "zero_text_layer"
+      ],
+      "rationale": "Raster image-only PDF containing genuine visible character glyphs for all seven mandatory shipping fields with zero extractable PDF text layer (pypdf extract_text returns empty string). Serves as offline input for OCR/Vision recovery tests."
+    },
+    "scan_si_002_degraded": {
+      "file": "scanned/scan_si_002_degraded.pdf",
+      "format": "pdf_raster",
+      "role": "SI",
+      "scenario": "raster_image_only_pdf_degraded",
+      "is_baseline_acceptance": true,
+      "has_extractable_text": false,
+      "has_visible_text_glyphs": true,
+      "expected_fields": {
+        "shipper": "MARITIME EXPORT CARGO CORP",
+        "consignee": "NORDIC GLOBAL TRADING BV",
+        "notify_party": "NORDIC GLOBAL TRADING BV",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "16500"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-USAB-003",
+        "OCR_INPUT_DEGRADED"
+      ],
+      "rationale": "Degraded raster image-only PDF containing genuine visible character glyphs with controlled scan noise (roller streak, toner dust, paper grain) with zero extractable PDF text layer. Still meaningfully OCR-targetable."
+    },
+    "corrupt_stream_pdf": {
+      "file": "malformed/corrupt_stream.pdf",
+      "format": "pdf_malformed",
+      "role": "UNKNOWN",
+      "scenario": "corrupted_pdf_stream",
+      "is_baseline_acceptance": true,
+      "is_corrupted": true,
+      "expected_fields": {},
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-PDF-002",
+        "stream_corruption",
+        "HITL-RSN-002"
+      ]
+    },
+    "corrupt_structure_docx": {
+      "file": "malformed/corrupt_structure.docx",
+      "format": "docx_malformed",
+      "role": "UNKNOWN",
+      "scenario": "corrupted_docx_structure",
+      "is_baseline_acceptance": true,
+      "is_corrupted": true,
+      "expected_fields": {},
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-DOCX-001",
+        "docx_corruption",
+        "HITL-RSN-002"
+      ]
+    },
+    "empty_zero_bytes_pdf": {
+      "file": "malformed/empty_zero_bytes.pdf",
+      "format": "pdf_empty",
+      "role": "UNKNOWN",
+      "scenario": "empty_zero_bytes",
+      "is_baseline_acceptance": true,
+      "is_corrupted": true,
+      "expected_fields": {},
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-USAB-004",
+        "empty_file"
+      ]
+    },
+    "xlsx_si_001_clean": {
+      "file": "xlsx/xlsx_si_001_clean.xlsx",
+      "format": "xlsx",
+      "role": "SI",
+      "scenario": "clean_multi_sheet_xlsx",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-XLSX-001",
+      "tags": [
+        "PAR-XLSX-001",
+        "design_extension"
+      ]
+    },
+    "xlsx_bl_001_clean_match": {
+      "file": "xlsx/xlsx_bl_001_clean_match.xlsx",
+      "format": "xlsx",
+      "role": "BL",
+      "scenario": "clean_xlsx_match",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": "SINGAPORE",
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [],
+      "conflicting_fields": [],
+      "pair_id": "PAIR-XLSX-001",
+      "tags": [
+        "PAR-XLSX-001",
+        "design_extension_match"
+      ]
+    },
+    "xlsx_si_002_missing_field": {
+      "file": "xlsx/xlsx_si_002_missing_field.xlsx",
+      "format": "xlsx",
+      "role": "SI",
+      "scenario": "missing_required_field",
+      "is_baseline_acceptance": true,
+      "expected_fields": {
+        "shipper": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+        "consignee": "ATLANTIC IMPORTS & TRADING GMBH",
+        "notify_party": "MARITIME CUSTOMS BROKERS INC",
+        "port_of_loading": null,
+        "port_of_discharge": "ROTTERDAM",
+        "container_count": 2,
+        "gross_weight_kg": "22000"
+      },
+      "missing_fields": [
+        "port_of_loading"
+      ],
+      "conflicting_fields": [],
+      "pair_id": null,
+      "tags": [
+        "PAR-XLSX-001",
+        "missing_pol"
+      ]
+    }
+  }
+}

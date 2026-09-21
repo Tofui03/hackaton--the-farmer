@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_002",
+  "expected_revision": -1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Negative revision",
+  "category": null,
+  "corrections": []
+}

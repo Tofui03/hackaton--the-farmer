@@ -1,0 +1,10 @@
+{
+  "document_roles": {
+    "single_file.pdf": [
+      "SI",
+      "BL"
+    ]
+  },
+  "rationale": "Model proposed that single file serves as both SI and BL simultaneously.",
+  "confidence_indicator": "LOW"
+}

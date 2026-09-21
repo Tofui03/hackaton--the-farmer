@@ -1,0 +1,37 @@
+{
+  "review_id": "rev_case_009",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Operator verifies BL container schedule on page 2 lists 4 containers",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_bl_009",
+      "field": "container_count",
+      "raw_value": "4",
+      "evidence_ids": [
+        "ev_added_bl_count_009"
+      ],
+      "rationale": "Page 2 container summary table lists 4x40ft containers"
+    }
+  ],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_bl_count_009",
+      "source_type": "document",
+      "source_id": "doc_bl_009",
+      "kind": "table_cell",
+      "quote": "TOTAL UNITS: 4",
+      "location": {
+        "page": 2,
+        "table": "ContainerDetails",
+        "row": 5,
+        "column": 2
+      },
+      "detail": null
+    }
+  ]
+}

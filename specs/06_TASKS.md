@@ -150,7 +150,7 @@ flowchart TD
 - **Acceptance Criteria**: `pip check` reports zero broken requirements; environment ready for Pydantic v2 schemas.
 - **Verification Commands**: `pip check`
 - **Expected Evidence**: Exit code 0 from dependency check.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -171,7 +171,7 @@ flowchart TD
 - **Acceptance Criteria**: All synthetic email fixtures validate against `EmailRecord` schema; zero reliance on `sdoc-hackathon-bundle/inbox/`.
 - **Verification Commands**: `python -c "import json, glob; [json.load(open(f)) for f in glob.glob('tests/fixtures/emails/*.json')]"`
 - **Expected Evidence**: Valid JSON loading across all synthetic fixtures.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -195,7 +195,7 @@ flowchart TD
 - **Acceptance Criteria**: Synthetic document files generated and verified readable by standard parsers.
 - **Verification Commands**: `pytest tests/test_parsers.py` (updated to support fixtures).
 - **Expected Evidence**: Synthetic fixtures present in repository under `tests/fixtures/documents/`.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -204,9 +204,8 @@ flowchart TD
 - **Dependencies**: `T00-01`
 - **Specification References**: [`specs/02_AI_PIPELINE_SPEC.md`](02_AI_PIPELINE_SPEC.md) §2, §6, [`specs/03_DATA_CONTRACTS.md`](03_DATA_CONTRACTS.md) §6
 - **Test References**: `AI-ADP-001` through `AI-ADP-006`, `AI-BUD-001` through `AI-BUD-005`
-- **Current Gap**: No offline mocking fixtures exist for testing LLM schema validation, retry budgets, or fault recovery.
-- **Scope**: Create mock JSON responses and simulated error streams in `tests/fixtures/ai_responses/`.
-- **Files Likely Affected**: `tests/fixtures/ai_responses/*.json`
+- **Scope**: Create mock JSON responses, technical fault injection payloads, and retry sequences in `tests/fixtures/ai/`.
+- **Files Likely Affected**: `tests/fixtures/ai/**`
 - **Implementation Requirements**:
   1. Valid structured JSON responses for classification, role resolution, and extraction.
   2. Malformed JSON syntax (missing quotes, unclosed brackets) to verify semantic retry repair.
@@ -214,9 +213,9 @@ flowchart TD
   4. Simulated HTTP 429 Rate Limit and HTTP 503 Provider Error injection payloads.
 - **Explicit Non-Goals**: Calling live external APIs in deterministic test runs.
 - **Acceptance Criteria**: Mock adapter can load and replay all scenarios without live network access.
-- **Verification Commands**: `python -c "import json, glob; [json.load(open(f)) for f in glob.glob('tests/fixtures/ai_responses/*.json')]"`
-- **Expected Evidence**: 100% offline synthetic AI response fixtures available.
-- **Status**: `NOT_STARTED`
+- **Verification Commands**: `python tests/fixtures/validate_ai_fixtures.py`
+- **Expected Evidence**: 100% offline synthetic AI response fixtures available in `tests/fixtures/ai/`.
+- **Status**: `DONE`
 
 ---
 
@@ -236,9 +235,9 @@ flowchart TD
   5. Invalid payload attempting direct modification of `mismatch_detected` boolean (`REG-012`).
 - **Explicit Non-Goals**: Bypassing Pydantic payload validation.
 - **Acceptance Criteria**: Fixtures validate against `ReviewUpdate` schema or trigger expected validation errors.
-- **Verification Commands**: `python -c "import json, glob; [json.load(open(f)) for f in glob.glob('tests/fixtures/payloads/*.json')]"`
-- **Expected Evidence**: Complete suite of human review mutation fixtures available.
-- **Status**: `NOT_STARTED`
+- **Verification Commands**: `python tests/fixtures/validate_review_fixtures.py`
+- **Expected Evidence**: Complete suite of human review mutation fixtures available in `tests/fixtures/review/`.
+- **Status**: `DONE`
 
 ---
 

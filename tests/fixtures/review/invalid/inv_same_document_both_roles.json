@@ -1,0 +1,25 @@
+{
+  "review_id": "rev_case_inv_013",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Attempting to assign same document to both roles",
+  "role_corrections": [
+    {
+      "document_id": "doc_001",
+      "assigned_role": "SI",
+      "evidence_ids": [
+        "ev_001"
+      ],
+      "rationale": "Assign SI"
+    },
+    {
+      "document_id": "doc_001",
+      "assigned_role": "BL",
+      "evidence_ids": [
+        "ev_001"
+      ],
+      "rationale": "Assign BL"
+    }
+  ]
+}

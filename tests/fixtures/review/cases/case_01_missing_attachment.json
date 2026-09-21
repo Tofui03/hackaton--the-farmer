@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_001",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_001",
+    "sender": "shipper@acme.com",
+    "subject": "Comparison Request - SI Attached, BL Pending",
+    "body": "Please review our shipping instructions attached. Draft BL will follow shortly.",
+    "attachments": [
+      {
+        "document_id": "doc_si_001",
+        "path": "attachments/si_001.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "RESOLVED",
+    "category": "document_comparison",
+    "reason": "Email body requests document comparison review",
+    "evidence_ids": [
+      "ev_em_001_body"
+    ],
+    "confidence_indicator": "HIGH"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: mandatory Draft BL document missing from attachments",
+  "documents": [
+    {
+      "document_id": "doc_si_001",
+      "role": "SI",
+      "identification_evidence_ids": [
+        "ev_doc_si_001_header"
+      ]
+    }
+  ],
+  "parsers": [
+    {
+      "document_id": "doc_si_001",
+      "status": "SUCCESS",
+      "text": "SHIPPING INSTRUCTION\nShipper: ACME...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_doc_si_001_header"
+      ],
+      "attempt_ids": [
+        "att_parse_001"
+      ]
+    }
+  ],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_001_body",
+      "source_type": "email",
+      "source_id": "em_case_001",
+      "kind": "text_span",
+      "quote": "Please review our shipping instructions attached",
+      "location": null,
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_001_header",
+      "source_type": "document",
+      "source_id": "doc_si_001",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION FORM",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    }
+  ],
+  "partial_result": {
+    "comparisons": [],
+    "unresolved_fields": [
+      "shipper",
+      "consignee",
+      "notify_party",
+      "port_of_loading",
+      "port_of_discharge",
+      "container_count",
+      "gross_weight_kg"
+    ]
+  },
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_001",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_001_missing_bl",
+        "stage": "identification",
+        "logical_reason": "missing_attachment",
+        "evaluation_reason": "missing_attachment",
+        "document_ids": [],
+        "expected_role": "BL",
+        "fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ],
+        "evidence_ids": [
+          "ev_em_001_body"
+        ],
+        "suggested_action": "Request draft Bill of Lading from carrier or check for additional thread attachments",
+        "recovery_state": "EXHAUSTED",
+        "recovery_detail": "Email contains only 1 attachment; draft BL role absent",
+        "attempt_ids": [
+          "att_parse_001"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_parse_001",
+        "operation_id": "op_parse_si",
+        "stage": "parsing",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "pdf_parser",
+        "model_identifier": null,
+        "prompt_version": null,
+        "token_usage": null,
+        "latency_ms": 120
+      }
+    ]
+  }
+}

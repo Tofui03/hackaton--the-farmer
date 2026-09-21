@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_006_doc_compare_excel_si",
+  "sender": "operations@atlantis-shipping.test",
+  "subject": "SI (Excel) vs Draft BL (PDF) - Vessel Poseidon v.044",
+  "body": "Please find attached our shipping instructions in spreadsheet format along with the draft B/L. Kindly compare cargo weights, consignee, and container numbers.",
+  "attachments": [
+    {
+      "document_id": "doc_syn_006_si_xlsx",
+      "path": "attachments/syn_email_006_SI.xlsx",
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+      "document_id": "doc_syn_006_bl_pdf",
+      "path": "attachments/syn_email_006_BL.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

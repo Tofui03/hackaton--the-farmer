@@ -1,0 +1,42 @@
+{
+  "document_id": "txt_si_006_multiline_orgs.txt",
+  "role": "SI",
+  "fields": {
+    "shipper": {
+      "raw_value": "PACIFIC SYNTHETIC LOGISTICS PTE LTD\nSUITE 400, 128 HARBOR WAY\nSINGAPORE 049318",
+      "status": "FOUND",
+      "evidence": "Lines 3-5: multiline postal block"
+    },
+    "consignee": {
+      "raw_value": "ATLANTIC IMPORTS & TRADING GMBH\nINDUSTRIESTRASSE 12\n20457 HAMBURG, GERMANY",
+      "status": "FOUND",
+      "evidence": "Lines 8-10: multiline postal block"
+    },
+    "notify_party": {
+      "raw_value": "MARITIME NOTIFY SERVICES LTD\n100 SHIPPING PLAZA, SINGAPORE 049319",
+      "status": "FOUND",
+      "evidence": "Lines 13-14: multiline postal block"
+    },
+    "port_of_loading": {
+      "raw_value": "SINGAPORE",
+      "status": "FOUND",
+      "evidence": "PORT OF LOADING: SINGAPORE"
+    },
+    "port_of_discharge": {
+      "raw_value": "ROTTERDAM",
+      "status": "FOUND",
+      "evidence": "PORT OF DISCHARGE: ROTTERDAM"
+    },
+    "container_count": {
+      "raw_value": 4,
+      "status": "FOUND",
+      "evidence": "CONTAINER COUNT: 4"
+    },
+    "gross_weight_kg": {
+      "raw_value": "22000 KG",
+      "status": "FOUND",
+      "evidence": "GROSS WEIGHT: 22000 KG"
+    }
+  },
+  "confidence_indicator": "HIGH"
+}

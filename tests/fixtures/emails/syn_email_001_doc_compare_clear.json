@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_001_doc_compare_clear",
+  "sender": "ops@synthetic-maritime.com",
+  "subject": "Comparison Request: SI vs Draft BL for Booking BM-9921",
+  "body": "Dear Documentation Team,\n\nPlease find attached the Shipping Instruction (SI) and draft Bill of Lading (BL) for Booking BM-9921. Kindly compare the two documents and notify us of any discrepancies before final issuance.\n\nBest regards,\nDocumentation Department\nSynthetic Maritime Logistics",
+  "attachments": [
+    {
+      "document_id": "doc_syn_001_si",
+      "path": "attachments/syn_email_001_SI.txt",
+      "mime_type": "text/plain"
+    },
+    {
+      "document_id": "doc_syn_001_bl",
+      "path": "attachments/syn_email_001_BL.txt",
+      "mime_type": "text/plain"
+    }
+  ]
+}

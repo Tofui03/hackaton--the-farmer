@@ -1,0 +1,19 @@
+{
+  "scenario_id": "CONC-003",
+  "description": "Two reviewers concurrently load revision 5; first succeeds, second receives HTTP 409",
+  "initial_server_revision": 5,
+  "step_1_reviewer_a": {
+    "actor_id": "operator_alice",
+    "expected_revision": 5,
+    "expected_result": "SUCCESS",
+    "expected_http_status": 200,
+    "resulting_revision": 6
+  },
+  "step_2_reviewer_b": {
+    "actor_id": "operator_bob",
+    "expected_revision": 5,
+    "expected_result": "REVISION_CONFLICT",
+    "expected_http_status": 409,
+    "resulting_revision": 6
+  }
+}

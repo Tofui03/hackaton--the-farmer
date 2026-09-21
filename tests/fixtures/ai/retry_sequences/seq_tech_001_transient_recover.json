@@ -1,0 +1,29 @@
+{
+  "sequence_id": "TECH-SEQ-001",
+  "scenario": "transient_failures_recover_attempt_3",
+  "max_technical_attempts": 3,
+  "attempts": [
+    {
+      "attempt": 1,
+      "type": "technical",
+      "error": "timeout",
+      "action": "backoff_and_retry"
+    },
+    {
+      "attempt": 2,
+      "type": "technical",
+      "error": "timeout",
+      "action": "backoff_and_retry"
+    },
+    {
+      "attempt": 3,
+      "type": "technical",
+      "result": "cls_valid_doc_comparison.json",
+      "action": "succeed"
+    }
+  ],
+  "final_status": "SUCCESS",
+  "total_calls": 3,
+  "exceeded_budget": false,
+  "rationale": "Succeeds on attempt 3 within technical_attempt_limit = 3."
+}

@@ -1,0 +1,11 @@
+{
+  "document_id": "txt_si_001_clean.txt",
+  "role": "SI",
+  "fields": {
+    "container_count": {
+      "raw_value": "four containers",
+      "status": "FOUND",
+      "evidence": "four containers"
+    }
+  }
+}

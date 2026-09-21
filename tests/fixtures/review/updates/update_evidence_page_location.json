@@ -1,0 +1,31 @@
+{
+  "review_id": "rev_case_008",
+  "expected_revision": 1,
+  "actor_id": "operator_carol",
+  "action": "CORRECT",
+  "rationale": "Added OCR bounding box region coordinates for blurry draft seal",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_region_bl_seal",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "page_region",
+      "quote": null,
+      "location": {
+        "page": 1,
+        "section": "CarrierStamp",
+        "bbox": [
+          0.12,
+          0.35,
+          0.48,
+          0.42
+        ]
+      },
+      "detail": null
+    }
+  ]
+}

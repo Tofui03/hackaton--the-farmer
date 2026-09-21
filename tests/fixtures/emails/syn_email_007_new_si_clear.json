@@ -1,0 +1,13 @@
+{
+  "email_id": "syn_email_007_new_si_clear",
+  "sender": "booking@vanguard-traders.test",
+  "subject": "NEW SHIPPING INSTRUCTION: Booking VT-33012",
+  "body": "Dear Customer Service,\n\nPlease find attached our new Shipping Instruction for booking VT-33012. Kindly process and issue the draft Bill of Lading at your earliest convenience.\n\nBest regards,\nVanguard Traders Ltd",
+  "attachments": [
+    {
+      "document_id": "doc_syn_007_si",
+      "path": "attachments/syn_email_007_SI.docx",
+      "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+  ]
+}

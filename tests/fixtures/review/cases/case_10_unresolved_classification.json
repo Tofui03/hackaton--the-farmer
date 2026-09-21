@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_010",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_010",
+    "sender": "partner@unknown.com",
+    "subject": "Fwd: Documents",
+    "body": "FYI",
+    "attachments": [
+      {
+        "document_id": "doc_unresolved_001",
+        "path": "attachments/doc_unresolved.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "NEEDS_REVIEW",
+    "category": null,
+    "reason": "Single acronym email body; intent undetermined",
+    "evidence_ids": [
+      "ev_em_010_body"
+    ],
+    "confidence_indicator": "LOW"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: unresolved classification (category = null); attachments unparsed pending intent",
+  "documents": [],
+  "parsers": [],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_010_body",
+      "source_type": "email",
+      "source_id": "em_case_010",
+      "kind": "text_span",
+      "quote": "FYI",
+      "location": null,
+      "detail": null
+    }
+  ],
+  "partial_result": null,
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_010",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_010_unresolved_cat",
+        "stage": "classification",
+        "logical_reason": "uncertain_result",
+        "evaluation_reason": "uncertain_result",
+        "document_ids": [],
+        "expected_role": null,
+        "fields": [],
+        "evidence_ids": [
+          "ev_em_010_body"
+        ],
+        "suggested_action": "Review email context and assign canonical internal category",
+        "recovery_state": "UNRELIABLE",
+        "recovery_detail": "Heuristic classifier unable to resolve intent from 3-letter body",
+        "attempt_ids": [
+          "att_cls_010"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_cls_010",
+        "operation_id": "op_cls_010",
+        "stage": "classification",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "classifier_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": {
+          "prompt_tokens": 150,
+          "completion_tokens": 40
+        },
+        "latency_ms": 190
+      }
+    ]
+  }
+}

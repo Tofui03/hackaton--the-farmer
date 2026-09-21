@@ -1,0 +1,14 @@
+{
+  "review_id": "rev_case_005",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CONFIRM",
+  "rationale": "Confirmed email is general inquiry based on lack of booking number or cargo manifests",
+  "category": "general",
+  "classification_evidence_ids": [
+    "ev_em_005_body"
+  ],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": []
+}

@@ -1,0 +1,40 @@
+{
+  "document_id": "scan_si_002_degraded.pdf",
+  "raster_dimensions": {
+    "width": 600,
+    "height": 800
+  },
+  "role": "SI",
+  "fields": {
+    "shipper": {
+      "raw_value": "MARITIME EXPORT CARGO CORP",
+      "status": "FOUND"
+    },
+    "consignee": {
+      "raw_value": "NORDIC GLOBAL TRADING BV",
+      "status": "FOUND"
+    },
+    "notify_party": {
+      "raw_value": "NORDIC GLOBAL TRADING BV",
+      "status": "FOUND"
+    },
+    "port_of_loading": {
+      "raw_value": "SINGAPORE",
+      "status": "FOUND"
+    },
+    "port_of_discharge": {
+      "raw_value": "ROTTERDAM",
+      "status": "FOUND"
+    },
+    "container_count": {
+      "raw_value": 2,
+      "status": "FOUND"
+    },
+    "gross_weight_kg": {
+      "raw_value": "16500 KG",
+      "status": "FOUND"
+    }
+  },
+  "footer_terms_legible": false,
+  "confidence_indicator": "MEDIUM"
+}

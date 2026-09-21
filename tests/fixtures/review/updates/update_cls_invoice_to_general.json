@@ -1,0 +1,24 @@
+{
+  "review_id": "rev_case_inv_001",
+  "expected_revision": 1,
+  "actor_id": "operator_bob",
+  "action": "CORRECT",
+  "rationale": "Email is a general inquiry about terminal operating hours, not an invoice dispute",
+  "category": "general",
+  "classification_evidence_ids": [
+    "ev_added_em_gen_001"
+  ],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_em_gen_001",
+      "source_type": "email",
+      "source_id": "em_case_gen_001",
+      "kind": "text_span",
+      "quote": "What are your terminal opening hours this Sunday?",
+      "location": null,
+      "detail": null
+    }
+  ]
+}

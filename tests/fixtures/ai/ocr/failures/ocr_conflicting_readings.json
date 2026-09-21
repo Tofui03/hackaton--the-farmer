@@ -1,0 +1,20 @@
+{
+  "document_id": "scan_si_lowres.pdf",
+  "role": "SI",
+  "fields": {
+    "gross_weight_kg": {
+      "raw_value": null,
+      "status": "CONFLICTING",
+      "candidates": [
+        {
+          "raw_value": "22500 KG",
+          "confidence": 0.5
+        },
+        {
+          "raw_value": "28500 KG",
+          "confidence": 0.5
+        }
+      ]
+    }
+  }
+}

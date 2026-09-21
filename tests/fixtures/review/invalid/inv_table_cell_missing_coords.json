@@ -1,0 +1,21 @@
+{
+  "review_id": "rev_case_inv_015",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Missing table cell coordinates",
+  "added_evidence": [
+    {
+      "evidence_id": "ev_bad_cell",
+      "source_type": "document",
+      "source_id": "doc_001",
+      "kind": "table_cell",
+      "quote": "22 MT",
+      "location": {
+        "page": 1,
+        "table": "CargoManifest"
+      },
+      "detail": null
+    }
+  ]
+}

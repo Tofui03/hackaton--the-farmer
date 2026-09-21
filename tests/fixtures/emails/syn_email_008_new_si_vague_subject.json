@@ -1,0 +1,13 @@
+{
+  "email_id": "syn_email_008_new_si_vague_subject",
+  "sender": "forwarding@beacon-freight.test",
+  "subject": "Quick update on shipment",
+  "body": "Hi Team,\n\nHere is our finalized Shipping Instruction for container MSKU-7719. Please process this new instruction and prepare the draft.\n\nThanks,\nBeacon Freight Forwarders",
+  "attachments": [
+    {
+      "document_id": "doc_syn_008_si",
+      "path": "attachments/syn_email_008_SI.txt",
+      "mime_type": "text/plain"
+    }
+  ]
+}

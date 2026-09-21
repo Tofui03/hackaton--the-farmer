@@ -1,0 +1,81 @@
+{
+  "document_id": "scan_si_001_readable.pdf",
+  "raster_dimensions": {
+    "width": 600,
+    "height": 800
+  },
+  "role": "SI",
+  "fields": {
+    "shipper": {
+      "raw_value": "MARITIME EXPORT CARGO CORP",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 220,
+        "ymin": 116,
+        "xmax": 532,
+        "ymax": 130
+      }
+    },
+    "consignee": {
+      "raw_value": "NORDIC GLOBAL TRADING BV",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 220,
+        "ymin": 138,
+        "xmax": 508,
+        "ymax": 152
+      }
+    },
+    "notify_party": {
+      "raw_value": "NORDIC GLOBAL TRADING BV",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 220,
+        "ymin": 160,
+        "xmax": 508,
+        "ymax": 174
+      }
+    },
+    "port_of_loading": {
+      "raw_value": "SINGAPORE",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 268,
+        "ymin": 182,
+        "xmax": 376,
+        "ymax": 196
+      }
+    },
+    "port_of_discharge": {
+      "raw_value": "ROTTERDAM",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 268,
+        "ymin": 204,
+        "xmax": 376,
+        "ymax": 218
+      }
+    },
+    "container_count": {
+      "raw_value": 2,
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 268,
+        "ymin": 226,
+        "xmax": 280,
+        "ymax": 240
+      }
+    },
+    "gross_weight_kg": {
+      "raw_value": "16500 KG",
+      "status": "FOUND",
+      "ocr_box": {
+        "xmin": 268,
+        "ymin": 248,
+        "xmax": 364,
+        "ymax": 262
+      }
+    }
+  },
+  "confidence_indicator": "HIGH"
+}

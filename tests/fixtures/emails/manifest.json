@@ -1,0 +1,249 @@
+{
+  "manifest_version": "1.0",
+  "total_fixtures": 18,
+  "canonical_categories": [
+    "document_comparison",
+    "new_shipping_instruction",
+    "invoice_query",
+    "general",
+    "spam"
+  ],
+  "category_distribution": {
+    "document_comparison": 6,
+    "new_shipping_instruction": 3,
+    "invoice_query": 2,
+    "general": 2,
+    "spam": 2,
+    "unresolved_null": 3
+  },
+  "fixtures": {
+    "syn_email_001_doc_compare_clear": {
+      "file": "syn_email_001_doc_compare_clear.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-001",
+          "standard_comparison",
+          "two_attachments"
+        ],
+        "rationale": "Clear explicit request in subject and body to compare SI against draft BL with both document attachments referenced."
+      }
+    },
+    "syn_email_002_doc_compare_zero_att": {
+      "file": "syn_email_002_doc_compare_zero_att.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": "missing_attachment",
+        "test_tags": [
+          "EC-002",
+          "REG-001",
+          "PIPE-CLS-004",
+          "zero_attachment_critical"
+        ],
+        "rationale": "CRITICAL REGRESSION INVARIANT (EC-002 / REG-001): Email intent is strictly document comparison. Stage 1 must classify as document_comparison despite 0 attachments. Stage 2 subsequently catches missing documents and escalates to missing_attachment."
+      }
+    },
+    "syn_email_003_doc_compare_vague_subject": {
+      "file": "syn_email_003_doc_compare_vague_subject.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-001",
+          "vague_subject_clear_body"
+        ],
+        "rationale": "Subject line is non-descriptive ('FW: Urgent Review Needed'), but message body provides unambiguous intent to compare draft BL against approved SI."
+      }
+    },
+    "syn_email_004_doc_compare_generic_filenames": {
+      "file": "syn_email_004_doc_compare_generic_filenames.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-002",
+          "generic_filenames"
+        ],
+        "rationale": "Attachment filenames lack standard '_SI' or '_BL' tags, but email body clearly defines document roles and intent to audit discrepancies."
+      }
+    },
+    "syn_email_005_doc_compare_misleading_filenames": {
+      "file": "syn_email_005_doc_compare_misleading_filenames.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-002",
+          "misleading_filenames"
+        ],
+        "rationale": "Attachment filenames suggest invoice/packing list, but email body explicitly overrides filenames and requests draft BL vs SI comparison."
+      }
+    },
+    "syn_email_006_doc_compare_excel_si": {
+      "file": "syn_email_006_doc_compare_excel_si.json",
+      "manifest": {
+        "expected_category": "document_comparison",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-001",
+          "multi_format_excel_pdf"
+        ],
+        "rationale": "Clear comparison intent with multi-format attachments (Excel spreadsheet SI and PDF draft BL)."
+      }
+    },
+    "syn_email_007_new_si_clear": {
+      "file": "syn_email_007_new_si_clear.json",
+      "manifest": {
+        "expected_category": "new_shipping_instruction",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-003",
+          "new_si_standard",
+          "FR-004"
+        ],
+        "rationale": "Explicit submission of a new Shipping Instruction requesting issuance of draft BL. Must NOT trigger document comparison (FR-004)."
+      }
+    },
+    "syn_email_008_new_si_vague_subject": {
+      "file": "syn_email_008_new_si_vague_subject.json",
+      "manifest": {
+        "expected_category": "new_shipping_instruction",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-003",
+          "new_si_vague_subject"
+        ],
+        "rationale": "Vague subject line but unambiguous body text submitting new shipping instructions for processing."
+      }
+    },
+    "syn_email_009_new_si_multiple_att": {
+      "file": "syn_email_009_new_si_multiple_att.json",
+      "manifest": {
+        "expected_category": "new_shipping_instruction",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-003",
+          "new_si_multiple_attachments"
+        ],
+        "rationale": "Contains multiple attachments (SI, invoice, packing list) but request is to lodge the new SI. Must NOT be misclassified as document comparison merely because multiple attachments exist."
+      }
+    },
+    "syn_email_010_invoice_query_clear": {
+      "file": "syn_email_010_invoice_query_clear.json",
+      "manifest": {
+        "expected_category": "invoice_query",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "invoice_query_standard",
+          "FR-004"
+        ],
+        "rationale": "Explicit invoice and demurrage payment inquiry. No document comparison requested (FR-004)."
+      }
+    },
+    "syn_email_011_invoice_query_with_att": {
+      "file": "syn_email_011_invoice_query_with_att.json",
+      "manifest": {
+        "expected_category": "invoice_query",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "invoice_query_with_attachment"
+        ],
+        "rationale": "Invoice query containing an attached invoice PDF. Must be classified as invoice_query and terminate without document comparison."
+      }
+    },
+    "syn_email_012_general_update": {
+      "file": "syn_email_012_general_update.json",
+      "manifest": {
+        "expected_category": "general",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "general_operational_update",
+          "FR-004"
+        ],
+        "rationale": "General operational advisory with zero comparison intent. Terminates immediately (FR-004)."
+      }
+    },
+    "syn_email_013_general_mentions_docs": {
+      "file": "syn_email_013_general_mentions_docs.json",
+      "manifest": {
+        "expected_category": "general",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "general_mentions_documents",
+          "keyword_trap"
+        ],
+        "rationale": "Contains keywords 'Shipping Instructions' and 'draft Bill of Lading', but message is a holiday broadcast, NOT a verification request. Must classify as general."
+      }
+    },
+    "syn_email_014_spam_promotional": {
+      "file": "syn_email_014_spam_promotional.json",
+      "manifest": {
+        "expected_category": "spam",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "spam_promotional",
+          "FR-004"
+        ],
+        "rationale": "Clear unsolicited promotional commercial spam. Must be classified as spam and dropped immediately (FR-004)."
+      }
+    },
+    "syn_email_015_spam_phishing": {
+      "file": "syn_email_015_spam_phishing.json",
+      "manifest": {
+        "expected_category": "spam",
+        "expected_hitl_reason": null,
+        "test_tags": [
+          "PIPE-CLS-005",
+          "spam_phishing",
+          "FR-004"
+        ],
+        "rationale": "Suspicious phishing scam pretending to be an IT quota alert. Must classify as spam."
+      }
+    },
+    "syn_email_016_unresolved_conflicting_intent": {
+      "file": "syn_email_016_unresolved_conflicting_intent.json",
+      "manifest": {
+        "expected_category": null,
+        "expected_hitl_reason": "uncertain_result",
+        "test_tags": [
+          "DC-01",
+          "PIPE-CLS-006",
+          "ambiguous_conflicting_intent"
+        ],
+        "rationale": "Genuine conflicting intent cues across new SI submission, cross-booking comparison, and invoice cancellation. Under DC-01, internal category must remain null, escalating to human review (NEEDS_REVIEW) with reason uncertain_result."
+      }
+    },
+    "syn_email_017_unresolved_vague_minimal": {
+      "file": "syn_email_017_unresolved_vague_minimal.json",
+      "manifest": {
+        "expected_category": null,
+        "expected_hitl_reason": "uncertain_result",
+        "test_tags": [
+          "DC-01",
+          "PIPE-CLS-006",
+          "ambiguous_minimal_text"
+        ],
+        "rationale": "Body contains minimal text ('Please check attached and confirm') with a single generically-named PDF. Cannot reliably infer whether intent is new SI, invoice confirmation, or draft review. Category remains null."
+      }
+    },
+    "syn_email_018_unresolved_empty_body": {
+      "file": "syn_email_018_unresolved_empty_body.json",
+      "manifest": {
+        "expected_category": null,
+        "expected_hitl_reason": "uncertain_result",
+        "test_tags": [
+          "DC-01",
+          "PIPE-CLS-006",
+          "ambiguous_empty_body"
+        ],
+        "rationale": "Subject 'Fwd: docs' with an empty body string and single scanned attachment. Lacks sufficient signal to classify into any category. Category remains null pending human review."
+      }
+    }
+  }
+}

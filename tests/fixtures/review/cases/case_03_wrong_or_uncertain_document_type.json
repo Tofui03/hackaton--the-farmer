@@ -1,0 +1,193 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_003",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_003",
+    "sender": "forwarder@logistics.com",
+    "subject": "Comparison Files Attached",
+    "body": "Attached please find files for verification.",
+    "attachments": [
+      {
+        "document_id": "doc_cand_a",
+        "path": "attachments/si_doc.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "document_id": "doc_cand_b",
+        "path": "attachments/bl_rev1.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "document_id": "doc_cand_c",
+        "path": "attachments/bl_rev2.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "RESOLVED",
+    "category": "document_comparison",
+    "reason": "Document comparison requested with multi-file attachment set",
+    "evidence_ids": [
+      "ev_em_003_body"
+    ],
+    "confidence_indicator": "HIGH"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: multiple candidate Draft BL files attached; role assignment ambiguous",
+  "documents": [
+    {
+      "document_id": "doc_cand_a",
+      "role": "SI",
+      "identification_evidence_ids": [
+        "ev_cand_a_id"
+      ]
+    },
+    {
+      "document_id": "doc_cand_b",
+      "role": "UNKNOWN",
+      "identification_evidence_ids": [
+        "ev_cand_b_id"
+      ]
+    },
+    {
+      "document_id": "doc_cand_c",
+      "role": "UNKNOWN",
+      "identification_evidence_ids": [
+        "ev_cand_c_id"
+      ]
+    }
+  ],
+  "parsers": [
+    {
+      "document_id": "doc_cand_a",
+      "status": "SUCCESS",
+      "text": "SHIPPING INSTRUCTION...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_cand_a_id"
+      ],
+      "attempt_ids": [
+        "att_parse_003"
+      ]
+    }
+  ],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_003_body",
+      "source_type": "email",
+      "source_id": "em_case_003",
+      "kind": "text_span",
+      "quote": "Attached please find files for verification",
+      "location": null,
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_cand_a_id",
+      "source_type": "document",
+      "source_id": "doc_cand_a",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_cand_b_id",
+      "source_type": "document",
+      "source_id": "doc_cand_b",
+      "kind": "text_span",
+      "quote": "DRAFT BILL OF LADING - REVISION 1",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_cand_c_id",
+      "source_type": "document",
+      "source_id": "doc_cand_c",
+      "kind": "text_span",
+      "quote": "DRAFT BILL OF LADING - REVISION 2",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    }
+  ],
+  "partial_result": {
+    "comparisons": [],
+    "unresolved_fields": [
+      "shipper",
+      "consignee",
+      "notify_party",
+      "port_of_loading",
+      "port_of_discharge",
+      "container_count",
+      "gross_weight_kg"
+    ]
+  },
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_003",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_003_duplicate_bl",
+        "stage": "identification",
+        "logical_reason": "wrong_or_uncertain_document_type",
+        "evaluation_reason": "wrong_or_uncertain_document_type",
+        "document_ids": [
+          "doc_cand_b",
+          "doc_cand_c"
+        ],
+        "expected_role": "BL",
+        "fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ],
+        "evidence_ids": [
+          "ev_cand_b_id",
+          "ev_cand_c_id"
+        ],
+        "suggested_action": "Select the authoritative Draft BL candidate between bl_rev1.pdf and bl_rev2.pdf",
+        "recovery_state": "UNRELIABLE",
+        "recovery_detail": "Heuristic identification found 2 valid BL candidate files",
+        "attempt_ids": [
+          "att_parse_003"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_parse_003",
+        "operation_id": "op_ident_003",
+        "stage": "identification",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "role_resolver",
+        "model_identifier": null,
+        "prompt_version": null,
+        "token_usage": null,
+        "latency_ms": 85
+      }
+    ]
+  }
+}

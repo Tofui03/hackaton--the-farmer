@@ -1,0 +1,11 @@
+{
+  "document_id": "txt_si_001_clean.txt",
+  "role": "SI",
+  "fields": {
+    "gross_weight_kg": {
+      "raw_value": "approximately twenty tons",
+      "status": "FOUND",
+      "evidence": "approximately twenty tons"
+    }
+  }
+}

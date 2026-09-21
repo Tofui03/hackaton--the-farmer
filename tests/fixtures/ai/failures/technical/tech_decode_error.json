@@ -1,0 +1,5 @@
+{
+  "fault_type": "decode_error",
+  "http_status": 200,
+  "message": "Response bytes cannot be decoded as UTF-8"
+}

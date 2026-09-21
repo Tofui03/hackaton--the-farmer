@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_007",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_007",
+    "sender": "partner@global.com",
+    "subject": "Comparison Files Attached",
+    "body": "Please process attached SI and draft BL documents.",
+    "attachments": [
+      {
+        "document_id": "doc_si_007",
+        "path": "attachments/si_007.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "document_id": "doc_bl_007",
+        "path": "attachments/bl_007.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "RESOLVED",
+    "category": "document_comparison",
+    "reason": "Standard document comparison intent",
+    "evidence_ids": [
+      "ev_em_007_body"
+    ],
+    "confidence_indicator": "HIGH"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: AI provider technical retries exhausted (HTTP 503 outage); manual review required",
+  "documents": [
+    {
+      "document_id": "doc_si_007",
+      "role": "SI",
+      "identification_evidence_ids": [
+        "ev_doc_si_007_id"
+      ]
+    },
+    {
+      "document_id": "doc_bl_007",
+      "role": "BL",
+      "identification_evidence_ids": [
+        "ev_doc_bl_007_id"
+      ]
+    }
+  ],
+  "parsers": [
+    {
+      "document_id": "doc_si_007",
+      "status": "SUCCESS",
+      "text": "SHIPPING INSTRUCTION...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_doc_si_007_id"
+      ],
+      "attempt_ids": [
+        "att_ext_007_1",
+        "att_ext_007_2",
+        "att_ext_007_3"
+      ]
+    }
+  ],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_007_body",
+      "source_type": "email",
+      "source_id": "em_case_007",
+      "kind": "text_span",
+      "quote": "Please process attached SI and draft BL documents",
+      "location": null,
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_007_id",
+      "source_type": "document",
+      "source_id": "doc_si_007",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_007_id",
+      "source_type": "document",
+      "source_id": "doc_bl_007",
+      "kind": "text_span",
+      "quote": "DRAFT BILL OF LADING",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_prov_err_007",
+      "source_type": "processing",
+      "source_id": "doc_si_007",
+      "kind": "processing_error",
+      "quote": null,
+      "location": null,
+      "detail": "AI Provider 503 Service Unavailable: connection attempts 1, 2, 3 exhausted"
+    }
+  ],
+  "partial_result": {
+    "comparisons": [],
+    "unresolved_fields": [
+      "shipper",
+      "consignee",
+      "notify_party",
+      "port_of_loading",
+      "port_of_discharge",
+      "container_count",
+      "gross_weight_kg"
+    ]
+  },
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_007",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_007_provider_exhaustion",
+        "stage": "extraction",
+        "logical_reason": "processing_or_provider_failure",
+        "evaluation_reason": "processing_or_provider_failure",
+        "document_ids": [
+          "doc_si_007"
+        ],
+        "expected_role": "SI",
+        "fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ],
+        "evidence_ids": [
+          "ev_prov_err_007"
+        ],
+        "suggested_action": "Manually inspect documents or retry extraction after provider recovery",
+        "recovery_state": "EXHAUSTED",
+        "recovery_detail": "All 3 technical retry attempts returned HTTP 503; deterministic fallback parser unavailable for scanned pages",
+        "attempt_ids": [
+          "att_ext_007_1",
+          "att_ext_007_2",
+          "att_ext_007_3"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_ext_007_1",
+        "operation_id": "op_ext_007",
+        "stage": "extraction",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "FAILED",
+        "error_code": "503_UNAVAILABLE",
+        "provider_adapter": "gemini_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": null,
+        "latency_ms": 2500
+      },
+      {
+        "attempt_id": "att_ext_007_2",
+        "operation_id": "op_ext_007",
+        "stage": "extraction",
+        "kind": "technical_retry",
+        "attempt_number": 2,
+        "outcome": "FAILED",
+        "error_code": "503_UNAVAILABLE",
+        "provider_adapter": "gemini_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": null,
+        "latency_ms": 5000
+      },
+      {
+        "attempt_id": "att_ext_007_3",
+        "operation_id": "op_ext_007",
+        "stage": "extraction",
+        "kind": "technical_retry",
+        "attempt_number": 3,
+        "outcome": "FAILED",
+        "error_code": "503_UNAVAILABLE",
+        "provider_adapter": "gemini_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": null,
+        "latency_ms": 10000
+      }
+    ]
+  }
+}

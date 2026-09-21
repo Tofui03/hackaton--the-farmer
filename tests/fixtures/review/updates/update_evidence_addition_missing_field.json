@@ -1,0 +1,25 @@
+{
+  "review_id": "rev_case_004",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Attached newly identified document snippet for missing port_of_discharge",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_snippet_pod_clause",
+      "source_type": "document",
+      "source_id": "doc_si_004",
+      "kind": "text_span",
+      "quote": "FINAL DESTINATION: ROTTERDAM PORT TERMINAL 3",
+      "location": {
+        "page": 2,
+        "section": "Delivery Clause"
+      },
+      "detail": null
+    }
+  ]
+}

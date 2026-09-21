@@ -1,0 +1,23 @@
+{
+  "email_id": "syn_email_009_new_si_multiple_att",
+  "sender": "dispatch@solaris-export.test",
+  "subject": "Shipping Instruction & Export Docs - PO 99401",
+  "body": "Good day,\n\nAttached is our Shipping Instruction along with the commercial invoice and packing list. Please lodge the SI in your system and advise booking confirmation.\n\nRegards,\nSolaris Export Desk",
+  "attachments": [
+    {
+      "document_id": "doc_syn_009_si",
+      "path": "attachments/syn_email_009_SI.pdf",
+      "mime_type": "application/pdf"
+    },
+    {
+      "document_id": "doc_syn_009_inv",
+      "path": "attachments/Commercial_Invoice_99401.pdf",
+      "mime_type": "application/pdf"
+    },
+    {
+      "document_id": "doc_syn_009_pl",
+      "path": "attachments/Packing_List_99401.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

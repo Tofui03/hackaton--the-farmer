@@ -1,0 +1,20 @@
+{
+  "stage": "Stage 1: Classification",
+  "primary_status": "AI_PROVIDER_UNAVAILABLE",
+  "fallback_mechanism": "deterministic_keyword_and_header_rules",
+  "fallback_input": {
+    "subject": "Verification Request: SI vs Draft BL",
+    "body": "Please compare attached SI and draft B/L for discrepancy."
+  },
+  "fallback_output": {
+    "category": "document_comparison",
+    "matched_rules": [
+      "KEYWORD_COMPARE_SI_BL",
+      "HEADER_VERIFICATION"
+    ],
+    "is_reliable": true
+  },
+  "pipeline_action": "CONTINUE_PROCESSING",
+  "hitl_escalated": false,
+  "rationale": "AI provider unavailable, but deterministic rule engine cleanly classifies intent; processing continues."
+}

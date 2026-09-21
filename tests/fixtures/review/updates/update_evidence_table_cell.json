@@ -1,0 +1,27 @@
+{
+  "review_id": "rev_case_006",
+  "expected_revision": 1,
+  "actor_id": "operator_bob",
+  "action": "CORRECT",
+  "rationale": "Added grounded table cell citation for cargo container count",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_cell_container_verified",
+      "source_type": "document",
+      "source_id": "doc_si_006",
+      "kind": "table_cell",
+      "quote": "2 x 40HC",
+      "location": {
+        "page": 2,
+        "table": "EquipmentSummary",
+        "row": 1,
+        "column": 2
+      },
+      "detail": null
+    }
+  ]
+}

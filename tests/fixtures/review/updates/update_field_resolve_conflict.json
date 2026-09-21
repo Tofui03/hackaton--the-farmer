@@ -1,0 +1,22 @@
+{
+  "review_id": "rev_case_006",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Adjudicated conflicting gross weight candidates: header summary 22000 KG is authoritative over sub-total breakdown",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_si_006",
+      "field": "gross_weight_kg",
+      "raw_value": "22000 KG",
+      "evidence_ids": [
+        "ev_si_weight_cand1"
+      ],
+      "rationale": "Header summary represents verified billable gross weight"
+    }
+  ],
+  "added_evidence": []
+}

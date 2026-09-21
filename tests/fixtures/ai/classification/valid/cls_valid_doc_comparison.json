@@ -1,0 +1,9 @@
+{
+  "category": "document_comparison",
+  "reason": "Explicit user request to verify shipping instruction against attached draft bill of lading.",
+  "evidence": [
+    "Please compare the attached Shipping Instruction with the draft B/L",
+    "verify container count and weight match before filing"
+  ],
+  "confidence_indicator": "HIGH"
+}

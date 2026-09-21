@@ -1,0 +1,10 @@
+{
+  "document_id": "txt_si_001_clean.txt",
+  "role": "SI",
+  "fields": {
+    "null": {
+      "raw_value": "22000 KG",
+      "status": "FOUND"
+    }
+  }
+}

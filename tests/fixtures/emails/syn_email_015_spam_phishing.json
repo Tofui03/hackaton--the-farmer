@@ -1,0 +1,7 @@
+{
+  "email_id": "syn_email_015_spam_phishing",
+  "sender": "admin-security-alert@mail-portal-verify.test",
+  "subject": "CRITICAL NOTICE: Mailbox storage quota exceeded 98%",
+  "body": "Your corporate maritime mail account has reached 98.4% of its allowed storage quota.\nIncoming shipment notifications will be blocked within 2 hours.\nLog in immediately to confirm your account credentials:\nhttp://secure-mailbox-update.example.test/login",
+  "attachments": []
+}

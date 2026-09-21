@@ -1,0 +1,8 @@
+{
+  "category": "spam",
+  "reason": "Unsolicited promotional marketing message.",
+  "evidence": [
+    "Claim your free enterprise software demo now"
+  ],
+  "confidence_indicator": "HIGH"
+}

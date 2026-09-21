@@ -1,0 +1,8 @@
+{
+  "category": "OTHER",
+  "reason": "Model invented unapproved category enum.",
+  "evidence": [
+    "hello world"
+  ],
+  "confidence_indicator": "LOW"
+}

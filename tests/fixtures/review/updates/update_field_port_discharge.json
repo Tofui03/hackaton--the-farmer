@@ -1,0 +1,35 @@
+{
+  "review_id": "rev_case_004",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Supplied missing port_of_discharge found in SI page 2 routing schedule",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_si_004",
+      "field": "port_of_discharge",
+      "raw_value": "ROTTERDAM, NETHERLANDS",
+      "evidence_ids": [
+        "ev_added_pod_004"
+      ],
+      "rationale": "Located POD in Section 4 Routing Schedule"
+    }
+  ],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_pod_004",
+      "source_type": "document",
+      "source_id": "doc_si_004",
+      "kind": "text_span",
+      "quote": "DISCHARGE PORT: ROTTERDAM, NETHERLANDS",
+      "location": {
+        "page": 2,
+        "section": "Routing Schedule"
+      },
+      "detail": null
+    }
+  ]
+}

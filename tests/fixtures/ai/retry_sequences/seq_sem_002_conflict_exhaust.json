@@ -1,0 +1,26 @@
+{
+  "sequence_id": "SEM-SEQ-002",
+  "scenario": "semantic_repair_conflict_exhaustion",
+  "max_semantic_attempts": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "type": "semantic",
+      "result": "ext_conflict_split_candidates.json",
+      "validation": "CONFLICTING_CANDIDATES",
+      "action": "re_prompt_for_disambiguation"
+    },
+    {
+      "attempt": 2,
+      "type": "semantic",
+      "result": "ext_conflict_split_candidates.json",
+      "validation": "STILL_CONFLICTING",
+      "action": "exhaust_to_gate"
+    }
+  ],
+  "final_status": "SEMANTIC_EXHAUSTED",
+  "total_calls": 2,
+  "exceeded_budget": false,
+  "expected_downstream_review_reason": "conflicting_candidate_values",
+  "rationale": "Conflict persists across 2 semantic attempts; routes safely to conflicting_candidate_values HITL."
+}

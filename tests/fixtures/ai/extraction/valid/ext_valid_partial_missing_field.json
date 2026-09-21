@@ -1,0 +1,42 @@
+{
+  "document_id": "txt_si_007_missing_field.txt",
+  "role": "SI",
+  "fields": {
+    "shipper": {
+      "raw_value": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+      "status": "FOUND",
+      "evidence": "SHIPPER: PACIFIC SYNTHETIC LOGISTICS PTE LTD"
+    },
+    "consignee": {
+      "raw_value": "ATLANTIC IMPORTS & TRADING GMBH",
+      "status": "FOUND",
+      "evidence": "CONSIGNEE: ATLANTIC IMPORTS & TRADING GMBH"
+    },
+    "notify_party": {
+      "raw_value": null,
+      "status": "MISSING",
+      "evidence": null
+    },
+    "port_of_loading": {
+      "raw_value": "SINGAPORE",
+      "status": "FOUND",
+      "evidence": "PORT OF LOADING: SINGAPORE"
+    },
+    "port_of_discharge": {
+      "raw_value": "ROTTERDAM",
+      "status": "FOUND",
+      "evidence": "PORT OF DISCHARGE: ROTTERDAM"
+    },
+    "container_count": {
+      "raw_value": 4,
+      "status": "FOUND",
+      "evidence": "CONTAINER COUNT: 4"
+    },
+    "gross_weight_kg": {
+      "raw_value": "22000 KG",
+      "status": "FOUND",
+      "evidence": "GROSS WEIGHT: 22000 KG"
+    }
+  },
+  "confidence_indicator": "HIGH"
+}

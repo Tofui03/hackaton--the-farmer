@@ -1,0 +1,5 @@
+{
+  "fault_type": "rate_limit",
+  "http_status": 429,
+  "message": "Resource has been exhausted (rate limit quota exceeded)"
+}

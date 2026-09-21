@@ -1,0 +1,9 @@
+{
+  "category": "document_comparison",
+  "reason": "Valid reason.",
+  "evidence": [
+    "compare attached SI and BL"
+  ],
+  "confidence_indicator": "HIGH",
+  "hallucinated_extra_key": "injected_field_value_123"
+}

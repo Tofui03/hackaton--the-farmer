@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_003",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "OVERRIDE",
+  "rationale": "Attempting unapproved OVERRIDE action",
+  "category": null,
+  "corrections": []
+}

@@ -1,0 +1,24 @@
+{
+  "review_id": "rev_case_010",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Attachment inspection confirms document comparison pair attached",
+  "category": "document_comparison",
+  "classification_evidence_ids": [
+    "ev_added_em_010_header"
+  ],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_em_010_header",
+      "source_type": "email",
+      "source_id": "em_case_010",
+      "kind": "text_span",
+      "quote": "Subject: Fwd: Documents",
+      "location": null,
+      "detail": null
+    }
+  ]
+}

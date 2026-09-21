@@ -1,0 +1,13 @@
+{
+  "email_id": "syn_email_017_unresolved_vague_minimal",
+  "sender": "sender@minimal-info.test",
+  "subject": "Please check",
+  "body": "Please check attached and confirm.",
+  "attachments": [
+    {
+      "document_id": "doc_syn_017_att",
+      "path": "attachments/Document_File.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

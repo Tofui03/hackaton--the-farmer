@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_016_unresolved_conflicting_intent",
+  "sender": "agent@conflicted-logistics.test",
+  "subject": "Booking 4012 SI / Draft BL Inquiry",
+  "body": "Attached is our new shipping instruction for booking 4012. Also attached is the draft BL for booking 4013, please compare and advise discrepancies. Alternatively please cancel booking 4012 and reissue the invoice.",
+  "attachments": [
+    {
+      "document_id": "doc_syn_016_doc1",
+      "path": "attachments/doc_4012.pdf",
+      "mime_type": "application/pdf"
+    },
+    {
+      "document_id": "doc_syn_016_doc2",
+      "path": "attachments/doc_4013.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

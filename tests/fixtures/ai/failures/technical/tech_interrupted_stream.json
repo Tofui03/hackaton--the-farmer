@@ -1,0 +1,5 @@
+{
+  "fault_type": "interrupted_stream",
+  "http_status": 200,
+  "message": "Stream terminated prematurely before finish_reason marker"
+}

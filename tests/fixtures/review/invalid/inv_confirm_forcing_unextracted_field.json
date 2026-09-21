@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_017",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CONFIRM",
+  "rationale": "Attempting to force complete unextracted fields without candidates",
+  "force_complete": true,
+  "corrections": []
+}

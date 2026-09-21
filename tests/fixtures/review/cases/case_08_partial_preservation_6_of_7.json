@@ -1,0 +1,676 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_008",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_008",
+    "sender": "logistics@global.com",
+    "subject": "Comparison - 6 Fields Matching",
+    "body": "Verify SI vs BL attached.",
+    "attachments": [
+      {
+        "document_id": "doc_si_008",
+        "path": "attachments/si_008.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "document_id": "doc_bl_008",
+        "path": "attachments/bl_008.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "RESOLVED",
+    "category": "document_comparison",
+    "reason": "Standard document comparison intent",
+    "evidence_ids": [
+      "ev_em_008_body"
+    ],
+    "confidence_indicator": "HIGH"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: 6 mandatory fields verified and match; gross_weight_kg is missing from BL",
+  "documents": [
+    {
+      "document_id": "doc_si_008",
+      "role": "SI",
+      "identification_evidence_ids": [
+        "ev_doc_si_008_id"
+      ]
+    },
+    {
+      "document_id": "doc_bl_008",
+      "role": "BL",
+      "identification_evidence_ids": [
+        "ev_doc_bl_008_id"
+      ]
+    }
+  ],
+  "parsers": [
+    {
+      "document_id": "doc_si_008",
+      "status": "SUCCESS",
+      "text": "SHIPPING INSTRUCTION...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_doc_si_008_id"
+      ],
+      "attempt_ids": [
+        "att_ext_008"
+      ]
+    },
+    {
+      "document_id": "doc_bl_008",
+      "status": "SUCCESS",
+      "text": "DRAFT BILL OF LADING...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_doc_bl_008_id"
+      ],
+      "attempt_ids": [
+        "att_ext_008"
+      ]
+    }
+  ],
+  "extractions": [
+    {
+      "document_id": "doc_si_008",
+      "role": "SI",
+      "fields": {
+        "shipper": {
+          "field": "shipper",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_shipper"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "shipper",
+            "state": "VALID",
+            "value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from shipper block"
+        },
+        "consignee": {
+          "field": "consignee",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_consignee"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "consignee",
+            "state": "VALID",
+            "value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from consignee block"
+        },
+        "notify_party": {
+          "field": "notify_party",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "SAME AS CONSIGNEE",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_notify_party"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "notify_party",
+            "state": "VALID",
+            "value": "SAME AS CONSIGNEE",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from notify party block"
+        },
+        "port_of_loading": {
+          "field": "port_of_loading",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "SHANGHAI, CHINA",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_pol"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "port_of_loading",
+            "state": "VALID",
+            "value": "SHANGHAI, CHINA",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from POL field"
+        },
+        "port_of_discharge": {
+          "field": "port_of_discharge",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "ROTTERDAM, NETHERLANDS",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_pod"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "port_of_discharge",
+            "state": "VALID",
+            "value": "ROTTERDAM, NETHERLANDS",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from POD field"
+        },
+        "container_count": {
+          "field": "container_count",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "2",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_si_008_container_count"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "container_count",
+            "state": "VALID",
+            "value": 2,
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted container count"
+        },
+        "gross_weight_kg": {
+          "field": "gross_weight_kg",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "22000 KG",
+              "source_unit": "KG",
+              "evidence_ids": [
+                "ev_doc_si_008_gross_weight_kg"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "gross_weight_kg",
+            "state": "VALID",
+            "value": "22000",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted gross weight"
+        }
+      }
+    },
+    {
+      "document_id": "doc_bl_008",
+      "role": "BL",
+      "fields": {
+        "shipper": {
+          "field": "shipper",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_shipper"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "shipper",
+            "state": "VALID",
+            "value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from shipper block"
+        },
+        "consignee": {
+          "field": "consignee",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_consignee"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "consignee",
+            "state": "VALID",
+            "value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from consignee block"
+        },
+        "notify_party": {
+          "field": "notify_party",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "SAME AS CONSIGNEE",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_notify_party"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "notify_party",
+            "state": "VALID",
+            "value": "SAME AS CONSIGNEE",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from notify party block"
+        },
+        "port_of_loading": {
+          "field": "port_of_loading",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "SHANGHAI, CHINA",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_pol"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "port_of_loading",
+            "state": "VALID",
+            "value": "SHANGHAI, CHINA",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from POL field"
+        },
+        "port_of_discharge": {
+          "field": "port_of_discharge",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "ROTTERDAM, NETHERLANDS",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_pod"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "port_of_discharge",
+            "state": "VALID",
+            "value": "ROTTERDAM, NETHERLANDS",
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted from POD field"
+        },
+        "container_count": {
+          "field": "container_count",
+          "reliability": "RELIABLE",
+          "candidates": [
+            {
+              "raw_value": "2",
+              "source_unit": null,
+              "evidence_ids": [
+                "ev_doc_bl_008_container_count"
+              ]
+            }
+          ],
+          "selected_candidate": 0,
+          "normalized": {
+            "field": "container_count",
+            "state": "VALID",
+            "value": 2,
+            "rule_version": "v1.0"
+          },
+          "explanation": "Extracted container count"
+        },
+        "gross_weight_kg": {
+          "field": "gross_weight_kg",
+          "reliability": "MISSING",
+          "candidates": [],
+          "selected_candidate": null,
+          "normalized": null,
+          "explanation": "Gross weight missing from Draft BL scan"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_008_body",
+      "source_type": "email",
+      "source_id": "em_case_008",
+      "kind": "text_span",
+      "quote": "Verify SI vs BL attached",
+      "location": null,
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_id",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_id",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "DRAFT BILL OF LADING",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_shipper",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "SHIPPER: ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_consignee",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "CONSIGNEE: GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_notify_party",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "NOTIFY PARTY: SAME AS CONSIGNEE",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_pol",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "PORT OF LOADING: SHANGHAI, CHINA",
+      "location": {
+        "page": 1,
+        "section": "Transport Details"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_pod",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "PORT OF DISCHARGE: ROTTERDAM, NETHERLANDS",
+      "location": {
+        "page": 1,
+        "section": "Transport Details"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_container_count",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "TOTAL CONTAINERS: 2",
+      "location": {
+        "page": 1,
+        "section": "Cargo Particulars"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_008_gross_weight_kg",
+      "source_type": "document",
+      "source_id": "doc_si_008",
+      "kind": "text_span",
+      "quote": "GROSS WEIGHT: 22,000 KGS",
+      "location": {
+        "page": 1,
+        "section": "Cargo Particulars"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_shipper",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "SHIPPER: ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_consignee",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "CONSIGNEE: GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_notify_party",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "NOTIFY PARTY: SAME AS CONSIGNEE",
+      "location": {
+        "page": 1,
+        "section": "Header"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_pol",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "PORT OF LOADING: SHANGHAI, CHINA",
+      "location": {
+        "page": 1,
+        "section": "Transport Details"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_pod",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "PORT OF DISCHARGE: ROTTERDAM, NETHERLANDS",
+      "location": {
+        "page": 1,
+        "section": "Transport Details"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_container_count",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "TOTAL CONTAINERS: 2",
+      "location": {
+        "page": 1,
+        "section": "Cargo Particulars"
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_008_gross_weight_kg",
+      "source_type": "document",
+      "source_id": "doc_bl_008",
+      "kind": "text_span",
+      "quote": "GROSS WEIGHT: 22,000 KGS",
+      "location": {
+        "page": 1,
+        "section": "Cargo Particulars"
+      },
+      "detail": null
+    }
+  ],
+  "partial_result": {
+    "comparisons": [
+      {
+        "field": "shipper",
+        "si_value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+        "bl_value": "ACME SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      },
+      {
+        "field": "consignee",
+        "si_value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+        "bl_value": "GLOBAL LOGISTICS B.V., 45 HAVENLAAN, ROTTERDAM",
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      },
+      {
+        "field": "notify_party",
+        "si_value": "SAME AS CONSIGNEE",
+        "bl_value": "SAME AS CONSIGNEE",
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      },
+      {
+        "field": "port_of_loading",
+        "si_value": "SHANGHAI, CHINA",
+        "bl_value": "SHANGHAI, CHINA",
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      },
+      {
+        "field": "port_of_discharge",
+        "si_value": "ROTTERDAM, NETHERLANDS",
+        "bl_value": "ROTTERDAM, NETHERLANDS",
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      },
+      {
+        "field": "container_count",
+        "si_value": 2,
+        "bl_value": 2,
+        "outcome": "MATCH",
+        "rule_version": "v1.0"
+      }
+    ],
+    "unresolved_fields": [
+      "gross_weight_kg"
+    ]
+  },
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_008",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_008_weight_missing",
+        "stage": "extraction",
+        "logical_reason": "missing_required_value",
+        "evaluation_reason": "missing_required_value",
+        "document_ids": [
+          "doc_bl_008"
+        ],
+        "expected_role": "BL",
+        "fields": [
+          "gross_weight_kg"
+        ],
+        "evidence_ids": [
+          "ev_doc_bl_008_id"
+        ],
+        "suggested_action": "Correct or supply gross_weight_kg candidate on Draft BL; 6 reliable matching fields must be preserved",
+        "recovery_state": "EXHAUSTED",
+        "recovery_detail": "Weight field obscured in BL draft footer",
+        "attempt_ids": [
+          "att_ext_008"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_ext_008",
+        "operation_id": "op_ext_008",
+        "stage": "extraction",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "gemini_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": {
+          "prompt_tokens": 1250,
+          "completion_tokens": 310
+        },
+        "latency_ms": 680
+      }
+    ]
+  }
+}

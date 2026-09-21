@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_005",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_005",
+    "sender": "unknown@partner.com",
+    "subject": "Quick question regarding documents",
+    "body": "Hi team, please see attached documents for your review and let us know what you think.",
+    "attachments": [
+      {
+        "document_id": "doc_vague_001",
+        "path": "attachments/vague_doc.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "NEEDS_REVIEW",
+    "category": null,
+    "reason": "Email body lacks specific shipping intent keywords; ambiguous context",
+    "evidence_ids": [
+      "ev_em_005_body"
+    ],
+    "confidence_indicator": "LOW"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: email intent is ambiguous and unresolved (category is null)",
+  "documents": [],
+  "parsers": [],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_005_body",
+      "source_type": "email",
+      "source_id": "em_case_005",
+      "kind": "text_span",
+      "quote": "please see attached documents for your review and let us know what you think",
+      "location": null,
+      "detail": null
+    }
+  ],
+  "partial_result": null,
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_005",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_005_ambiguous_intent",
+        "stage": "classification",
+        "logical_reason": "uncertain_result",
+        "evaluation_reason": "uncertain_result",
+        "document_ids": [],
+        "expected_role": null,
+        "fields": [],
+        "evidence_ids": [
+          "ev_em_005_body"
+        ],
+        "suggested_action": "Confirm authoritative email intent category among canonical options",
+        "recovery_state": "UNRELIABLE",
+        "recovery_detail": "Model confidence below reliability threshold; category remains null",
+        "attempt_ids": [
+          "att_cls_005"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_cls_005",
+        "operation_id": "op_cls_005",
+        "stage": "classification",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "classifier_adapter",
+        "model_identifier": "gemini-2.5-flash",
+        "prompt_version": "v1.0",
+        "token_usage": {
+          "prompt_tokens": 400,
+          "completion_tokens": 80
+        },
+        "latency_ms": 320
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "fault_type": "provider_unavailable",
+  "http_status": 503,
+  "message": "Service temporarily unavailable due to high server load"
+}

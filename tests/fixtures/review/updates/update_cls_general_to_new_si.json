@@ -1,0 +1,24 @@
+{
+  "review_id": "rev_case_gen_002",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Customer is submitting new shipping instructions for an upcoming booking",
+  "category": "new_shipping_instruction",
+  "classification_evidence_ids": [
+    "ev_added_em_new_si_001"
+  ],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_em_new_si_001",
+      "source_type": "email",
+      "source_id": "em_case_new_si_001",
+      "kind": "text_span",
+      "quote": "Please find our shipping instruction for booking BKG-99201",
+      "location": null,
+      "detail": null
+    }
+  ]
+}

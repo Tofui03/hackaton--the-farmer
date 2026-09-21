@@ -1,0 +1,42 @@
+{
+  "scenario_id": "CONC-002",
+  "description": "Stale expected_revision causes HTTP 409 revision conflict rejection",
+  "current_server_revision": 4,
+  "review_update_payload": {
+    "review_id": "rev_case_conc_002",
+    "expected_revision": 3,
+    "actor_id": "operator_bob",
+    "action": "CORRECT",
+    "rationale": "Attempting update based on stale revision 3",
+    "category": null,
+    "classification_evidence_ids": [],
+    "role_corrections": [],
+    "corrections": [
+      {
+        "document_id": "doc_bl_002",
+        "field": "gross_weight_kg",
+        "raw_value": "22000 KG",
+        "evidence_ids": [
+          "ev_conc_002"
+        ],
+        "rationale": "Stale weight update"
+      }
+    ],
+    "added_evidence": [
+      {
+        "evidence_id": "ev_conc_002",
+        "source_type": "document",
+        "source_id": "doc_bl_002",
+        "kind": "text_span",
+        "quote": "WEIGHT: 22000 KG",
+        "location": {
+          "page": 1
+        },
+        "detail": null
+      }
+    ]
+  },
+  "expected_result": "REVISION_CONFLICT",
+  "expected_http_status": 409,
+  "expected_resulting_revision": 4
+}

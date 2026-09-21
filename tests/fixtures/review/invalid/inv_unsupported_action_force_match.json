@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_005",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "FORCE_MATCH",
+  "rationale": "Attempting unapproved FORCE_MATCH action",
+  "category": null,
+  "corrections": []
+}

@@ -1,0 +1,48 @@
+{
+  "sequence_id": "NESTED-SEQ-001",
+  "scenario": "nested_technical_and_semantic_budget_cap",
+  "maximum_total_call_budget": 6,
+  "attempts": [
+    {
+      "call": 1,
+      "semantic_attempt": 1,
+      "type": "technical",
+      "error": "provider_unavailable_503"
+    },
+    {
+      "call": 2,
+      "semantic_attempt": 1,
+      "type": "technical",
+      "error": "timeout"
+    },
+    {
+      "call": 3,
+      "semantic_attempt": 1,
+      "type": "semantic",
+      "result": "malformed_unclosed_brace"
+    },
+    {
+      "call": 4,
+      "semantic_attempt": 2,
+      "type": "technical",
+      "error": "provider_unavailable_503"
+    },
+    {
+      "call": 5,
+      "semantic_attempt": 2,
+      "type": "technical",
+      "error": "timeout"
+    },
+    {
+      "call": 6,
+      "semantic_attempt": 2,
+      "type": "technical",
+      "error": "timeout"
+    }
+  ],
+  "budget_cap_enforced": true,
+  "seventh_call_permitted": false,
+  "final_status": "TOTAL_BUDGET_EXHAUSTED",
+  "expected_downstream_review_reason": "processing_or_provider_failure",
+  "rationale": "Total provider invocations capped strictly at 6. No infinite loop; terminates with processing_or_provider_failure."
+}

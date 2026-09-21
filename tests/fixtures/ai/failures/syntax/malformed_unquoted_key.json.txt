@@ -1,0 +1,4 @@
+{
+  category: "document_comparison",
+  reason: "unquoted key"
+}

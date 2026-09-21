@@ -1,0 +1,7 @@
+{
+  "email_id": "syn_email_010_invoice_query_clear",
+  "sender": "finance@aurora-importing.test",
+  "subject": "Disputed Demurrage Charges - Invoice INV-2026-4401",
+  "body": "Dear Accounts Team,\n\nWe received invoice INV-2026-4401 for container CMAU-102938. The demurrage fees calculated between March 10 and March 14 appear incorrect as the container was grounded on carrier delay. Please review and provide a credit note.\n\nRegards,\nFinance Department",
+  "attachments": []
+}

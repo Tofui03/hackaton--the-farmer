@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_012",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Leaked evaluation enum",
+  "category": "BL_COMPARISON",
+  "corrections": []
+}

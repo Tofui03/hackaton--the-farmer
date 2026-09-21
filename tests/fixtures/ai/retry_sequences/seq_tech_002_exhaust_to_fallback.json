@@ -1,0 +1,30 @@
+{
+  "sequence_id": "TECH-SEQ-002",
+  "scenario": "technical_retries_exhausted_fallback_invoked",
+  "max_technical_attempts": 3,
+  "attempts": [
+    {
+      "attempt": 1,
+      "type": "technical",
+      "error": "rate_limit_429",
+      "action": "backoff_and_retry"
+    },
+    {
+      "attempt": 2,
+      "type": "technical",
+      "error": "provider_unavailable_503",
+      "action": "backoff_and_retry"
+    },
+    {
+      "attempt": 3,
+      "type": "technical",
+      "error": "provider_unavailable_503",
+      "action": "exhaust_and_fallback"
+    }
+  ],
+  "final_status": "TECHNICAL_EXHAUSTED",
+  "total_calls": 3,
+  "exceeded_budget": false,
+  "fallback_invoked": true,
+  "rationale": "Exhausts 3 technical attempts; transitions cleanly to stage-specific fallback."
+}

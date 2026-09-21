@@ -1,0 +1,21 @@
+{
+  "review_id": "rev_case_001",
+  "expected_revision": 1,
+  "actor_id": "operator_carol",
+  "action": "CORRECT",
+  "rationale": "Confirmed attachment is SI, but Draft BL remains unreceived",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [
+    {
+      "document_id": "doc_si_001",
+      "assigned_role": "SI",
+      "evidence_ids": [
+        "ev_doc_si_001_header"
+      ],
+      "rationale": "Validated SI document role"
+    }
+  ],
+  "corrections": [],
+  "added_evidence": []
+}

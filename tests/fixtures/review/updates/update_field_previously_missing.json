@@ -1,0 +1,35 @@
+{
+  "review_id": "rev_case_004",
+  "expected_revision": 1,
+  "actor_id": "operator_bob",
+  "action": "CORRECT",
+  "rationale": "Supplied notify_party from page 1 special instructions box",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_si_004",
+      "field": "notify_party",
+      "raw_value": "APEX LOGISTICS SERVICES LTD, 12 TERMINAL ROAD, ROTTERDAM",
+      "evidence_ids": [
+        "ev_added_notify_004"
+      ],
+      "rationale": "Special instructions section identifies notify party"
+    }
+  ],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_notify_004",
+      "source_type": "document",
+      "source_id": "doc_si_004",
+      "kind": "text_span",
+      "quote": "NOTIFY: APEX LOGISTICS SERVICES LTD, 12 TERMINAL ROAD, ROTTERDAM",
+      "location": {
+        "page": 1,
+        "section": "Special Instructions"
+      },
+      "detail": null
+    }
+  ]
+}

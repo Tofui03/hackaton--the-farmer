@@ -1,0 +1,21 @@
+{
+  "review_id": "rev_case_003",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Selected doc_cand_a as authoritative SI",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [
+    {
+      "document_id": "doc_cand_a",
+      "assigned_role": "SI",
+      "evidence_ids": [
+        "ev_cand_a_id"
+      ],
+      "rationale": "Document title explicitly identifies Shipping Instruction"
+    }
+  ],
+  "corrections": [],
+  "added_evidence": []
+}

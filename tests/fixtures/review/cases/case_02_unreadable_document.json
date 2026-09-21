@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0-draft",
+  "email_id": "em_case_002",
+  "revision": 1,
+  "previous_revision": null,
+  "email": {
+    "email_id": "em_case_002",
+    "sender": "carrier@oceanline.com",
+    "subject": "SI and Draft BL Attached",
+    "body": "Find SI and draft BL attached for verification.",
+    "attachments": [
+      {
+        "document_id": "doc_si_002",
+        "path": "attachments/si_002.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "document_id": "doc_bl_002",
+        "path": "attachments/bl_002_corrupt.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  "classification": {
+    "state": "RESOLVED",
+    "category": "document_comparison",
+    "reason": "Comparison request with both documents referenced",
+    "evidence_ids": [
+      "ev_em_002_body"
+    ],
+    "confidence_indicator": "HIGH"
+  },
+  "state": "NEEDS_REVIEW",
+  "outcome": null,
+  "mismatch_detected": null,
+  "result_summary": "Review required: draft BL file stream corrupted and unreadable",
+  "documents": [
+    {
+      "document_id": "doc_si_002",
+      "role": "SI",
+      "identification_evidence_ids": [
+        "ev_doc_si_002_id"
+      ]
+    },
+    {
+      "document_id": "doc_bl_002",
+      "role": "BL",
+      "identification_evidence_ids": [
+        "ev_doc_bl_002_id"
+      ]
+    }
+  ],
+  "parsers": [
+    {
+      "document_id": "doc_si_002",
+      "status": "SUCCESS",
+      "text": "SHIPPING INSTRUCTION...",
+      "usable_for_extraction": true,
+      "diagnostic_evidence_ids": [
+        "ev_doc_si_002_id"
+      ],
+      "attempt_ids": [
+        "att_parse_002_si"
+      ]
+    },
+    {
+      "document_id": "doc_bl_002",
+      "status": "UNREADABLE",
+      "text": null,
+      "usable_for_extraction": false,
+      "diagnostic_evidence_ids": [
+        "ev_doc_bl_002_diag"
+      ],
+      "attempt_ids": [
+        "att_parse_002_bl"
+      ]
+    }
+  ],
+  "extractions": [],
+  "evidence": [
+    {
+      "evidence_id": "ev_em_002_body",
+      "source_type": "email",
+      "source_id": "em_case_002",
+      "kind": "text_span",
+      "quote": "Find SI and draft BL attached",
+      "location": null,
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_si_002_id",
+      "source_type": "document",
+      "source_id": "doc_si_002",
+      "kind": "text_span",
+      "quote": "SHIPPING INSTRUCTION",
+      "location": {
+        "page": 1
+      },
+      "detail": null
+    },
+    {
+      "evidence_id": "ev_doc_bl_002_id",
+      "source_type": "document",
+      "source_id": "doc_bl_002",
+      "kind": "document_metadata",
+      "quote": null,
+      "location": null,
+      "detail": "Filename bl_002_corrupt.pdf indicates draft BL role"
+    },
+    {
+      "evidence_id": "ev_doc_bl_002_diag",
+      "source_type": "processing",
+      "source_id": "doc_bl_002",
+      "kind": "processing_error",
+      "quote": null,
+      "location": null,
+      "detail": "PdfStreamError: EOF marker not found; stream truncated at byte 1024"
+    }
+  ],
+  "partial_result": {
+    "comparisons": [],
+    "unresolved_fields": [
+      "shipper",
+      "consignee",
+      "notify_party",
+      "port_of_loading",
+      "port_of_discharge",
+      "container_count",
+      "gross_weight_kg"
+    ]
+  },
+  "discrepancies": [],
+  "review": {
+    "review_id": "rev_case_002",
+    "state": "OPEN",
+    "issues": [
+      {
+        "issue_id": "iss_002_corrupt_bl",
+        "stage": "parsing",
+        "logical_reason": "unreadable_document",
+        "evaluation_reason": "unreadable_document",
+        "document_ids": [
+          "doc_bl_002"
+        ],
+        "expected_role": "BL",
+        "fields": [
+          "shipper",
+          "consignee",
+          "notify_party",
+          "port_of_loading",
+          "port_of_discharge",
+          "container_count",
+          "gross_weight_kg"
+        ],
+        "evidence_ids": [
+          "ev_doc_bl_002_diag"
+        ],
+        "suggested_action": "Request uncorrupted PDF draft BL from carrier",
+        "recovery_state": "EXHAUSTED",
+        "recovery_detail": "Both primary PDF reader and OCR repair failed due to truncated file stream",
+        "attempt_ids": [
+          "att_parse_002_bl"
+        ]
+      }
+    ]
+  },
+  "processing": {
+    "technical_attempt_limit": 3,
+    "semantic_attempt_limit": 2,
+    "attempts": [
+      {
+        "attempt_id": "att_parse_002_si",
+        "operation_id": "op_parse_si_002",
+        "stage": "parsing",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "SUCCEEDED",
+        "error_code": null,
+        "provider_adapter": "pdf_parser",
+        "model_identifier": null,
+        "prompt_version": null,
+        "token_usage": null,
+        "latency_ms": 110
+      },
+      {
+        "attempt_id": "att_parse_002_bl",
+        "operation_id": "op_parse_bl_002",
+        "stage": "parsing",
+        "kind": "primary",
+        "attempt_number": 1,
+        "outcome": "FAILED",
+        "error_code": "STREAM_TRUNCATED",
+        "provider_adapter": "pdf_parser",
+        "model_identifier": null,
+        "prompt_version": null,
+        "token_usage": null,
+        "latency_ms": 45
+      }
+    ]
+  }
+}

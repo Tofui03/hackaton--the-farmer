@@ -1,0 +1,9 @@
+{
+  "category": "new_shipping_instruction",
+  "reason": "Inbound email submits new shipping instructions for booking BK-9901.",
+  "evidence": [
+    "Please find attached new shipping instruction for booking BK-9901",
+    "Kindly issue draft bill of lading at your earliest convenience"
+  ],
+  "confidence_indicator": "HIGH"
+}

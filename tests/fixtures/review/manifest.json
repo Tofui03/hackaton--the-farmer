@@ -1,0 +1,838 @@
+{
+  "manifest_version": "1.0",
+  "counts": {
+    "total_review_case_fixtures": 10,
+    "total_update_fixtures": 18,
+    "total_concurrency_fixtures": 3,
+    "total_invalid_fixtures": 17,
+    "total_fixture_payloads": 48,
+    "metadata_files_count": 2,
+    "generator_validator_files_count": 2,
+    "total_filesystem_files": 52
+  },
+  "approved_internal_categories": [
+    "document_comparison",
+    "new_shipping_instruction",
+    "invoice_query",
+    "general",
+    "spam"
+  ],
+  "approved_logical_reasons": [
+    "missing_attachment",
+    "unreadable_document",
+    "wrong_or_uncertain_document_type",
+    "missing_required_value",
+    "uncertain_result",
+    "conflicting_candidate_values",
+    "processing_or_provider_failure"
+  ],
+  "approved_review_actions": [
+    "CONFIRM",
+    "CORRECT"
+  ],
+  "approved_field_names": [
+    "shipper",
+    "consignee",
+    "notify_party",
+    "port_of_loading",
+    "port_of_discharge",
+    "container_count",
+    "gross_weight_kg"
+  ],
+  "breakdown_by_category": {
+    "cases": 10,
+    "updates": 18,
+    "concurrency": 3,
+    "invalid": 17
+  },
+  "fixtures": {
+    "case_01_missing_attachment": {
+      "file": "cases/case_01_missing_attachment.json",
+      "fixture_type": "review_case",
+      "scenario": "case_01_missing_attachment",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "missing_attachment",
+      "tags": [
+        "case",
+        "missing_attachment",
+        "hitl"
+      ],
+      "rationale": "Draft BL missing from email attachments"
+    },
+    "case_02_unreadable_document": {
+      "file": "cases/case_02_unreadable_document.json",
+      "fixture_type": "review_case",
+      "scenario": "case_02_unreadable_document",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "unreadable_document",
+      "tags": [
+        "case",
+        "unreadable_document",
+        "hitl"
+      ],
+      "rationale": "Corrupted PDF stream unreadable"
+    },
+    "case_03_wrong_or_uncertain_document_type": {
+      "file": "cases/case_03_wrong_or_uncertain_document_type.json",
+      "fixture_type": "review_case",
+      "scenario": "case_03_wrong_or_uncertain_document_type",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "wrong_or_uncertain_document_type",
+      "tags": [
+        "case",
+        "wrong_or_uncertain_document_type",
+        "hitl"
+      ],
+      "rationale": "Duplicate Draft BL candidates attached"
+    },
+    "case_04_missing_required_value": {
+      "file": "cases/case_04_missing_required_value.json",
+      "fixture_type": "review_case",
+      "scenario": "case_04_missing_required_value",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "missing_required_value",
+      "tags": [
+        "case",
+        "missing_required_value",
+        "hitl"
+      ],
+      "rationale": "Mandatory port_of_discharge missing in SI"
+    },
+    "case_05_uncertain_result": {
+      "file": "cases/case_05_uncertain_result.json",
+      "fixture_type": "review_case",
+      "scenario": "case_05_uncertain_result",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "uncertain_result",
+      "tags": [
+        "case",
+        "uncertain_result",
+        "hitl"
+      ],
+      "rationale": "Vague email body leaves category = null"
+    },
+    "case_06_conflicting_candidate_values": {
+      "file": "cases/case_06_conflicting_candidate_values.json",
+      "fixture_type": "review_case",
+      "scenario": "case_06_conflicting_candidate_values",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "conflicting_candidate_values",
+      "tags": [
+        "case",
+        "conflicting_candidate_values",
+        "hitl"
+      ],
+      "rationale": "Conflicting candidate weights in SI"
+    },
+    "case_07_processing_or_provider_failure": {
+      "file": "cases/case_07_processing_or_provider_failure.json",
+      "fixture_type": "review_case",
+      "scenario": "case_07_processing_or_provider_failure",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "processing_or_provider_failure",
+      "tags": [
+        "case",
+        "processing_or_provider_failure",
+        "hitl"
+      ],
+      "rationale": "AI provider repeated 503 outage"
+    },
+    "case_08_partial_preservation_6_of_7": {
+      "file": "cases/case_08_partial_preservation_6_of_7.json",
+      "fixture_type": "review_case",
+      "scenario": "case_08_partial_preservation_6_of_7",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "missing_required_value",
+      "tags": [
+        "case",
+        "missing_required_value",
+        "hitl"
+      ],
+      "rationale": "6 matching fields reliable, 1 weight field missing"
+    },
+    "case_09_tristate_known_mismatch_plus_unresolved": {
+      "file": "cases/case_09_tristate_known_mismatch_plus_unresolved.json",
+      "fixture_type": "review_case",
+      "scenario": "case_09_tristate_known_mismatch_plus_unresolved",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "missing_required_value",
+      "tags": [
+        "case",
+        "missing_required_value",
+        "hitl"
+      ],
+      "rationale": "Confirmed container count mismatch while weight is unresolved"
+    },
+    "case_10_unresolved_classification": {
+      "file": "cases/case_10_unresolved_classification.json",
+      "fixture_type": "review_case",
+      "scenario": "case_10_unresolved_classification",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "expected_review_reason": "uncertain_result",
+      "tags": [
+        "case",
+        "uncertain_result",
+        "hitl"
+      ],
+      "rationale": "Unresolved classification baseline DC-01"
+    },
+    "update_cls_unresolved_to_comparison": {
+      "file": "updates/update_cls_unresolved_to_comparison.json",
+      "fixture_type": "review_update",
+      "scenario": "update_cls_unresolved_to_comparison",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "classification"
+      ],
+      "rationale": "Unresolved intent corrected to document_comparison"
+    },
+    "update_cls_invoice_to_general": {
+      "file": "updates/update_cls_invoice_to_general.json",
+      "fixture_type": "review_update",
+      "scenario": "update_cls_invoice_to_general",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "classification"
+      ],
+      "rationale": "Incorrect invoice_query corrected to general"
+    },
+    "update_cls_general_to_new_si": {
+      "file": "updates/update_cls_general_to_new_si.json",
+      "fixture_type": "review_update",
+      "scenario": "update_cls_general_to_new_si",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "classification"
+      ],
+      "rationale": "Incorrect general corrected to new_shipping_instruction"
+    },
+    "update_role_swap_si_bl": {
+      "file": "updates/update_role_swap_si_bl.json",
+      "fixture_type": "review_update",
+      "scenario": "update_role_swap_si_bl",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "role"
+      ],
+      "rationale": "Swapped SI and Draft BL role assignments"
+    },
+    "update_role_select_si_candidate": {
+      "file": "updates/update_role_select_si_candidate.json",
+      "fixture_type": "review_update",
+      "scenario": "update_role_select_si_candidate",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "role"
+      ],
+      "rationale": "Selected SI candidate from ambiguous file set"
+    },
+    "update_role_select_bl_candidate": {
+      "file": "updates/update_role_select_bl_candidate.json",
+      "fixture_type": "review_update",
+      "scenario": "update_role_select_bl_candidate",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "role"
+      ],
+      "rationale": "Selected Draft BL candidate from duplicate revisions"
+    },
+    "update_role_one_remains_missing": {
+      "file": "updates/update_role_one_remains_missing.json",
+      "fixture_type": "review_update",
+      "scenario": "update_role_one_remains_missing",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "role"
+      ],
+      "rationale": "Role correction where one document remains missing"
+    },
+    "update_field_container_count": {
+      "file": "updates/update_field_container_count.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_container_count",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Corrected container count to 4"
+    },
+    "update_field_gross_weight_kg": {
+      "file": "updates/update_field_gross_weight_kg.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_gross_weight_kg",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Corrected gross weight to 22 MT"
+    },
+    "update_field_org_shipper": {
+      "file": "updates/update_field_org_shipper.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_org_shipper",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Corrected shipper organization legal name"
+    },
+    "update_field_port_discharge": {
+      "file": "updates/update_field_port_discharge.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_port_discharge",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Supplied missing port_of_discharge"
+    },
+    "update_field_previously_missing": {
+      "file": "updates/update_field_previously_missing.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_previously_missing",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Supplied previously missing notify_party"
+    },
+    "update_field_resolve_conflict": {
+      "file": "updates/update_field_resolve_conflict.json",
+      "fixture_type": "review_update",
+      "scenario": "update_field_resolve_conflict",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "field"
+      ],
+      "rationale": "Adjudicated conflicting gross weight candidates"
+    },
+    "update_confirm_valid_as_is": {
+      "file": "updates/update_confirm_valid_as_is.json",
+      "fixture_type": "review_update",
+      "scenario": "update_confirm_valid_as_is",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "confirm"
+      ],
+      "rationale": "Valid confirmation of general intent"
+    },
+    "update_evidence_text_span": {
+      "file": "updates/update_evidence_text_span.json",
+      "fixture_type": "review_update",
+      "scenario": "update_evidence_text_span",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "evidence"
+      ],
+      "rationale": "Added grounded text span quote evidence"
+    },
+    "update_evidence_table_cell": {
+      "file": "updates/update_evidence_table_cell.json",
+      "fixture_type": "review_update",
+      "scenario": "update_evidence_table_cell",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "evidence"
+      ],
+      "rationale": "Added grounded table cell coordinates evidence"
+    },
+    "update_evidence_page_location": {
+      "file": "updates/update_evidence_page_location.json",
+      "fixture_type": "review_update",
+      "scenario": "update_evidence_page_location",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "evidence"
+      ],
+      "rationale": "Added grounded page bbox coordinates evidence"
+    },
+    "update_evidence_addition_missing_field": {
+      "file": "updates/update_evidence_addition_missing_field.json",
+      "fixture_type": "review_update",
+      "scenario": "update_evidence_addition_missing_field",
+      "valid_payload": true,
+      "starting_revision": 1,
+      "expected_revision": 2,
+      "expected_validation_result": "VALID",
+      "expected_http_status": 200,
+      "tags": [
+        "update",
+        "evidence"
+      ],
+      "rationale": "Added evidence snippet for missing POD"
+    },
+    "conc_01_valid_revision_match": {
+      "file": "concurrency/conc_01_valid_revision_match.json",
+      "fixture_type": "concurrency_scenario",
+      "scenario": "conc_01_valid_revision_match",
+      "valid_payload": true,
+      "expected_validation_result": "VALID",
+      "tags": [
+        "concurrency",
+        "optimistic_locking"
+      ],
+      "rationale": "Matching revision proceeds to rev 4"
+    },
+    "conc_02_stale_revision_conflict": {
+      "file": "concurrency/conc_02_stale_revision_conflict.json",
+      "fixture_type": "concurrency_scenario",
+      "scenario": "conc_02_stale_revision_conflict",
+      "valid_payload": true,
+      "expected_validation_result": "VALID",
+      "tags": [
+        "concurrency",
+        "optimistic_locking"
+      ],
+      "rationale": "Stale revision rejected with HTTP 409"
+    },
+    "conc_03_race_two_reviewers": {
+      "file": "concurrency/conc_03_race_two_reviewers.json",
+      "fixture_type": "concurrency_scenario",
+      "scenario": "conc_03_race_two_reviewers",
+      "valid_payload": true,
+      "expected_validation_result": "VALID",
+      "tags": [
+        "concurrency",
+        "optimistic_locking"
+      ],
+      "rationale": "Concurrent submissions: first advances revision, second receives 409"
+    },
+    "inv_missing_expected_revision": {
+      "file": "invalid/inv_missing_expected_revision.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_missing_expected_revision",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Missing mandatory expected_revision field"
+    },
+    "inv_negative_revision": {
+      "file": "invalid/inv_negative_revision.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_negative_revision",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "expected_revision is negative integer (-1) violating ge=1"
+    },
+    "inv_unsupported_action_override": {
+      "file": "invalid/inv_unsupported_action_override.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_unsupported_action_override",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Action enum OVERRIDE is unapproved (only CONFIRM, CORRECT)"
+    },
+    "inv_unsupported_action_approve": {
+      "file": "invalid/inv_unsupported_action_approve.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_unsupported_action_approve",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Action enum APPROVE is unapproved"
+    },
+    "inv_unsupported_action_force_match": {
+      "file": "invalid/inv_unsupported_action_force_match.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_unsupported_action_force_match",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Action enum FORCE_MATCH is unapproved"
+    },
+    "inv_unknown_field_name": {
+      "file": "invalid/inv_unknown_field_name.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_unknown_field_name",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Field name vessel_name is not one of the 7 mandatory comparison fields"
+    },
+    "inv_invalid_container_count_type": {
+      "file": "invalid/inv_invalid_container_count_type.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_invalid_container_count_type",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "container_count value is non-numeric text that cannot be normalized to integer"
+    },
+    "inv_invalid_gross_weight_type": {
+      "file": "invalid/inv_invalid_gross_weight_type.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_invalid_gross_weight_type",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "gross_weight_kg value is non-numeric prose that cannot be normalized to Decimal"
+    },
+    "inv_direct_mismatch_detected_mutation": {
+      "file": "invalid/inv_direct_mismatch_detected_mutation.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_direct_mismatch_detected_mutation",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Reviewer payload attempts to directly set mismatch_detected = false (REG-012 forbidden)"
+    },
+    "inv_direct_outcome_mutation": {
+      "file": "invalid/inv_direct_outcome_mutation.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_direct_outcome_mutation",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Reviewer payload attempts to directly set outcome = MATCH (DC-07 forbidden)"
+    },
+    "inv_direct_comparison_result_mutation": {
+      "file": "invalid/inv_direct_comparison_result_mutation.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_direct_comparison_result_mutation",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Reviewer payload attempts to directly set field outcome comparison_result = MATCH"
+    },
+    "inv_evaluation_enum_category": {
+      "file": "invalid/inv_evaluation_enum_category.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_evaluation_enum_category",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Evaluation enum BL_COMPARISON leaked into internal ReviewUpdate category"
+    },
+    "inv_same_document_both_roles": {
+      "file": "invalid/inv_same_document_both_roles.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_same_document_both_roles",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "RoleCorrection assigns same document doc_001 to both SI and BL"
+    },
+    "inv_fabricated_evidence_bbox": {
+      "file": "invalid/inv_fabricated_evidence_bbox.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_fabricated_evidence_bbox",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "EvidenceLocation bbox has x0 >= x1 ([0.8, 0.2, 0.3, 0.5]) violating non-empty region invariant"
+    },
+    "inv_table_cell_missing_coords": {
+      "file": "invalid/inv_table_cell_missing_coords.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_table_cell_missing_coords",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "kind=table_cell evidence missing required location.row and location.column"
+    },
+    "inv_forbidden_extra_property": {
+      "file": "invalid/inv_forbidden_extra_property.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_forbidden_extra_property",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "Payload contains unexpected extra property violating extra='forbid'"
+    },
+    "inv_confirm_forcing_unextracted_field": {
+      "file": "invalid/inv_confirm_forcing_unextracted_field.json",
+      "fixture_type": "invalid_review_payload",
+      "scenario": "inv_confirm_forcing_unextracted_field",
+      "valid_payload": false,
+      "expected_validation_result": "REJECTED",
+      "expected_http_status": 422,
+      "tags": [
+        "invalid",
+        "schema_violation"
+      ],
+      "rationale": "CONFIRM action attempting to force resolution with force_complete flag"
+    }
+  },
+  "recomputation_scenarios": {
+    "RECOMP-001": {
+      "name": "Container Count Mismatch Deterministic Resolution",
+      "base_case": "case_09_tristate_known_mismatch_plus_unresolved",
+      "update_applied": "update_field_container_count",
+      "field": "container_count",
+      "before_review": {
+        "si_value": 2,
+        "bl_value": 3,
+        "outcome": "MISMATCH"
+      },
+      "correction": {
+        "document_id": "doc_bl_009",
+        "raw_value": "4"
+      },
+      "after_recompute": {
+        "normalized_si": 2,
+        "normalized_bl": 4,
+        "outcome": "MISMATCH",
+        "is_discrepancy": true
+      },
+      "rule": "Exact integer equality: 2 != 4 -> MISMATCH"
+    },
+    "RECOMP-002": {
+      "name": "Gross Weight Unit Normalization Deterministic Resolution",
+      "base_case": "case_08_partial_preservation_6_of_7",
+      "update_applied": "update_field_gross_weight_kg",
+      "field": "gross_weight_kg",
+      "before_review": {
+        "si_value": "22000",
+        "bl_value": null,
+        "reliability": "MISSING"
+      },
+      "correction": {
+        "document_id": "doc_bl_008",
+        "raw_value": "22 MT"
+      },
+      "after_recompute": {
+        "normalized_si": "22000",
+        "normalized_bl": "22000",
+        "outcome": "MATCH",
+        "is_discrepancy": false
+      },
+      "rule": "Unit conversion: 22 MT -> 22000 KG; exact equality: Decimal('22000') == Decimal('22000') -> MATCH"
+    },
+    "RECOMP-003": {
+      "name": "Port of Discharge Missing Value Resolution",
+      "base_case": "case_04_missing_required_value",
+      "update_applied": "update_field_port_discharge",
+      "field": "port_of_discharge",
+      "before_review": {
+        "si_value": null,
+        "bl_value": "ROTTERDAM, NETHERLANDS",
+        "reliability": "MISSING"
+      },
+      "correction": {
+        "document_id": "doc_si_004",
+        "raw_value": "ROTTERDAM, NETHERLANDS"
+      },
+      "after_recompute": {
+        "normalized_si": "ROTTERDAM, NETHERLANDS",
+        "normalized_bl": "ROTTERDAM, NETHERLANDS",
+        "outcome": "MATCH",
+        "is_discrepancy": false
+      },
+      "rule": "Exact text equality after approved normalization: MATCH"
+    }
+  },
+  "tristate_scenarios": {
+    "TRISTATE-001": {
+      "name": "Null Mismatch Detected Maintained While Work Unresolved",
+      "case_id": "case_09_tristate_known_mismatch_plus_unresolved",
+      "invariant": "mismatch_detected must remain null while any mandatory field is unresolved",
+      "known_discrepancy": {
+        "field": "container_count",
+        "si": 2,
+        "bl": 3
+      },
+      "unresolved_field": "gross_weight_kg",
+      "audit_state": "NEEDS_REVIEW",
+      "outcome": null,
+      "mismatch_detected": null,
+      "prohibited_values": [
+        {
+          "field": "mismatch_detected",
+          "prohibited": false,
+          "reason": "Cannot be false because a confirmed mismatch exists"
+        },
+        {
+          "field": "mismatch_detected",
+          "prohibited": true,
+          "reason": "Cannot be true because workflow is incomplete and unresolved fields remain"
+        },
+        {
+          "field": "result_summary",
+          "prohibited": "No mismatch detected",
+          "reason": "Unresolved case cannot receive a clean pass"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "fault_type": "connection_error",
+  "http_status": null,
+  "message": "Failed to establish TLS connection to AI provider"
+}

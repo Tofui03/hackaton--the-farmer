@@ -1,0 +1,17 @@
+{
+  "stage": "Stage 3A: Field Extraction",
+  "primary_status": "AI_PROVIDER_UNAVAILABLE",
+  "fallback_mechanism": "deterministic_regex_parser",
+  "fallback_output": {
+    "all_seven_fields_extracted": false,
+    "missing_fields": [
+      "gross_weight_kg",
+      "container_count"
+    ],
+    "is_reliable": false
+  },
+  "pipeline_action": "ESCALATE_TO_HITL",
+  "hitl_escalated": true,
+  "expected_downstream_review_reason": "processing_or_provider_failure",
+  "rationale": "AI provider unavailable AND deterministic fallback cannot extract required fields; escalates to processing_or_provider_failure."
+}

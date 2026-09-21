@@ -1,0 +1,25 @@
+{
+  "sequence_id": "SEM-SEQ-001",
+  "scenario": "semantic_repair_grounding_fix",
+  "max_semantic_attempts": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "type": "semantic",
+      "result": "ext_ungrounded_hallucinated_shipper.json",
+      "validation": "EVIDENCE_MISSING",
+      "action": "re_prompt_with_schema_error"
+    },
+    {
+      "attempt": 2,
+      "type": "semantic",
+      "result": "ext_valid_full_seven_fields.json",
+      "validation": "VALID",
+      "action": "succeed"
+    }
+  ],
+  "final_status": "SUCCESS",
+  "total_calls": 2,
+  "exceeded_budget": false,
+  "rationale": "Corrects ungrounded evidence on semantic repair attempt 2 within limit = 2."
+}

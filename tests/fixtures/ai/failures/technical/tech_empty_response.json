@@ -1,0 +1,5 @@
+{
+  "fault_type": "empty_response",
+  "http_status": 200,
+  "message": "Provider returned HTTP 200 with empty body/candidates"
+}

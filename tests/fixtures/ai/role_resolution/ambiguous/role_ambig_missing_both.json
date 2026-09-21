@@ -1,0 +1,8 @@
+{
+  "document_roles": {
+    "packing_list.pdf": "UNKNOWN",
+    "commercial_invoice.pdf": "UNKNOWN"
+  },
+  "rationale": "Attachments are packing list and commercial invoice, neither is an SI or draft BL.",
+  "confidence_indicator": "LOW"
+}

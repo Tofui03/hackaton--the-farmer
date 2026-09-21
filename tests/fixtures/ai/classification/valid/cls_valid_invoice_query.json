@@ -1,0 +1,8 @@
+{
+  "category": "invoice_query",
+  "reason": "Customer inquiring about demurrage and detention charges on freight invoice.",
+  "evidence": [
+    "Please clarify demurrage charges on invoice INV-77210"
+  ],
+  "confidence_indicator": "HIGH"
+}

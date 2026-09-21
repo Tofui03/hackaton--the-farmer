@@ -1,0 +1,42 @@
+{
+  "document_id": "docx_bl_001_table.docx",
+  "role": "BL",
+  "fields": {
+    "shipper": {
+      "raw_value": "PACIFIC SYNTHETIC LOGISTICS PTE LTD",
+      "status": "FOUND",
+      "evidence": "Table 0, Row 0, Col 1: 'PACIFIC SYNTHETIC LOGISTICS PTE LTD'"
+    },
+    "consignee": {
+      "raw_value": "ATLANTIC IMPORTS & TRADING GMBH",
+      "status": "FOUND",
+      "evidence": "Table 0, Row 1, Col 1: 'ATLANTIC IMPORTS & TRADING GMBH'"
+    },
+    "notify_party": {
+      "raw_value": "MARITIME CUSTOMS BROKERS INC",
+      "status": "FOUND",
+      "evidence": "Table 0, Row 2, Col 1: 'MARITIME CUSTOMS BROKERS INC'"
+    },
+    "port_of_loading": {
+      "raw_value": "SINGAPORE",
+      "status": "FOUND",
+      "evidence": "Table 1, Row 0, Col 1: 'SINGAPORE'"
+    },
+    "port_of_discharge": {
+      "raw_value": "ROTTERDAM",
+      "status": "FOUND",
+      "evidence": "Table 1, Row 1, Col 1: 'ROTTERDAM'"
+    },
+    "container_count": {
+      "raw_value": 4,
+      "status": "FOUND",
+      "evidence": "Table 2, Row 0, Col 1: '4'"
+    },
+    "gross_weight_kg": {
+      "raw_value": "22000 KG",
+      "status": "FOUND",
+      "evidence": "Table 2, Row 1, Col 1: '22000 KG'"
+    }
+  },
+  "confidence_indicator": "HIGH"
+}

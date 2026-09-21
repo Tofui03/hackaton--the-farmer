@@ -1,0 +1,8 @@
+{
+  "category": null,
+  "reason": "Vague email body with zero operational context; intent cannot be reliably determined.",
+  "evidence": [
+    "FYI please see attached."
+  ],
+  "confidence_indicator": "LOW"
+}

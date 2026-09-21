@@ -1,0 +1,12 @@
+{
+  "document_id": "scan_si_stained.pdf",
+  "role": "SI",
+  "fields": {
+    "container_count": {
+      "raw_value": null,
+      "status": "UNREADABLE",
+      "evidence": "Stained / illegible area at Row 5"
+    }
+  },
+  "confidence_indicator": "LOW"
+}

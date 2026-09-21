@@ -1,0 +1,8 @@
+{
+  "category": "document_comparison",
+  "reason": "Inbound email explicitly requests verification of draft BL against SI, but no files are attached.",
+  "evidence": [
+    "Can you check if our SI matches the draft bill of lading?"
+  ],
+  "confidence_indicator": "HIGH"
+}

@@ -1,0 +1,9 @@
+SHIPPING INSTRUCTION
+--------------------
+Shipper: PACIFIC SYNTHETIC LOGISTICS PTE LTD
+Consignee: ATLANTIC IMPORTS & TRADING GMBH
+Notify Party: MARITIME CUSTOMS BROKERS INC
+Load Port: SINGAPORE
+Port of Discharge: ROTTERDAM
+Container Count: 4
+Gross Weight: 22000 KG

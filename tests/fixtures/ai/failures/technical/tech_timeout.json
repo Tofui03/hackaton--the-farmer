@@ -1,0 +1,6 @@
+{
+  "fault_type": "timeout",
+  "http_status": null,
+  "message": "Provider request timed out (connection deadline exceeded)",
+  "note": "ARBITRARY SYNTHETIC EXAMPLE \u2014 NOT A BASELINE TIMEOUT POLICY"
+}

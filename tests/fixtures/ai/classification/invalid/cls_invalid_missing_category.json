@@ -1,0 +1,7 @@
+{
+  "reason": "Model returned explanation without category key.",
+  "evidence": [
+    "compare attached documents"
+  ],
+  "confidence_indicator": "HIGH"
+}

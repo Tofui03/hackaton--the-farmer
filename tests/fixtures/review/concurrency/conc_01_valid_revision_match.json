@@ -1,0 +1,42 @@
+{
+  "scenario_id": "CONC-001",
+  "description": "Matching expected_revision proceeds successfully and increments revision",
+  "current_server_revision": 3,
+  "review_update_payload": {
+    "review_id": "rev_case_conc_001",
+    "expected_revision": 3,
+    "actor_id": "operator_alice",
+    "action": "CORRECT",
+    "rationale": "Correcting container count with matching revision",
+    "category": null,
+    "classification_evidence_ids": [],
+    "role_corrections": [],
+    "corrections": [
+      {
+        "document_id": "doc_bl_001",
+        "field": "container_count",
+        "raw_value": "2",
+        "evidence_ids": [
+          "ev_conc_001"
+        ],
+        "rationale": "Matched container count"
+      }
+    ],
+    "added_evidence": [
+      {
+        "evidence_id": "ev_conc_001",
+        "source_type": "document",
+        "source_id": "doc_bl_001",
+        "kind": "text_span",
+        "quote": "CONTAINERS: 2",
+        "location": {
+          "page": 1
+        },
+        "detail": null
+      }
+    ]
+  },
+  "expected_result": "SUCCESS",
+  "expected_http_status": 200,
+  "expected_resulting_revision": 4
+}

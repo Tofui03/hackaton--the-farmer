@@ -1,0 +1,18 @@
+{
+  "review_id": "rev_case_inv_006",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Attempting to correct non-existent field",
+  "corrections": [
+    {
+      "document_id": "doc_si_001",
+      "field": "vessel_name",
+      "raw_value": "EVER GIVEN",
+      "evidence_ids": [
+        "ev_001"
+      ],
+      "rationale": "Unapproved field name"
+    }
+  ]
+}

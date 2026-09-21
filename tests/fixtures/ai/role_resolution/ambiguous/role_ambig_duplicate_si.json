@@ -1,0 +1,8 @@
+{
+  "document_roles": {
+    "candidate_doc_a.pdf": "SI",
+    "candidate_doc_b.pdf": "SI"
+  },
+  "rationale": "Both attachments contain Shipping Instruction headers; cannot determine which is authoritative.",
+  "confidence_indicator": "LOW"
+}

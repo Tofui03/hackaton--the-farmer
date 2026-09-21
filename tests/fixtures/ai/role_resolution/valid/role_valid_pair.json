@@ -1,0 +1,8 @@
+{
+  "document_roles": {
+    "attachment_01_si.pdf": "SI",
+    "attachment_02_draft_bl.pdf": "BL"
+  },
+  "rationale": "attachment_01 contains Shipping Instruction header and booking number; attachment_02 contains Draft Bill of Lading header and B/L number.",
+  "confidence_indicator": "HIGH"
+}

@@ -1,0 +1,35 @@
+{
+  "review_id": "rev_case_004",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Corrected shipper legal name from full letterhead",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [
+    {
+      "document_id": "doc_si_004",
+      "field": "shipper",
+      "raw_value": "ACME GLOBAL SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+      "evidence_ids": [
+        "ev_added_shipper_full"
+      ],
+      "rationale": "Letterhead top left includes GLOBAL in corporate entity"
+    }
+  ],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_added_shipper_full",
+      "source_type": "document",
+      "source_id": "doc_si_004",
+      "kind": "text_span",
+      "quote": "SHIPPER: ACME GLOBAL SHIPPING CORP, 100 OCEAN WAY, SHANGHAI",
+      "location": {
+        "page": 1,
+        "section": "Letterhead"
+      },
+      "detail": null
+    }
+  ]
+}

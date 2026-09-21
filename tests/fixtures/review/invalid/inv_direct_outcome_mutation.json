@@ -1,0 +1,9 @@
+{
+  "review_id": "rev_case_inv_010",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Direct outcome override attempt",
+  "outcome": "MATCH",
+  "corrections": []
+}

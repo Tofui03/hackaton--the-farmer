@@ -1,0 +1,13 @@
+{
+  "email_id": "syn_email_011_invoice_query_with_att",
+  "sender": "ap@summit-trading.test",
+  "subject": "Invoice Question - Freight Charges OOCL-5510",
+  "body": "Hello,\n\nPlease find attached the freight invoice for shipment OOCL-5510. Can you confirm whether the origin terminal handling charge was included?\n\nThank you,\nAccounts Payable",
+  "attachments": [
+    {
+      "document_id": "doc_syn_011_inv",
+      "path": "attachments/Freight_Invoice_OOCL5510.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

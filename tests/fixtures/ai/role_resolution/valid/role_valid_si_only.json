@@ -1,0 +1,7 @@
+{
+  "document_roles": {
+    "attachment_01_si.pdf": "SI"
+  },
+  "rationale": "attachment_01 is definitively a Shipping Instruction; no BL candidate attached.",
+  "confidence_indicator": "HIGH"
+}

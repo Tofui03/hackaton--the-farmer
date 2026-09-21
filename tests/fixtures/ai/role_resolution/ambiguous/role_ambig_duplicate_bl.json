@@ -1,0 +1,8 @@
+{
+  "document_roles": {
+    "draft_v1.pdf": "BL",
+    "draft_v2.pdf": "BL"
+  },
+  "rationale": "Two versions of draft BL attached without clear superseding indication.",
+  "confidence_indicator": "LOW"
+}

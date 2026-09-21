@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_004_doc_compare_generic_filenames",
+  "sender": "traffic@meridian-cargo.test",
+  "subject": "Docs audit for Container MSCU-440192",
+  "body": "Hello,\n\nAttached are Doc_A_492.pdf (which is our customer Shipping Instruction) and Doc_B_492.pdf (the draft bill of lading from the shipping line). Please perform discrepancy verification and advise if anything differs.\n\nRegards,\nTraffic Team",
+  "attachments": [
+    {
+      "document_id": "doc_syn_004_doc_a",
+      "path": "attachments/Doc_A_492.pdf",
+      "mime_type": "application/pdf"
+    },
+    {
+      "document_id": "doc_syn_004_doc_b",
+      "path": "attachments/Doc_B_492.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

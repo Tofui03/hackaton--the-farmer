@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_005_doc_compare_misleading_filenames",
+  "sender": "logistics@zenith-freight.test",
+  "subject": "Comparison check - Booking ZF-7718",
+  "body": "Hi Team,\n\nPlease disregard the filenames on the attachments. The file named 'Invoice_Summary.pdf' is actually the shipper's SI sheet, and 'PackingList_Draft.pdf' is the carrier's draft BL. Please verify draft BL against SI as usual.\n\nThanks,\nZenith Logistics",
+  "attachments": [
+    {
+      "document_id": "doc_syn_005_misleading_si",
+      "path": "attachments/Invoice_Summary.pdf",
+      "mime_type": "application/pdf"
+    },
+    {
+      "document_id": "doc_syn_005_misleading_bl",
+      "path": "attachments/PackingList_Draft.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

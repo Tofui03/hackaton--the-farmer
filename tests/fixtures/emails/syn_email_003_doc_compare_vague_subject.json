@@ -1,0 +1,18 @@
+{
+  "email_id": "syn_email_003_doc_compare_vague_subject",
+  "sender": "export@pacific-lines.test",
+  "subject": "FW: Urgent Review Needed - Ref 990123",
+  "body": "Good day,\n\nPlease review the carrier draft B/L attached against our approved SI details. Ensure container counts and weights match exactly.\n\nThanks,\nExport Documentation Desk",
+  "attachments": [
+    {
+      "document_id": "doc_syn_003_si",
+      "path": "attachments/syn_email_003_SI.docx",
+      "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    {
+      "document_id": "doc_syn_003_bl",
+      "path": "attachments/syn_email_003_BL.pdf",
+      "mime_type": "application/pdf"
+    }
+  ]
+}

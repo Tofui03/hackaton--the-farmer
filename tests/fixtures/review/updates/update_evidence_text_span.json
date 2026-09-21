@@ -1,0 +1,25 @@
+{
+  "review_id": "rev_case_004",
+  "expected_revision": 1,
+  "actor_id": "operator_alice",
+  "action": "CORRECT",
+  "rationale": "Added grounded text span citation for consignee address clarification",
+  "category": null,
+  "classification_evidence_ids": [],
+  "role_corrections": [],
+  "corrections": [],
+  "added_evidence": [
+    {
+      "evidence_id": "ev_span_consignee_clarified",
+      "source_type": "document",
+      "source_id": "doc_si_004",
+      "kind": "text_span",
+      "quote": "CONSIGNEE: GLOBAL LOGISTICS B.V. (TAX ID: NL123456789B01), 45 HAVENLAAN, ROTTERDAM",
+      "location": {
+        "page": 1,
+        "section": "Consignee Box"
+      },
+      "detail": null
+    }
+  ]
+}

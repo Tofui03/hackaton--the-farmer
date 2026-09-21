@@ -1,0 +1,12 @@
+{
+  "document_id": "txt_si_001_clean.txt",
+  "role": "SI",
+  "fields": {
+    "shipper": {
+      "raw_value": "ACME GLOBAL FABRICATED SHIPPERS INC",
+      "status": "FOUND",
+      "evidence": "SHIPPER: ACME GLOBAL FABRICATED SHIPPERS INC"
+    }
+  },
+  "confidence_indicator": "HIGH"
+}
