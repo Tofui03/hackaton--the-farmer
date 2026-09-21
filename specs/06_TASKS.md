@@ -260,7 +260,7 @@ flowchart TD
 - **Acceptance Criteria**: `CT-DATA-001` passes; model rejects invalid string categories and validates nullability properly.
 - **Verification Commands**: `pytest tests/test_contracts.py -k CT-DATA-001 -v`
 - **Expected Evidence**: Passing unit contract test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -279,7 +279,7 @@ flowchart TD
 - **Acceptance Criteria**: `ParserResult` instantiates and validates cleanly across all parser output states.
 - **Verification Commands**: `pytest tests/test_contracts.py -k test_parser_models -v`
 - **Expected Evidence**: Passing model validation tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -299,7 +299,7 @@ flowchart TD
 - **Acceptance Criteria**: `CT-DATA-005` passes; models enforce source grounding and provenance across all evidence kinds.
 - **Verification Commands**: `pytest tests/test_contracts.py -k CT-DATA-005 -v`
 - **Expected Evidence**: Passing contract test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
