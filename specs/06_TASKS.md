@@ -483,7 +483,7 @@ flowchart TD
 - **Acceptance Criteria**: `PIPE-CMP-001` (match), `PIPE-CMP-002` (single mismatch), and `PIPE-CMP-003` (multiple mismatches) pass cleanly.
 - **Verification Commands**: `pytest tests/test_comparator.py -v`
 - **Expected Evidence**: Passing comparator test suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -503,7 +503,7 @@ flowchart TD
 - **Acceptance Criteria**: `PIPE-CMP-004`, `PIPE-CMP-005`, `REG-009`, `REG-010` pass cleanly.
 - **Verification Commands**: `pytest tests/test_comparator.py -k "PIPE-CMP-004 or REG-009 or REG-010" -v`
 - **Expected Evidence**: Passing tri-state invariant tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
