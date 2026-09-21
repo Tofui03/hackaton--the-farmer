@@ -319,7 +319,7 @@ flowchart TD
 - **Acceptance Criteria**: `CT-DATA-004` passes; `Decimal("22500.50")` validates without IEEE precision loss.
 - **Verification Commands**: `pytest tests/test_contracts.py -k CT-DATA-004 -v`
 - **Expected Evidence**: Passing Decimal contract test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -339,7 +339,7 @@ flowchart TD
 - **Acceptance Criteria**: `CT-DATA-003` passes; tri-state boolean verified.
 - **Verification Commands**: `pytest tests/test_contracts.py -k CT-DATA-003 -v`
 - **Expected Evidence**: Passing contract test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -359,7 +359,7 @@ flowchart TD
 - **Acceptance Criteria**: `CT-DATA-002`, `CT-DATA-007`, `CT-DATA-010` pass cleanly.
 - **Verification Commands**: `pytest tests/test_contracts.py -k "CT-DATA-002 or CT-DATA-007 or CT-DATA-010" -v`
 - **Expected Evidence**: Passing contract tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -379,7 +379,7 @@ flowchart TD
 - **Acceptance Criteria**: All 15 contract examples from `specs/03_DATA_CONTRACTS_EXAMPLES.json` instantiate without validation error.
 - **Verification Commands**: `pytest tests/test_contracts.py -k CT-DATA-009 -v`
 - **Expected Evidence**: Full contract validation pass.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -400,7 +400,7 @@ flowchart TD
 - **Acceptance Criteria**: All 10 contract tests (`CT-DATA-001` through `CT-DATA-010`) execute and pass cleanly.
 - **Verification Commands**: `pytest tests/test_contracts.py -v`
 - **Expected Evidence**: 10 passed tests in `tests/test_contracts.py`.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
