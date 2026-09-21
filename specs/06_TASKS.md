@@ -773,7 +773,7 @@ flowchart TD
 - **Acceptance Criteria**: `PAR-ROLE-001` passes without calling AI adapter.
 - **Verification Commands**: `pytest tests/test_stage2.py -k "PAR-ROLE-001" -v`
 - **Expected Evidence**: Passing deterministic role binding test.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -796,7 +796,7 @@ flowchart TD
 - **Acceptance Criteria**: `PAR-ROLE-002` through `PAR-ROLE-008` pass cleanly.
 - **Verification Commands**: `pytest tests/test_stage2.py -k "PAR-ROLE" -v`
 - **Expected Evidence**: Passing role escalation tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 

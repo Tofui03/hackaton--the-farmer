@@ -5,6 +5,11 @@ from src.pipeline.stage1_classify import (
     rule_based_classify,
 )
 from src.pipeline.stage2_extract import Stage2Extractor
+from src.pipeline.stage2_role_binding import (
+    RoleBindingResult,
+    Stage2RoleBinder,
+    bind_attachment_roles,
+)
 from src.pipeline.stage3_compare import Stage3Comparator, rule_based_compare_audit
 from src.pipeline.validator import validate_submission_dict
 
@@ -16,6 +21,9 @@ __all__ = [
     "deterministic_classify_email",
     "rule_based_classify",
     "Stage2Extractor",
+    "Stage2RoleBinder",
+    "RoleBindingResult",
+    "bind_attachment_roles",
     "Stage3Comparator",
     "rule_based_compare",
     "rule_based_compare_audit",
