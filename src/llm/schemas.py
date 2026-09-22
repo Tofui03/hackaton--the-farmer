@@ -8,12 +8,14 @@ from src.models.base import Contract
 class EmailClassificationOutput(Contract):
     """Canonical structured output schema for email intent classification (Stage 1 / DEC-P01)."""
 
-    category: Literal[
-        "document_comparison",
-        "new_shipping_instruction",
-        "invoice_query",
-        "general",
-        "spam",
+    category: Optional[
+        Literal[
+            "document_comparison",
+            "new_shipping_instruction",
+            "invoice_query",
+            "general",
+            "spam",
+        ]
     ]
     reason: str = ""
     evidence: List[str] = Field(default_factory=list)

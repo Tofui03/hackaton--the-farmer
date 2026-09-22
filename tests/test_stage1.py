@@ -197,10 +197,10 @@ def test_pipe_cls_006_and_dc_001_ambiguous_intent_null_category():
     assert res.confidence_indicator == "LOW"
     assert "Ambiguous" in res.reason
 
-    # 2. Mock AI adapter explicitly returning LOW confidence
+    # 2. Mock AI adapter explicitly returning null/ambiguous category (DC-01)
     mock_adapter = MockAIAdapter(
         default_response={
-            "category": "general",
+            "category": None,
             "reason": "Unable to determine clear business intent from context",
             "evidence": ["Important message"],
             "confidence_indicator": "LOW",
@@ -311,3 +311,79 @@ def test_legacy_rule_based_classify_preserves_compatibility():
 
     e_spam = {"subject": "CASINO FREE TRIAL", "body": "", "attachments": []}
     assert rule_based_classify(e_spam) == "SPAM"
+
+
+def test_confidence_decoupling_high_confidence_ungrounded_rejects():
+    """A. HIGH confidence + ungrounded result -> does NOT resolve merely because confidence is HIGH (REG-011)."""
+    mock_adapter = MockAIAdapter(
+        default_response={
+            "category": "document_comparison",
+            "reason": "AI confidently believes this is a comparison request",
+            "evidence": ["Hallucinated quote that does not appear anywhere in this email"],
+            "confidence_indicator": "HIGH",
+        }
+    )
+    classifier = Stage1Classifier(ai_adapter=mock_adapter)
+    ambiguous_email = {
+        "email_id": "email_hallucinated_01",
+        "from": "user@domain.com",
+        "subject": "Inquiry regarding order",
+        "body": "Could you please check our order status and advise.",
+        "attachments": ["order.pdf"],
+    }
+    res, evidence = classifier.classify(ambiguous_email)
+    assert res.state == "NEEDS_REVIEW"
+    assert res.category is None
+    assert "ungrounded evidence" in res.reason
+
+
+def test_confidence_decoupling_low_confidence_grounded_resolves():
+    """B. LOW confidence + valid canonical grounded output -> confidence alone does NOT force NEEDS_REVIEW."""
+    mock_adapter = MockAIAdapter(
+        default_response={
+            "category": "invoice_query",
+            "reason": "AI resolved statement inquiry to invoice_query",
+            "evidence": ["verify settlement detail 4491"],
+            "confidence_indicator": "LOW",
+        }
+    )
+    classifier = Stage1Classifier(ai_adapter=mock_adapter)
+    email = {
+        "email_id": "email_low_conf_01",
+        "from": "accounting@vendor.com",
+        "subject": "Question about statement 4491",
+        "body": "Hello, please verify settlement detail 4491 when possible.",
+        "attachments": ["statement4491.pdf"],
+    }
+    res, evidence = classifier.classify(email)
+    assert res.state == "RESOLVED"
+    assert res.category == "invoice_query"
+    assert res.confidence_indicator == "LOW"
+    assert len(evidence) >= 1
+    assert evidence[0].quote == "verify settlement detail 4491"
+
+
+def test_confidence_decoupling_ambiguous_null_category_escalates():
+    """C. Actual unresolved/ambiguous AI result -> category=None / NEEDS_REVIEW according to DC-01."""
+    mock_adapter = MockAIAdapter(
+        default_response={
+            "category": None,
+            "reason": "Intent is completely ambiguous between SI submission and general question",
+            "evidence": ["status update request"],
+            "confidence_indicator": "MEDIUM",
+        }
+    )
+    classifier = Stage1Classifier(ai_adapter=mock_adapter)
+    email = {
+        "email_id": "email_ambig_cat_01",
+        "from": "client@partner.com",
+        "subject": "Status update",
+        "body": "Please provide a status update request for our files.",
+        "attachments": ["status.pdf"],
+    }
+    res, evidence = classifier.classify(email)
+    assert res.state == "NEEDS_REVIEW"
+    assert res.category is None
+    assert res.confidence_indicator == "MEDIUM"
+    assert "Ambiguous" in res.reason
+

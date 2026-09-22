@@ -200,7 +200,12 @@ def verify_dynamic_text(
 
 @router.get("/submission")
 def get_submission(store: AuditStore = Depends(get_audit_store)):
-    """Export competition submission format or block if cases require review (DC-08, API-EXP-001/002)."""
+    """Export competition submission format or block if cases require review (T12 HTTP delegation shell).
+    
+    Delegation architecture:
+    GET /submission -> (delegates to EvaluationAdapter / ExportService in T13).
+    Pending T13-01/02, serves as the HTTP shell delegating to legacy exporter.
+    """
     records = store.list()
     if not records:
         raise HTTPException(status_code=404, detail="No audit records found. Run pipeline first.")

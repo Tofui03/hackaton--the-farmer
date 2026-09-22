@@ -5,6 +5,7 @@ import re
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from src.llm.base_adapter import BaseAIAdapter
+from src.llm.evidence_validator import validate_evidence_grounding
 from src.llm.schemas import EmailClassificationOutput
 from src.models.audit import AttemptTracker
 from src.models.evidence import FieldEvidence
@@ -471,60 +472,100 @@ class Stage1Classifier:
                     tracker=tracker,
                 )
 
-                # Check confidence indicator: if LOW, treat as ambiguous (PIPE-CLS-006, DC-01)
-                if ai_output.confidence_indicator == "LOW":
+                # 1. Check for actual ambiguity / unresolved category (DC-01)
+                valid_categories = {c.value for c in EmailCategory}
+                if not ai_output.category or ai_output.category not in valid_categories:
                     return (
                         ClassificationResult(
                             state="NEEDS_REVIEW",
                             category=None,
-                            reason=f"Ambiguous email intent: AI confidence is LOW. Detail: {ai_output.reason}",
+                            reason=f"Ambiguous email intent: AI returned unresolved category. Detail: {ai_output.reason}",
                             evidence_ids=[],
-                            confidence_indicator="LOW",
+                            confidence_indicator=ai_output.confidence_indicator or "LOW",
                         ),
                         [],
                     )
 
-                # Ground evidence from AI output in email text
+                # 2. Ground evidence from AI output in email text (REG-011)
                 evidence_list: List[FieldEvidence] = []
                 ev_ids: List[str] = []
                 full_text = f"{subject}\n{body}".strip()
 
-                for idx, ev_str in enumerate(ai_output.evidence, start=1):
-                    ev_id = f"ev_cls_{email_id}_{idx}"
-                    # Check if ev_str appears in subject or body
-                    if ev_str and ev_str.lower() in full_text.lower():
-                        ev_quote = ev_str
+                raw_quotes = list(ai_output.evidence or [])
+                if ai_output.evidence_quote and ai_output.evidence_quote not in raw_quotes:
+                    raw_quotes.append(ai_output.evidence_quote)
+
+                # Validate every claimed quote is empirically grounded in source text
+                ungrounded_quotes = []
+                for idx, ev_str in enumerate(raw_quotes, start=1):
+                    ev_str_clean = str(ev_str).strip()
+                    if not ev_str_clean:
+                        continue
+                    if not validate_evidence_grounding(ev_str_clean, source_text=full_text):
+                        ungrounded_quotes.append(ev_str_clean)
                     else:
-                        ev_quote = (subject[:60] or body[:60] or "Email content").strip()
+                        ev_id = f"ev_cls_{email_id}_{idx}"
+                        ev = FieldEvidence(
+                            evidence_id=ev_id,
+                            source_type="email",
+                            source_id=email_id,
+                            kind="text_span",
+                            quote=ev_str_clean,
+                        )
+                        evidence_list.append(ev)
+                        ev_ids.append(ev_id)
 
-                    ev = FieldEvidence(
-                        evidence_id=ev_id,
-                        source_type="email",
-                        source_id=email_id,
-                        kind="text_span",
-                        quote=ev_quote,
+                # Rejection rule (REG-011): A HIGH-confidence hallucination must not resolve.
+                # If explicit evidence quotes were provided but any was ungrounded, reject the classification.
+                if ungrounded_quotes:
+                    logger.warning(
+                        "Rejected ungrounded AI classification evidence for %s: %s",
+                        email_id,
+                        ungrounded_quotes,
                     )
-                    evidence_list.append(ev)
-                    ev_ids.append(ev_id)
+                    return (
+                        ClassificationResult(
+                            state="NEEDS_REVIEW",
+                            category=None,
+                            reason=f"AI classification rejected due to ungrounded evidence: {ungrounded_quotes[0]!r}",
+                            evidence_ids=[],
+                            confidence_indicator=ai_output.confidence_indicator or "HIGH",
+                        ),
+                        [],
+                    )
 
+                # If no explicit evidence quotes were provided, attempt fallback to grounded subject or body snippet
                 if not ev_ids:
-                    ev_id = f"ev_cls_{email_id}_1"
-                    quote = (subject[:60] or body[:60] or "Email context").strip()
-                    ev = FieldEvidence(
-                        evidence_id=ev_id,
-                        source_type="email",
-                        source_id=email_id,
-                        kind="text_span",
-                        quote=quote,
-                    )
-                    evidence_list.append(ev)
-                    ev_ids.append(ev_id)
+                    fallback_quote = subject.strip() if subject.strip() else body[:60].strip()
+                    if fallback_quote and validate_evidence_grounding(fallback_quote, source_text=full_text):
+                        ev_id = f"ev_cls_{email_id}_1"
+                        ev = FieldEvidence(
+                            evidence_id=ev_id,
+                            source_type="email",
+                            source_id=email_id,
+                            kind="text_span",
+                            quote=fallback_quote,
+                        )
+                        evidence_list.append(ev)
+                        ev_ids.append(ev_id)
+                    else:
+                        return (
+                            ClassificationResult(
+                                state="NEEDS_REVIEW",
+                                category=None,
+                                reason="AI classification could not be grounded in email context",
+                                evidence_ids=[],
+                                confidence_indicator=ai_output.confidence_indicator or "LOW",
+                            ),
+                            [],
+                        )
 
+                # 3. Canonical grounded output resolves regardless of confidence (confidence is diagnostic metadata)
                 return (
                     ClassificationResult(
                         state="RESOLVED",
                         category=ai_output.category,
-                        reason=ai_output.reason,
+                        reason=ai_output.reason or "AI classification resolved",
                         evidence_ids=ev_ids,
                         confidence_indicator=ai_output.confidence_indicator or "MEDIUM",
                     ),

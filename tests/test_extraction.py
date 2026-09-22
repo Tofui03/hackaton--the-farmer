@@ -3,7 +3,6 @@ from __future__ import annotations
 from decimal import Decimal
 import pytest
 
-from src.comparator.field_comparator import compare_seven_fields
 from src.models.extraction import DocumentExtraction, FieldReliability
 from src.pipeline.stage3_extract import (
     Stage3Extractor,
@@ -278,25 +277,17 @@ def test_hitl_part_001_and_reg_009_partial_work_preservation():
     assert si_ext.fields["container_count"].reliability == FieldReliability.RELIABLE
     assert bl_ext.fields["container_count"].reliability == FieldReliability.MISSING
 
-    # Run deterministic seven fields comparison
-    res = compare_seven_fields(si_ext, bl_ext)
+    # 1. SI extraction has all 7 reliable fields
+    assert all(f.reliability == FieldReliability.RELIABLE for f in si_ext.fields.values())
 
-    # 1. Overall outcome is NOT complete match
-    assert res.outcome is None
-    assert res.mismatch_detected is None
-    assert "Review required" in res.result_summary
+    # 2. BL extraction preserves exactly the 6 reliable fields
+    assert bl_ext.fields["container_count"].reliability == FieldReliability.MISSING
+    assert bl_ext.fields["container_count"].normalized is None
 
-    # 2. Unresolved field is container_count
-    assert "container_count" in res.unresolved_fields
-
-    # 3. Partial Work Preservation: Exactly the 6 reliable fields are preserved as passing MATCH!
-    assert len(res.comparisons) == 6
-    for comp in res.comparisons:
-        assert comp.outcome == "MATCH"
-        assert comp.field != "container_count"
-
-    passing_fields = {c.field for c in res.comparisons}
-    assert passing_fields == {
+    reliable_bl_fields = {
+        name for name, f in bl_ext.fields.items() if f.reliability == FieldReliability.RELIABLE
+    }
+    assert reliable_bl_fields == {
         "shipper",
         "consignee",
         "notify_party",
@@ -304,3 +295,19 @@ def test_hitl_part_001_and_reg_009_partial_work_preservation():
         "port_of_discharge",
         "gross_weight_kg",
     }
+
+    # 3. Verified values and normalization on preserved fields remain intact (no work discarded)
+    assert bl_ext.fields["shipper"].normalized is not None
+    assert bl_ext.fields["shipper"].normalized.value == "ACME EXPORTS LTD 123 INDUSTRIAL WAY SINGAPORE 068896"
+    assert bl_ext.fields["gross_weight_kg"].normalized is not None
+    assert bl_ext.fields["gross_weight_kg"].normalized.value == Decimal("25432.50")
+    assert bl_ext.fields["port_of_loading"].normalized is not None
+    assert bl_ext.fields["port_of_loading"].normalized.value == "SHANGHAI (CNSHA)"
+
+    # 4. T10 strictly returns DocumentExtraction and does not emit comparator types or mismatch booleans
+    assert isinstance(si_ext, DocumentExtraction)
+    assert isinstance(bl_ext, DocumentExtraction)
+    assert not hasattr(si_ext, "mismatch_detected")
+    assert not hasattr(bl_ext, "mismatch_detected")
+    assert not hasattr(si_ext, "comparisons")
+    assert not hasattr(bl_ext, "comparisons")

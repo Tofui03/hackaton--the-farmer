@@ -617,12 +617,17 @@ def test_api_rev_002_and_hitl_rev_006_concurrency_conflict_409(test_env):
 
 
 # =====================================================================
-# Safe Submission Export & Export Blocked (DC-08)
+# GET /submission HTTP Shell Endpoint Presence (T12 delegation shell)
+# Note: Authoritative schema mapping (EVAL-MAP-*) and export adapter
+# verification (API-EXP-001/002) are formally owned and tested in T13.
 # =====================================================================
 
 
-def test_api_exp_001_and_002_submission_export_and_blocked(test_env):
-    """DC-08 / API-EXP-001/002: GET /submission blocks with HTTP 409 if cases need review, succeeds if complete."""
+def test_submission_shell_endpoint_presence(test_env):
+    """T12 HTTP route shell verification for GET /submission.
+    Verifies endpoint presence, basic delegation, and HTTP 409 shell response when cases need review.
+    Authoritative API-EXP-001/002 and EVAL-MAP-* validation is owned and implemented in T13.
+    """
     client, store, orch = test_env
 
     # 1. Store has 1 case needing review
