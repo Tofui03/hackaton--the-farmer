@@ -162,34 +162,34 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
         "status": "TBD / OBSERVATIONAL BASELINE",
     }
 
-    # PERF-004: Deterministic Parser Throughput
+    # PERF-004: Deterministic Parser Throughput (TXT / DOCX / Vector PDF + XLSX Design Extension)
     fixtures_dir = ROOT / "tests" / "fixtures" / "documents"
     txt_file = fixtures_dir / "txt" / "txt_si_001_clean.txt"
+    docx_file = fixtures_dir / "docx" / "docx_si_001_paragraph.docx"
+    pdf_file = fixtures_dir / "pdf" / "pdf_si_001_clean.pdf"
     xlsx_file = fixtures_dir / "xlsx" / "xlsx_si_001_clean.xlsx"
-    docx_file = fixtures_dir / "docx" / "docx_si_001_clean.docx"
-    pdf_file = fixtures_dir / "pdf" / "pdf_si_001_vector.pdf"
 
     parse_times: dict[str, float] = {}
     if txt_file.exists():
         t0 = time.perf_counter()
         TextParser().parse(txt_file)
-        parse_times["txt_ms"] = round((time.perf_counter() - t0) * 1000, 2)
-    if xlsx_file.exists():
-        t0 = time.perf_counter()
-        ExcelParser().parse(xlsx_file)
-        parse_times["xlsx_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+        parse_times["txt_throughput_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     if docx_file.exists():
         t0 = time.perf_counter()
         DocxParser().parse(docx_file)
-        parse_times["docx_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+        parse_times["docx_throughput_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     if pdf_file.exists():
         t0 = time.perf_counter()
         PdfParser().parse(pdf_file)
-        parse_times["pdf_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+        parse_times["vector_pdf_throughput_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+    if xlsx_file.exists():
+        t0 = time.perf_counter()
+        ExcelParser().parse(xlsx_file)
+        parse_times["xlsx_design_extension_ms"] = round((time.perf_counter() - t0) * 1000, 2)
 
     results["PERF-004"] = {
-        "description": "Deterministic Parser Throughput (parse time per format)",
-        "metrics": str(parse_times),
+        "description": "Deterministic Parser Throughput (TXT / DOCX / Vector PDF + XLSX Design Extension)",
+        "throughput_metrics": str(parse_times),
         "status": "TBD / OBSERVATIONAL BASELINE",
     }
 
