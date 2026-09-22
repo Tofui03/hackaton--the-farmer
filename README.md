@@ -1,253 +1,639 @@
 # Shipping Document Verification System
 
-An AI-assisted shipping document verification and discrepancy audit engine that classifies incoming operational emails, extracts and normalizes Shipping Instructions (SI) and Draft Bills of Lading (BL), performs deterministic 7-field cross-comparisons, and escalates ambiguous cases for Human-in-the-Loop (HITL) review.
+An AI-assisted shipping document verification system that classifies incoming emails, processes Shipping Instructions (SI) and Draft Bills of Lading (BL), compares critical shipment information, and escalates uncertain cases for human review.
 
 The system uses a **hybrid AI + deterministic architecture**:
 
-- **AI on Demand**: Used exclusively for semantic interpretation (unstructured email intent classification, complex table extraction, and image-only scanned document OCR).
-- **Deterministic Comparator**: Normalization, mathematical unit conversion, and field-by-field comparisons execute strictly through deterministic code. The language model **never** decides whether two shipment values match.
-- **Human-in-the-Loop (HITL)**: Missing, unreadable, conflicting, or uncertain values trigger actionable review cases with verbatim source provenance instead of fabricating guesses.
-- **Partial Work Preservation**: Reliable fields are permanently preserved during escalations so operators only verify the specific problematic items.
+- AI is used where semantic interpretation or document extraction is useful.
+- Deterministic logic is used for normalization, validation, and the final field comparison.
+- The language model does **not** decide whether two shipment values match.
+- Uncertain, missing, conflicting, or unreadable information is escalated to a human reviewer instead of being guessed.
 
 ---
 
 ## Live Demo
 
-- **Frontend Web Console**: [https://hackaton-the-farmer-1.onrender.com/](https://hackaton-the-farmer-1.onrender.com/)
-- **Backend REST API**: [https://hackaton-the-farmer.onrender.com](https://hackaton-the-farmer.onrender.com)
-- **Interactive Swagger Documentation**: [https://hackaton-the-farmer.onrender.com/docs](https://hackaton-the-farmer.onrender.com/docs)
+**Frontend**
+
+https://hackaton-the-farmer-1.onrender.com/
+
+**Backend API**
+
+https://hackaton-the-farmer.onrender.com
+
+**Swagger API Documentation**
+
+https://hackaton-the-farmer.onrender.com/docs
 
 ---
 
-## Problem & Solution
+## Problem
 
-Shipping operations teams handle hundreds of inbound booking emails daily containing Shipping Instructions and draft Bills of Lading that require meticulous cross-checking. Manual verification is error-prone and time-consuming because:
+Shipping operations teams frequently receive emails containing Shipping Instructions and Draft Bills of Lading that must be manually checked for inconsistencies.
 
-1. Emails span multiple operational intents (booking checks, invoice queries, new SI submissions, general updates, spam).
-2. Documents arrive in disparate formats (`.txt`, `.docx`, `.pdf`, `.xlsx`, scanned images).
-3. Field formatting differs widely (e.g., metric tons vs. kilograms, multiline address blocks, alternative labels).
-4. Subtle discrepancies (e.g., container count mismatch: 3 vs. 4) lead to costly customs penalties or cargo re-routing if overlooked.
-5. Traditional automated systems either hallucinate matches using generative AI or fail entirely on minor OCR noise.
+Manual verification is repetitive and can become difficult when:
 
-This platform automates repetitive ingestion, role binding, and deterministic validation while providing operations reviewers with a transparent, evidence-grounded review console.
+- emails contain different operational intents,
+- document formats vary,
+- values use different formatting,
+- documents are incomplete or unclear,
+- scanned documents require OCR,
+- only one field is incorrect while the remaining information is valid.
+
+This project automates the repetitive parts of the workflow while keeping uncertain decisions visible to a human reviewer.
 
 ---
 
 ## End-to-End Workflow
 
 ```text
-                     Incoming Inbound Email
-                               |
-                               v
-               [Stage 1: Intent Classification]
-                               |
-            +------------------+------------------+
-            |                                     |
-   (Non-Comparison Category)             (document_comparison)
-            |                                     |
-            v                                     v
-  [Complete: NOT_APPLICABLE]           [Stage 2: Role Binding]
-  (INVOICE_QUERY / SPAM / etc.)         (Identify SI vs. Draft BL)
-                                                  |
-                                                  v
-                                       [Document Parsing & OCR]
-                                       (TXT / DOCX / PDF / XLSX)
-                                                  |
-                                                  v
-                                       [Stage 3: Field Extraction]
-                                       (Extract 7 Mandatory Fields)
-                                                  |
-                                                  v
-                                       [Canonical Normalization]
-                                       (NFKC, Spacing, MT -> kg)
-                                                  |
-                                                  v
-                                       [Stage 4: Deterministic Comparator]
-                                                  |
-                      +---------------------------+---------------------------+
-                      |                                                       |
-              (All 7 Fields Match)                                   (Discrepancies Detected)
-                      |                                                       |
-                      v                                                       v
-               COMPLETE: MATCH                                       COMPLETE: MISMATCH
-          ("No mismatch detected")                               (Rose diff row in UI matrix)
-                      |                                                       |
-                      +---------------------------+---------------------------+
-                                                  |
-                                       (Uncertain / Unreadable)
-                                                  |
-                                                  v
-                                             NEEDS_REVIEW
-                                      [Human Review Workspace]
-                                                  |
-                                                  v
-                                         Operator Correction
-                                      (Targeted Field / Role)
-                                                  |
-                                                  v
-                                       Deterministic Recomputation
-                                        (Revision N -> Rev N+1)
+Incoming Email
+      |
+      v
+Email Classification
+      |
+      v
+Document Comparison Request?
+   /               \
+ No                 Yes
+ |                   |
+ v                   v
+Complete      Identify SI and Draft BL
+                     |
+                     v
+              Parse Documents
+                     |
+                     v
+               Extract 7 Fields
+                     |
+                     v
+               Normalize Values
+                     |
+                     v
+          Deterministic Comparison
+                     |
+          +----------+----------+
+          |          |          |
+        MATCH     MISMATCH   NEEDS_REVIEW
+                                |
+                                v
+                          Human Correction
+                                |
+                                v
+                       Automatic Recompute
 ```
 
 ---
 
-## The 7 Mandatory Comparison Fields
+## Email Categories
 
-The core comparison engine verifies exactly and only the 7 mandatory shipment attributes:
+The system classifies incoming emails into five operational categories:
 
-| Field Name | Type | Normalization & Validation Standard |
-| :--- | :--- | :--- |
-| `shipper` | String | Unicode NFKC, uppercase, whitespace collapsed, trailing punctuation trimmed. |
-| `consignee` | String | Multiline corporate address blocks preserved with full line-span evidence. |
-| `notify_party` | String | Resolved against consignee references (`"SAME AS CONSIGNEE"`). |
-| `port_of_loading` | String | Normalized port name with UN/LOCODE identifier preserved. |
-| `port_of_discharge` | String | Normalized destination port name with UN/LOCODE identifier preserved. |
-| `container_count` | Integer | Word conversion (`"Three (3)"` $\rightarrow$ `3`), multi-size manifest summation. |
-| `gross_weight_kg` | Decimal | Exact mathematical conversion (`22 MT` $\rightarrow$ `Decimal("22000")`), no binary float drift. |
+1. Document comparison
+2. New shipping instruction
+3. Invoice query
+4. General operational update
+5. Spam
 
----
+Only **document comparison** requests continue into the SI / Draft BL verification pipeline.
 
-## Key Architectural Highlights
-
-### 1. Tri-State Safety Model
-Comparisons evaluate strictly to:
-- `MATCH`: All 7 mandatory fields extracted reliably and match 100%.
-- `MISMATCH`: All 7 fields extracted reliably, with 1 or more deterministic discrepancies isolated.
-- `UNRESOLVED` (`null`): If any mandatory field is missing, unreadable, or conflicting, `mismatch_detected` remains `null`. The system **never** emits a false clean match on incomplete data.
-
-### 2. Evidence Grounding & Provenance
-Every extracted entity maintains a strict `FieldEvidence` reference containing:
-- Exact verbatim text quote.
-- Page number / table coordinate metadata.
-- Parent source document ID.
-Self-reported AI confidence scores are treated as diagnostic only and can **never** bypass evidence validation.
-
-### 3. Concurrency-Safe Human Review
-Reviewers submit corrections via `POST /audit/{id}/review` protected by optimistic revision locking (`expected_revision`). If a concurrent operator modifies the record first, the server returns HTTP 409 Conflict, preserving the local reviewer's unsubmitted inputs.
-
-### 4. Safe Export Gate (`EXPORT_BLOCKED`)
-Evaluation submission generation (`GET /submission`) enforces Safety Invariant DC-08. If any batch record remains in `NEEDS_REVIEW`, export is blocked with HTTP 409, detailing the blocking email IDs and direct resolution links.
+This avoids unnecessary document processing for unrelated emails.
 
 ---
 
-## Technology Stack
+## Seven Compared Fields
 
-- **Backend Framework**: Python 3.12, [FastAPI](https://fastapi.tiangolo.com/), [Pydantic v2](https://docs.pydantic.dev/) (strict contract schemas)
-- **Document Parsers**: `pypdf` (Vector PDF), `python-docx` (Word tables), `openpyxl` (Excel), standard UTF-8 text parser
-- **AI & Vision Adapter**: Google GenAI / Gemini API adapter with bounded exponential backoff retries and structured output schemas
-- **Frontend Console**: React 18, TypeScript 5.7, Vite, Tailwind CSS, Lucide / Heroicons
-- **Testing & Verification**: Pytest (246 test suite), Vitest, React Testing Library
+For document comparison requests, the system verifies exactly seven shipment fields:
 
----
+| Field             |
+| ----------------- |
+| Shipper           |
+| Consignee         |
+| Notify Party      |
+| Port of Loading   |
+| Port of Discharge |
+| Container Count   |
+| Gross Weight      |
 
-## API Endpoints Overview
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/` | Root service status and dynamic audit store summary metrics. |
-| `GET` | `/health` | Application health and readiness check. |
-| `GET` | `/audit` | Query audit queue summaries with filtering (`state`, `outcome`, `category`). |
-| `GET` | `/audit/{email_id}` | Retrieve full audit report including documents, comparisons, evidence, and review lineage. |
-| `POST` | `/audit/{email_id}/review` | Submit targeted human review correction with optimistic concurrency locking. |
-| `GET` | `/submission` | Export official evaluation submission JSON (blocks with HTTP 409 if cases remain unresolved). |
-| `POST` | `/verify` | On-demand SI and Draft BL verification payload. |
+The final comparison is performed using deterministic logic after normalization.
 
 ---
 
-## Local Development Setup
+## Example
 
-### 1. Prerequisites
-- Python 3.12+
-- Node.js 20+ & npm
+### Clean Match
 
-### 2. Backend Setup
-```bash
-# Clone repository
-git clone https://github.com/tofui03/ship.git
-cd ship
+```text
+Shipping Instruction:
+Container Count: 3
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+Draft Bill of Lading:
+Container Count: 3
 
-# Install Python dependencies
-pip install -r requirements.txt
-
-# (Optional) Enable demo seed records for live local UI walkthrough
-# export SDOC_UAT_DEMO_SEED=1  # On Windows: $env:SDOC_UAT_DEMO_SEED="1"
-
-# Run FastAPI backend
-uvicorn app:app --reload --port 10000
+Result:
+MATCH
 ```
 
-### 3. Frontend Setup
-```bash
-cd frontend
+### Detected Mismatch
 
-# Install dependencies
-npm install
+```text
+Shipping Instruction:
+Container Count: 3
 
-# Run Vite development server (proxies API calls to localhost:10000)
-npm run dev
+Draft Bill of Lading:
+Container Count: 4
+
+Result:
+MISMATCH
 ```
 
-The frontend console will be live at `http://localhost:5173`.
+Only the affected field is flagged. Other reliable matching fields remain preserved.
 
 ---
 
-## Verification & Quality Assurance
+## Human-in-the-Loop Review
 
-The codebase is governed by a comprehensive verification test suite enforcing contract integrity, negative regression guards, and end-to-end lifecycle flows.
+The system does not force a final answer when information is unreliable.
 
-```bash
-# 1. Run complete Pytest suite (246 tests)
-python -m pytest tests -v
+Examples that may trigger human review include:
 
-# 2. Run AI and Review fixture governance validators
-python tests/fixtures/validate_ai_fixtures.py
-python tests/fixtures/validate_review_fixtures.py
+* missing attachment,
+* unreadable document,
+* uncertain document type,
+* missing required value,
+* uncertain extraction result,
+* conflicting candidate values,
+* processing or provider failure.
 
-# 3. Run Frontend unit and component tests
-npm --prefix frontend run test
+A case then becomes:
 
-# 4. Compile Frontend production build
-npm --prefix frontend run build
-
-# 5. Verify OpenAPI and TypeScript contract synchronization
-python scripts/verify_contracts.py
-
-# 6. Run single-command deadline verification harness
-powershell -ExecutionPolicy Bypass -File .\scripts\verify_deadline.ps1
+```text
+NEEDS_REVIEW
 ```
+
+Reliable work already completed by the system is preserved.
+
+The reviewer corrects the **source-level information**, not the final MATCH or MISMATCH result.
+
+After the correction:
+
+```text
+Human Correction
+      |
+      v
+Normalization
+      |
+      v
+Deterministic Re-comparison
+      |
+      v
+Updated Result
+```
+
+This prevents users from manually overriding the final verification result without going through the comparison logic.
+
+---
+
+## Why Hybrid AI + Deterministic Rules?
+
+This system intentionally does not use AI for every decision.
+
+### AI is useful for
+
+* understanding ambiguous email intent,
+* interpreting semi-structured documents,
+* extracting information from complex input,
+* assisting when deterministic extraction is insufficient.
+
+### Deterministic logic is used for
+
+* field normalization,
+* numerical conversion,
+* schema validation,
+* final seven-field equality checks,
+* MATCH / MISMATCH decisions.
+
+This design reduces unnecessary AI usage and makes the final verification result more predictable and explainable.
+
+---
+
+## Source Evidence
+
+Extracted information is linked to source evidence where available.
+
+This allows the reviewer to inspect the original supporting text instead of relying only on the final result.
+
+The review workflow therefore provides:
+
+```text
+Extracted Value
+      +
+Source Evidence
+      +
+Comparison Result
+```
+
+This improves traceability and makes discrepancies easier to verify.
+
+---
+
+## Supported Processing
+
+The architecture supports:
+
+* Plain text
+* DOCX
+* PDF
+* Scanned / image-based documents
+* OCR-assisted processing
+* Structured extraction
+* Human review fallback
+
+The system follows a deterministic-first approach and only uses more advanced processing when required.
+
+---
+
+## Dataset
+
+The supplied hackathon bundle contains:
+
+```text
+520 inbox records
+250 attachment files
+```
+
+The original data bundle is preserved under:
+
+```text
+sdoc-hackathon-bundle/
+```
+
+The live presentation uses controlled representative cases so that each major workflow branch can be demonstrated clearly and reproducibly within the presentation time limit.
+
+The same processing architecture supports batch execution across the supplied inbox dataset.
+
+---
+
+## Live Demo Cases
+
+The deployed demo includes representative scenarios:
+
+### `uat-demo-general`
+
+Shows:
+
+```text
+Email classification
+→ General operational message
+→ No document comparison required
+```
+
+### `uat-demo-match`
+
+Shows:
+
+```text
+SI + Draft BL
+→ 7 fields extracted
+→ All fields match
+→ COMPLETE / MATCH
+```
+
+### `uat-demo-mismatch`
+
+Shows:
+
+```text
+Container Count
+SI = 3
+BL = 4
+
+→ COMPLETE / MISMATCH
+```
+
+### `uat-demo-review`
+
+Shows:
+
+```text
+Missing Gross Weight
+→ NEEDS_REVIEW
+→ Human correction
+→ Automatic deterministic recomputation
+```
+
+The UAT demo records are synthetic and are clearly separated from the official evaluation dataset.
+
+---
+
+## Validation
+
+The project is validated at multiple levels.
+
+| Validation                      |         Result |
+| ------------------------------- | -------------: |
+| Backend automated tests         |     246 passed |
+| AI fixture validation           | 53 / 53 passed |
+| Human-review fixture validation | 48 / 48 passed |
+| Frontend tests                  |   9 / 9 passed |
+| Frontend production build       |           PASS |
+| API contract synchronization    |           PASS |
+| Evaluation bundle immutability  |           PASS |
+
+Automated testing validates system behavior and regression safety.
+
+It does not replace human usability testing.
+
+---
+
+## API
+
+Main API endpoints:
+
+```text
+GET  /
+GET  /health
+GET  /audit
+GET  /audit/{email_id}
+POST /audit/{email_id}/review
+GET  /submission
+POST /verify
+```
+
+### Audit Queue
+
+```http
+GET /audit
+```
+
+Returns the current verification cases.
+
+### Single Case
+
+```http
+GET /audit/{email_id}
+```
+
+Returns the complete audit record for one email.
+
+### Human Review
+
+```http
+POST /audit/{email_id}/review
+```
+
+Submits reviewer corrections and triggers deterministic recomputation.
+
+### Submission Export
+
+```http
+GET /submission
+```
+
+Produces structured output when all required cases are exportable.
+
+---
+
+## Frontend
+
+The frontend is built using:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+
+Main views include:
+
+```text
+Case Queue
+Case Detail
+Comparison Matrix
+Evidence Viewer
+Human Review
+Export
+```
+
+The comparison interface presents:
+
+```text
+Field | Shipping Instruction | Draft BL | Result
+```
+
+so reviewers can identify mismatches without reading raw JSON.
+
+---
+
+## Backend
+
+The backend uses:
+
+* Python
+* FastAPI
+* Pydantic
+* Uvicorn
+* Pluggable parsing components
+* Deterministic comparison engine
+* Human-in-the-loop review service
 
 ---
 
 ## Project Structure
 
 ```text
-├── app.py                     # FastAPI application entrypoint & SPA static mount
+.
+├── app.py
+├── main.py
+├── requirements.txt
+├── render.yaml
+│
+├── frontend/
+│   └── React / TypeScript user interface
+│
 ├── src/
-│   ├── adapters/              # Evaluation submission schema adapter
-│   ├── api/                   # REST routes, dependencies & timing middleware
-│   ├── comparator/            # Deterministic 7-field comparison engine
-│   ├── demo/                  # Environment-gated synthetic UAT demo seed
-│   ├── hitl/                  # Escalation engine & human review mutation service
-│   ├── llm/                   # Provider-agnostic AI adapters, retries & schemas
-│   ├── models/                # Strict Pydantic v2 data contracts
-│   ├── normalization/         # Unicode, text, and gross weight unit normalizers
-│   ├── parsers/               # TXT, DOCX, PDF, XLSX parsers & usability validator
-│   ├── pipeline/              # Ingestion, Stage 1-4 orchestration
-│   └── store/                 # Thread-safe in-memory AuditStore
-├── frontend/                  # React + TypeScript single-page application
-│   ├── src/components/        # 4-Column Matrix, OutcomeBadge, EvidenceDrawer, Modals
-│   └── src/views/             # CaseQueueView, ReviewWorkspaceView
-├── specs/                     # Baselined product, architecture & test specifications
-├── docs/                      # Compiled frontend assets & UAT reports
-└── tests/                     # 246 unit, contract, regression, security & E2E tests
+│   ├── adapters/
+│   ├── api/
+│   ├── demo/
+│   ├── hitl/
+│   ├── models/
+│   ├── parsers/
+│   ├── pipeline/
+│   └── store/
+│
+├── tests/
+│   └── automated and regression tests
+│
+├── scripts/
+│   └── verification and benchmark scripts
+│
+├── specs/
+│   └── product, architecture, contracts,
+│       UI and testing specifications
+│
+└── sdoc-hackathon-bundle/
+    ├── inbox/
+    ├── attachments/
+    ├── sample_submission.json
+    └── loader.py
 ```
 
 ---
 
-## License
+## Running the Backend Locally
 
-This project was built for the SDOC Hackathon.
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the API:
+
+```bash
+uvicorn app:app --reload
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+Swagger:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## Running the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+For production build:
+
+```bash
+npm run build
+```
+
+---
+
+## Running Tests
+
+Backend:
+
+```bash
+python -m pytest tests -q
+```
+
+AI fixture validation:
+
+```bash
+python tests/fixtures/validate_ai_fixtures.py
+```
+
+Review fixture validation:
+
+```bash
+python tests/fixtures/validate_review_fixtures.py
+```
+
+Frontend:
+
+```bash
+npm --prefix frontend run test
+```
+
+Production build:
+
+```bash
+npm --prefix frontend run build
+```
+
+Full deadline verification:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\verify_deadline.ps1
+```
+
+---
+
+## Design Principles
+
+The implementation follows several core principles:
+
+### 1. Do not guess uncertain results
+
+If a reliable decision cannot be made:
+
+```text
+mismatch_detected = unresolved
+```
+
+rather than silently returning no mismatch.
+
+### 2. Preserve reliable work
+
+If one field requires review, already verified fields are not discarded.
+
+### 3. AI does not decide equality
+
+AI may assist with understanding and extraction, but final equality checks are deterministic.
+
+### 4. Evidence remains accessible
+
+Reviewers should be able to understand why a field was extracted or flagged.
+
+### 5. Human corrections trigger recomputation
+
+Users correct the source information rather than directly editing the final mismatch decision.
+
+---
+
+## Current Limitations
+
+Some semantic equivalence rules are intentionally conservative.
+
+Examples include:
+
+* organization-name equivalence,
+* semantic port aliases,
+* numerical tolerances.
+
+The system avoids silently introducing assumptions such as:
+
+```text
+±1 kg tolerance
+```
+
+unless such behavior is explicitly defined.
+
+External AI providers may also introduce latency or availability limitations, which are handled through bounded retries and human-review fallback where appropriate.
+
+---
+
+## Presentation Summary
+
+The system demonstrates the complete operational workflow:
+
+```text
+Inbox
+→ Classification
+→ Document Identification
+→ Parsing
+→ Extraction
+→ Deterministic Comparison
+→ Evidence
+→ Human Review
+→ Automatic Re-comparison
+→ Structured Output
+```
+
+The objective is not simply to add AI to document processing.
+
+The objective is to use AI where interpretation is valuable while keeping final verification deterministic, traceable, and reviewable.
