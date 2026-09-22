@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -6,12 +7,22 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from src.api.middleware import TimingMiddleware
-from src.api.routes import router
+from src.api.routes import get_audit_store, router
+from src.demo.uat_seed import maybe_seed_uat_demo_records
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Run application startup and shutdown hooks (e.g. environment-gated UAT demo seed)."""
+    maybe_seed_uat_demo_records(get_audit_store())
+    yield
+
 
 app = FastAPI(
     title="Shipping Document Verification & Audit API",
     description="Shipping document verification, deterministic comparison, evidence tracing, and human review API.",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 # Local Vite development and separately hosted static deployments may use a
@@ -26,6 +37,7 @@ app.add_middleware(
 app.add_middleware(TimingMiddleware)
 
 app.include_router(router)
+
 
 # T14: a Vite production build writes to docs/. Only mount the SPA when the
 # build assets exist, so the preserved legacy prototype is never served as the
