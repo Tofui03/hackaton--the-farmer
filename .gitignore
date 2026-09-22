@@ -50,3 +50,8 @@ Desktop.ini
 .cache_pipeline.json
 .pytest_cache/
 
+
+frontend/node_modules/
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
