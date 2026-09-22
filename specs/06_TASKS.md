@@ -1419,7 +1419,7 @@ flowchart TD
 - **Acceptance Criteria**: All 9 UAT operational criteria signed off as Pass in `docs/UAT_REPORT_FINAL.md`.
 - **Verification Commands**: Manual review walkthrough per protocol.
 - **Expected Evidence**: Signed-off UAT documentation artifact.
-- **Status**: `DONE`
+- **Status**: `IN_PROGRESS` (Awaiting Human UAT Sign-off)
 
 ---
 

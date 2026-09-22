@@ -61,8 +61,8 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
     set_audit_store(store)
     client = TestClient(app)
 
-    # Populate store with synthetic records
-    num_records = 50
+    # Populate store with synthetic records for Queue Summary Latency (PERF-001: 500 records)
+    num_records = 500
     for i in range(num_records):
         eid = f"perf_email_{i:03d}"
         email = EmailRecord(
@@ -83,15 +83,15 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
             },
         )
 
-    # PERF-001: Queue Summary API Latency (GET /audit)
+    # PERF-001: Queue Summary API Latency (GET /audit with 500 records)
     t0 = time.perf_counter()
     resp = client.get("/audit")
     t1 = time.perf_counter()
     assert resp.status_code == 200
     perf_001_ms = (t1 - t0) * 1000
     results["PERF-001"] = {
-        "description": "Queue Summary API Latency (GET /audit with 50 records)",
-        "latency_ms": round(perf_001_ms, 2),
+        "description": "Queue Summary API Latency (GET /audit with 500 records)",
+        "measured_latency_ms": round(perf_001_ms, 2),
         "status": "TBD / OBSERVATIONAL BASELINE",
     }
 
@@ -102,8 +102,8 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
     assert resp.status_code == 200
     perf_002_ms = (t1 - t0) * 1000
     results["PERF-002"] = {
-        "description": "Single Case Detail API Latency (GET /audit/{id})",
-        "latency_ms": round(perf_002_ms, 2),
+        "description": "Single Case Detail API Latency (GET /audit/{email_id})",
+        "measured_latency_ms": round(perf_002_ms, 2),
         "status": "TBD / OBSERVATIONAL BASELINE",
     }
 
@@ -223,9 +223,9 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
         "status": "TBD / OBSERVATIONAL BASELINE",
     }
 
-    # PERF-007: Batch Pipeline Throughput
+    # PERF-007: Batch Pipeline Throughput (100 mixed cases)
     t0 = time.perf_counter()
-    batch_records = 20
+    batch_records = 100
     for j in range(batch_records):
         b_eid = f"batch_perf_{j}"
         b_email = EmailRecord(
@@ -248,7 +248,7 @@ def measure_benchmarks() -> dict[str, dict[str, str | float]]:
     perf_007_ms = (time.perf_counter() - t0) * 1000
     throughput_eps = batch_records / (perf_007_ms / 1000.0)
     results["PERF-007"] = {
-        "description": "Batch Pipeline Throughput (20 end-to-end cases)",
+        "description": "Batch Pipeline Throughput (100 mixed cases)",
         "duration_ms": round(perf_007_ms, 2),
         "throughput_emails_per_sec": round(throughput_eps, 2),
         "status": "TBD / OBSERVATIONAL BASELINE",
