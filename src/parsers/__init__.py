@@ -25,8 +25,33 @@ _pdf_parser = PdfParser()
 _docai_adapter = DocumentAIAdapter()
 
 
+def sanitize_attachment_path(path: str | Path, base_dir: Optional[Path] = None) -> Path:
+    """Validate and sanitize attachment file path preventing directory traversal (SEC-PATH-001).
+    
+    Rejects directory traversal sequences ('..') and unauthorized system path access.
+    """
+    path_obj = Path(path)
+    # Check for directory traversal in path parts
+    if ".." in path_obj.parts:
+        raise ValueError(f"Directory traversal detected in path: {path}")
+
+    # Check for absolute traversal / system root accesses
+    p_str = str(path_obj).replace("\\", "/").lower()
+    if p_str.startswith("/etc") or "c:/windows" in p_str:
+        raise ValueError(f"Insecure system path access rejected: {path}")
+
+    if base_dir is not None and path_obj.is_absolute():
+        try:
+            path_obj.resolve().relative_to(base_dir.resolve())
+        except ValueError:
+            raise ValueError(f"Path escapes allowable base directory: {path}")
+
+    return path_obj
+
+
 def parse_document(file_path: Path, document_id: Optional[str] = None) -> ParserResult:
     """Canonical router: Route document to appropriate parser returning strict ParserResult."""
+    sanitize_attachment_path(file_path)
     doc_id = document_id or file_path.name
     if not file_path.exists():
         return ParserResult(
@@ -92,6 +117,7 @@ __all__ = [
     "normalize_pixel_box",
     "parse_document",
     "parse_attachment",
+    "sanitize_attachment_path",
     "UsabilityAssessment",
     "assess_text_usability",
 ]

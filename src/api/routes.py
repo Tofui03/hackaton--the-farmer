@@ -118,6 +118,16 @@ def _get_legacy_record(email_id: str) -> Optional[Dict[str, Any]]:
 @router.get("/audit/{email_id}", responses={404: {"model": ErrorResponse}})
 def get_single_audit(email_id: str, store: AuditStore = Depends(get_audit_store)):
     """Retrieve full detail for a single AuditRecord (API-AUD-002, API-AUD-003)."""
+    if ".." in email_id or "/" in email_id or "\\" in email_id:
+        return JSONResponse(
+            status_code=400,
+            content=ErrorResponse(
+                code="INVALID_PATH_TRAVERSAL",
+                message=f"Directory traversal sequence detected in email ID: '{email_id}'",
+                details=["Path traversal characters are strictly forbidden"],
+                retryable=False,
+            ).model_dump(),
+        )
     rec = store.get(email_id)
     if rec is not None:
         return rec
@@ -140,7 +150,11 @@ def get_single_audit(email_id: str, store: AuditStore = Depends(get_audit_store)
 @router.post(
     "/audit/{email_id}/review",
     response_model=AuditRecord,
-    responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+    responses={
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+        422: {"model": ErrorResponse, "description": "Unprocessable Content"},
+    },
 )
 def submit_human_review(
     email_id: str,

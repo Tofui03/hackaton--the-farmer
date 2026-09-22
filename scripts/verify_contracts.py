@@ -69,6 +69,9 @@ def _component_decl(name: str, schema: dict[str, Any]) -> str:
 
 
 def generate() -> tuple[str, str]:
+    import sys
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
     from app import app
 
     schema = app.openapi()

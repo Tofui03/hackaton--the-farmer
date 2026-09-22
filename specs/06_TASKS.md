@@ -1249,7 +1249,7 @@ flowchart TD
 - **Acceptance Criteria**: All 12 regression tests pass 100%.
 - **Verification Commands**: `pytest tests/test_regression_suite.py -v`
 - **Expected Evidence**: 12 passed regression tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1268,7 +1268,7 @@ flowchart TD
 - **Acceptance Criteria**: `E2E-001` passes independently.
 - **Verification Commands**: `pytest tests/e2e/test_e2e_classification.py -k E2E-001 -v`
 - **Expected Evidence**: Passing E2E test log.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1288,7 +1288,7 @@ flowchart TD
 - **Acceptance Criteria**: `E2E-002`, `E2E-003`, `E2E-004` pass independently.
 - **Verification Commands**: `pytest tests/e2e/test_e2e_comparison.py -v`
 - **Expected Evidence**: Passing E2E comparison suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1311,7 +1311,7 @@ flowchart TD
 - **Acceptance Criteria**: `E2E-005`, `006`, `007`, `008`, `013`, `014` pass independently.
 - **Verification Commands**: `pytest tests/e2e/test_e2e_hitl_escalation.py -v`
 - **Expected Evidence**: Passing HITL escalation E2E tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1332,7 +1332,7 @@ flowchart TD
 - **Acceptance Criteria**: `E2E-009`, `010`, `011`, `012` pass independently.
 - **Verification Commands**: `pytest tests/e2e/test_e2e_review.py -v`
 - **Expected Evidence**: Passing review lifecycle E2E tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1351,7 +1351,7 @@ flowchart TD
 - **Acceptance Criteria**: `E2E-015` and `E2E-016` pass independently.
 - **Verification Commands**: `pytest tests/e2e/test_e2e_export.py -v`
 - **Expected Evidence**: Passing export lifecycle E2E tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1373,7 +1373,7 @@ flowchart TD
 - **Acceptance Criteria**: All security audit tests pass cleanly.
 - **Verification Commands**: `pytest tests/test_security_integrity.py -v`
 - **Expected Evidence**: Passing security audit logs.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1393,7 +1393,7 @@ flowchart TD
 - **Acceptance Criteria**: Benchmark script runs and emits formatted performance summary report.
 - **Verification Commands**: `python scripts/measure_benchmarks.py`
 - **Expected Evidence**: Observational latency report artifact.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1419,7 +1419,7 @@ flowchart TD
 - **Acceptance Criteria**: All 9 UAT operational criteria signed off as Pass in `docs/UAT_REPORT_FINAL.md`.
 - **Verification Commands**: Manual review walkthrough per protocol.
 - **Expected Evidence**: Signed-off UAT documentation artifact.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
