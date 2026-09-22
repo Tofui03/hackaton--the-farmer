@@ -8,9 +8,9 @@ import sys
 from typing import Any, Dict, List, Optional, Tuple
 from tqdm import tqdm
 
+from src.adapters.evaluation_adapter import EvaluationAdapter, ExportService
 from src.models.audit import AuditRecord
 from src.pipeline.orchestrator import PipelineOrchestrator
-from src.pipeline.validator import validate_submission_dict
 from src.store.audit_store import AuditStore
 
 logging.basicConfig(
@@ -19,56 +19,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("pipeline")
 
-STRICT_TO_COMPETITION_CAT = {
-    "document_comparison": "BL_COMPARISON",
-    "new_shipping_instruction": "SI_REQUEST",
-    "invoice_query": "INVOICE_QUERY",
-    "general": "GENERAL",
-    "general_message": "GENERAL",
-    "spam": "SPAM",
-}
-
-
 def audit_record_to_competition_dict(rec: AuditRecord) -> Dict[str, Any]:
-    """Map canonical AuditRecord to evaluation submission schema format."""
-    cat = rec.classification.category or "general"
-    comp_category = STRICT_TO_COMPETITION_CAT.get(cat, "GENERAL")
-
-    if rec.state == "NEEDS_REVIEW":
-        reason = "unreadable"
-        if rec.review and rec.review.issues:
-            iss = rec.review.issues[0]
-            lr = iss.logical_reason
-            val = lr.value if hasattr(lr, "value") else str(lr)
-            if val in ("missing_attachment", "wrong_or_uncertain_document_type"):
-                reason = "wrong_doc_type" if val == "wrong_or_uncertain_document_type" else "missing_attachment"
-            elif val == "missing_required_value":
-                reason = "missing_value"
-            else:
-                reason = "unreadable"
-        return {
-            "category": comp_category,
-            "status": "NEEDS_REVIEW",
-            "review_reason": reason,
-            "defect_fields": [],
-            "has_defect": False,
-        }
-    elif rec.mismatch_detected:
-        return {
-            "category": comp_category,
-            "status": "MISMATCH",
-            "review_reason": None,
-            "defect_fields": [d.field for d in rec.discrepancies],
-            "has_defect": True,
-        }
-    else:
-        return {
-            "category": comp_category,
-            "status": "OK",
-            "review_reason": None,
-            "defect_fields": [],
-            "has_defect": False,
-        }
+    """Compatibility entrypoint; canonical export decisions belong to T13."""
+    return EvaluationAdapter().to_submission_record(rec).model_dump(mode="json")
 
 
 def load_inbox_emails(bundle_path: Path) -> List[Dict[str, Any]]:
@@ -113,47 +66,31 @@ def run_pipeline(
 
     emails = all_emails[:limit] if limit > 0 else all_emails
 
-    competition_submission: Dict[str, Any] = {}
     audit_records: List[AuditRecord] = []
 
     logger.info("=== Executing Pipeline Across Ingested Emails ===")
     for email in tqdm(emails, desc="Auditing emails"):
-        eid = email["email_id"]
         audit_rec = orchestrator.process_email(email)
         audit_records.append(audit_rec)
-        competition_submission[eid] = audit_record_to_competition_dict(audit_rec)
 
-    # Fill remainder if limited run for schema validation
-    sample_sub_path = bundle_path / "sample_submission.json"
-    if sample_sub_path.exists():
-        sample_data = json.loads(sample_sub_path.read_text(encoding="utf-8"))
-        if len(competition_submission) < len(sample_data):
-            for eid, default_rec in sample_data.items():
-                if eid not in competition_submission:
-                    competition_submission[eid] = default_rec
-
-        # Validate against sample_submission.json
-        valid, errors = validate_submission_dict(competition_submission, sample_data)
-        if valid:
-            logger.info("PASSED: Competition submission conforms 100%% to sample schema!")
-        else:
-            logger.warning("FAILED validation with %d issues: %s", len(errors), errors[:5])
-
-    # 1. Write official competition submission.json
-    sub_path = Path(submission_output)
-    sub_path.write_text(json.dumps(competition_submission, indent=2), encoding="utf-8")
-    logger.info("Wrote %d records to %s", len(competition_submission), sub_path.resolve())
-
-    # 2. Write strict contract audit_report.json
+    # Preserve all internal work even when official export is blocked.
     audit_dict_list = [json.loads(r.model_dump_json()) for r in audit_records]
     audit_path = Path(audit_output)
     audit_path.write_text(json.dumps(audit_dict_list, indent=2), encoding="utf-8")
     logger.info("Wrote %d strict audit records to %s", len(audit_dict_list), audit_path.resolve())
 
-    # 3. Synchronize to docs/ for GitHub Pages
     docs_dir = Path("docs")
     if docs_dir.exists():
         shutil.copy(audit_path, docs_dir / "audit_report.json")
+
+    competition_submission = ExportService().export(
+        audit_records, expected_email_ids=[email["email_id"] for email in all_emails]
+    )
+    # No submission artifact is touched before the entire batch is exportable.
+    sub_path = Path(submission_output)
+    sub_path.write_text(json.dumps(competition_submission, indent=2), encoding="utf-8")
+    logger.info("Wrote %d records to %s", len(competition_submission), sub_path.resolve())
+    if docs_dir.exists():
         shutil.copy(sub_path, docs_dir / "submission.json")
         logger.info("Synchronized reports to docs/ for GitHub Pages.")
 

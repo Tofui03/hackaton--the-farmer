@@ -1022,7 +1022,7 @@ flowchart TD
 - **Acceptance Criteria**: `EVAL-MAP-001`, `003`, `004`, `005`, `006` pass cleanly.
 - **Verification Commands**: `pytest tests/test_evaluation_adapter.py -k "EVAL-MAP" -v`
 - **Expected Evidence**: Passing evaluation adapter tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -1044,7 +1044,7 @@ flowchart TD
 - **Acceptance Criteria**: `API-EXP-001` and `API-EXP-002` pass cleanly.
 - **Verification Commands**: `pytest tests/test_evaluation_adapter.py -k "API-EXP" -v`
 - **Expected Evidence**: Passing safe export tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 

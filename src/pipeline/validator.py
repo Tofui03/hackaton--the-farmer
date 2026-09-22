@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
+from src.adapters.evaluation_adapter import EvaluationAdapter
+
 VALID_CATEGORIES = {"BL_COMPARISON", "SI_REQUEST", "INVOICE_QUERY", "GENERAL", "SPAM"}
 VALID_STATUSES = {"OK", "MISMATCH", "NEEDS_REVIEW"}
 VALID_REVIEW_REASONS = {"wrong_doc_type", "missing_attachment", "unreadable", "missing_value"}
@@ -21,77 +23,15 @@ def validate_submission_dict(
     submission: Dict[str, Any],
     expected_sample: Dict[str, Any],
 ) -> Tuple[bool, List[str]]:
-    """Validate a submission dictionary against expectations and schema rules."""
-    errors = []
+    """Legacy compatibility wrapper around the authoritative T13 validator.
 
-    # 1. Check all expected email_ids are present
-    missing_keys = set(expected_sample.keys()) - set(submission.keys())
-    if missing_keys:
-        errors.append(f"Missing {len(missing_keys)} email IDs (e.g. {sorted(list(missing_keys))[:3]})")
-
-    extra_keys = set(submission.keys()) - set(expected_sample.keys())
-    if extra_keys:
-        errors.append(f"Extra {len(extra_keys)} email IDs (e.g. {sorted(list(extra_keys))[:3]})")
-
-    # 2. Check each entry's schema
-    for email_id, record in submission.items():
-        if not isinstance(record, dict):
-            errors.append(f"{email_id}: record is not a dictionary")
-            continue
-
-        required_fields = ["category", "status", "review_reason", "defect_fields", "has_defect"]
-        for f in required_fields:
-            if f not in record:
-                errors.append(f"{email_id}: missing field '{f}'")
-
-        cat = record.get("category")
-        if cat not in VALID_CATEGORIES:
-            errors.append(f"{email_id}: invalid category '{cat}'")
-
-        stat = record.get("status")
-        if stat not in VALID_STATUSES:
-            errors.append(f"{email_id}: invalid status '{stat}'")
-
-        has_defect = record.get("has_defect")
-        if not isinstance(has_defect, bool):
-            errors.append(f"{email_id}: 'has_defect' must be boolean, got {type(has_defect)}")
-
-        defect_fields = record.get("defect_fields")
-        if not isinstance(defect_fields, list):
-            errors.append(f"{email_id}: 'defect_fields' must be a list")
-        else:
-            invalid_fields = set(defect_fields) - VALID_DEFECT_FIELDS
-            if invalid_fields:
-                errors.append(f"{email_id}: invalid defect fields {invalid_fields}")
-
-        reason = record.get("review_reason")
-
-        # Specific consistency constraints
-        if stat == "MISMATCH":
-            if not has_defect:
-                errors.append(f"{email_id}: status is MISMATCH but has_defect is False")
-            if not defect_fields:
-                errors.append(f"{email_id}: status is MISMATCH but defect_fields is empty")
-            if reason is not None:
-                errors.append(f"{email_id}: status is MISMATCH but review_reason is not null")
-
-        elif stat == "OK":
-            if has_defect:
-                errors.append(f"{email_id}: status is OK but has_defect is True")
-            if defect_fields:
-                errors.append(f"{email_id}: status is OK but defect_fields is non-empty")
-            if reason is not None:
-                errors.append(f"{email_id}: status is OK but review_reason is not null")
-
-        elif stat == "NEEDS_REVIEW":
-            if has_defect:
-                errors.append(f"{email_id}: status is NEEDS_REVIEW but has_defect is True")
-            if defect_fields:
-                errors.append(f"{email_id}: status is NEEDS_REVIEW but defect_fields is non-empty")
-            if reason not in VALID_REVIEW_REASONS:
-                errors.append(f"{email_id}: invalid review_reason '{reason}' for NEEDS_REVIEW")
-
-    return len(errors) == 0, errors
+    ``expected_sample`` contributes coverage keys only.  Its values are never
+    treated as answer keys.
+    """
+    return EvaluationAdapter.validate_submission_dict(
+        submission,
+        expected_email_ids=expected_sample.keys(),
+    )
 
 
 if __name__ == "__main__":

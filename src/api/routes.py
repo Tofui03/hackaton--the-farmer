@@ -8,13 +8,13 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from fastapi.responses import JSONResponse
 
+from src.adapters.evaluation_adapter import ExportBlockedException, ExportService
 from src.hitl.review_service import ReviewService
 from src.models.audit import AuditRecord, DynamicVerifyRequest, ErrorResponse
 from src.models.ingestion import AttachmentReference, EmailRecord
 from src.models.review import ReviewUpdate
 from src.pipeline.orchestrator import PipelineOrchestrator
 from src.pipeline.stage3_compare import rule_based_compare_audit
-from src.run_pipeline import audit_record_to_competition_dict
 from src.store.audit_store import AuditStore, RevisionConflictError
 
 logger = logging.getLogger(__name__)
@@ -200,28 +200,21 @@ def verify_dynamic_text(
 
 @router.get("/submission")
 def get_submission(store: AuditStore = Depends(get_audit_store)):
-    """Export competition submission format or block if cases require review (T12 HTTP delegation shell).
-    
-    Delegation architecture:
-    GET /submission -> (delegates to EvaluationAdapter / ExportService in T13).
-    Pending T13-01/02, serves as the HTTP shell delegating to legacy exporter.
-    """
+    """T13 HTTP translation only: store snapshot -> ExportService -> adapter."""
     records = store.list()
     if not records:
         raise HTTPException(status_code=404, detail="No audit records found. Run pipeline first.")
 
-    unresolved = [r.email_id for r in records if r.state == "NEEDS_REVIEW"]
-    if unresolved:
+    try:
+        return ExportService().export(records)
+    except ExportBlockedException as error:
         return JSONResponse(
             status_code=409,
             content=ErrorResponse(
-                code="EXPORT_BLOCKED",
-                message="Export blocked: one or more cases require human review",
-                details=[f"Unresolved email: {eid}" for eid in unresolved],
+                code=error.code,
+                message=error.message,
+                details=[f"Unexportable email: {eid}" for eid in error.blocking_emails],
                 retryable=False,
-                blocking_emails=unresolved,
+                blocking_emails=error.blocking_emails,
             ).model_dump(),
         )
-
-    submission = {r.email_id: audit_record_to_competition_dict(r) for r in records}
-    return submission
