@@ -1,27 +1,74 @@
 import argparse
+from collections import Counter
 import json
 import logging
+from pathlib import Path
 import shutil
 import sys
-from collections import Counter
-from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from tqdm import tqdm
 
-from src.cache import PipelineCache
-from src.config import is_gemini_available
-from src.llm.client import GeminiClient
-from src.pipeline.schema import COMPETITION_TO_STRICT_CAT, AuditOutputRecord, HITLEscalation
-from src.pipeline.stage1_classify import Stage1Classifier
-from src.pipeline.stage2_extract import Stage2Extractor
-from src.pipeline.stage3_compare import Stage3Comparator
+from src.models.audit import AuditRecord
+from src.pipeline.orchestrator import PipelineOrchestrator
 from src.pipeline.validator import validate_submission_dict
+from src.store.audit_store import AuditStore
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger = logging.getLogger("pipeline")
+
+STRICT_TO_COMPETITION_CAT = {
+    "document_comparison": "BL_COMPARISON",
+    "new_shipping_instruction": "SI_REQUEST",
+    "invoice_query": "INVOICE_QUERY",
+    "general": "GENERAL",
+    "general_message": "GENERAL",
+    "spam": "SPAM",
+}
+
+
+def audit_record_to_competition_dict(rec: AuditRecord) -> Dict[str, Any]:
+    """Map canonical AuditRecord to evaluation submission schema format."""
+    cat = rec.classification.category or "general"
+    comp_category = STRICT_TO_COMPETITION_CAT.get(cat, "GENERAL")
+
+    if rec.state == "NEEDS_REVIEW":
+        reason = "unreadable"
+        if rec.review and rec.review.issues:
+            iss = rec.review.issues[0]
+            lr = iss.logical_reason
+            val = lr.value if hasattr(lr, "value") else str(lr)
+            if val in ("missing_attachment", "wrong_or_uncertain_document_type"):
+                reason = "wrong_doc_type" if val == "wrong_or_uncertain_document_type" else "missing_attachment"
+            elif val == "missing_required_value":
+                reason = "missing_value"
+            else:
+                reason = "unreadable"
+        return {
+            "category": comp_category,
+            "status": "NEEDS_REVIEW",
+            "review_reason": reason,
+            "defect_fields": [],
+            "has_defect": False,
+        }
+    elif rec.mismatch_detected:
+        return {
+            "category": comp_category,
+            "status": "MISMATCH",
+            "review_reason": None,
+            "defect_fields": [d.field for d in rec.discrepancies],
+            "has_defect": True,
+        }
+    else:
+        return {
+            "category": comp_category,
+            "status": "OK",
+            "review_reason": None,
+            "defect_fields": [],
+            "has_defect": False,
+        }
 
 
 def load_inbox_emails(bundle_path: Path) -> List[Dict[str, Any]]:
@@ -45,78 +92,36 @@ def run_pipeline(
     bundle_dir: str = "sdoc-hackathon-bundle",
     submission_output: str = "submission.json",
     audit_output: str = "audit_report.json",
-    cache_file: str = ".cache_pipeline.json",
-    use_cache: bool = True,
     limit: int = 0,
-    batch_size: int = 30,
 ) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
-    """
-    Execute end-to-end verification pipeline adhering to High-Score Strategies.
-    Generates both official hackathon submission.json and strict audit_report.json.
-    """
+    """Execute end-to-end verification pipeline synthesizing strict AuditRecord models (T11-02)."""
     bundle_path = Path(bundle_dir)
     if not bundle_path.exists():
         raise FileNotFoundError(f"Bundle directory '{bundle_dir}' does not exist.")
 
     logger.info("Initializing Shipping Document Verification Pipeline...")
-    logger.info("Gemini API configured: %s", is_gemini_available())
 
-    cache = PipelineCache(cache_file) if use_cache else None
-    gemini_client = GeminiClient() if is_gemini_available() else None
+    store = AuditStore()
+    orchestrator = PipelineOrchestrator(
+        base_dir=bundle_path,
+        audit_store=store,
+    )
 
-    # Load emails
     all_emails = load_inbox_emails(bundle_path)
     total_inbox_count = len(all_emails)
     logger.info("Loaded %d emails from %s", total_inbox_count, bundle_dir)
 
     emails = all_emails[:limit] if limit > 0 else all_emails
 
-    # Stage 1: Classification
-    logger.info("=== Starting Stage 1: Email Classification ===")
-    classifier = Stage1Classifier(
-        gemini_client=gemini_client,
-        cache=cache,
-        batch_size=batch_size,
-    )
-    classifications = classifier.classify_all(emails)
-
-    category_counts = Counter(classifications.values())
-    logger.info("Classification Breakdown: %s", dict(category_counts))
-
-    # Stage 2 & 3: Extraction & Comparison
-    logger.info("=== Starting Stage 2 & 3: Document Verification (Strict Veto Logic) ===")
-    extractor = Stage2Extractor(base_dir=bundle_path, cache=cache)
-    comparator = Stage3Comparator(gemini_client=gemini_client, cache=cache)
-
     competition_submission: Dict[str, Any] = {}
-    audit_records: List[AuditOutputRecord] = []
+    audit_records: List[AuditRecord] = []
 
+    logger.info("=== Executing Pipeline Across Ingested Emails ===")
     for email in tqdm(emails, desc="Auditing emails"):
         eid = email["email_id"]
-        comp_category = classifications.get(eid, "GENERAL")
-        strict_category = COMPETITION_TO_STRICT_CAT.get(comp_category, "general_message")
-
-        # Secret 4: Classification Veto Rule — Only document_comparison proceeds
-        if comp_category == "BL_COMPARISON":
-            ready_payload, early_audit_record = extractor.extract_comparison_pair(email)
-
-            if early_audit_record:
-                audit_rec = early_audit_record
-            else:
-                audit_rec = comparator.compare(ready_payload)
-        else:
-            # Terminate immediately for non-comparison emails
-            audit_rec = AuditOutputRecord(
-                email_id=eid,
-                category=strict_category,
-                mismatch_detected=False,
-                result_summary="No mismatch detected",
-                discrepancies=[],
-                hitl_escalation=HITLEscalation(needed=False),
-            )
-
+        audit_rec = orchestrator.process_email(email)
         audit_records.append(audit_rec)
-        competition_submission[eid] = audit_rec.to_competition_dict()
+        competition_submission[eid] = audit_record_to_competition_dict(audit_rec)
 
     # Fill remainder if limited run for schema validation
     sample_sub_path = bundle_path / "sample_submission.json"
@@ -140,7 +145,7 @@ def run_pipeline(
     logger.info("Wrote %d records to %s", len(competition_submission), sub_path.resolve())
 
     # 2. Write strict contract audit_report.json
-    audit_dict_list = [r.model_dump() for r in audit_records]
+    audit_dict_list = [json.loads(r.model_dump_json()) for r in audit_records]
     audit_path = Path(audit_output)
     audit_path.write_text(json.dumps(audit_dict_list, indent=2), encoding="utf-8")
     logger.info("Wrote %d strict audit records to %s", len(audit_dict_list), audit_path.resolve())
@@ -163,7 +168,6 @@ def run_pipeline(
     print("      SDOC AUDIT ENGINE - RUN SUMMARY (ZERO FALSE ALARMS)")
     print("=" * 65)
     print(f"Total Emails Processed  : {len(emails)} (of {total_inbox_count})")
-    print(f"Categories Breakdown    : {dict(category_counts)}")
     print(f"Verification Statuses   : {dict(status_counts)}")
     if reasons:
         print(f"HITL Review Reasons     : {dict(reasons)}")
@@ -181,10 +185,7 @@ def main():
     parser.add_argument("--bundle", default="sdoc-hackathon-bundle", help="Path to bundle folder")
     parser.add_argument("--output", default="submission.json", help="Path to submission.json")
     parser.add_argument("--audit", default="audit_report.json", help="Path to audit_report.json")
-    parser.add_argument("--cache", default=".cache_pipeline.json", help="Cache file path")
-    parser.add_argument("--no-cache", action="store_true", help="Do not use cache")
     parser.add_argument("--limit", type=int, default=0, help="Limit to first N emails")
-    parser.add_argument("--batch-size", type=int, default=30, help="Stage 1 batch size")
 
     args = parser.parse_args()
     try:
@@ -192,10 +193,7 @@ def main():
             bundle_dir=args.bundle,
             submission_output=args.output,
             audit_output=args.audit,
-            cache_file=args.cache,
-            use_cache=not args.no_cache,
             limit=args.limit,
-            batch_size=args.batch_size,
         )
     except Exception as e:
         logger.error("Pipeline failed: %s", e, exc_info=True)

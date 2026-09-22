@@ -16,6 +16,7 @@ from src.pipeline.stage3_extract import (
     Stage3Extractor,
     extract_fields_from_text,
 )
+from src.pipeline.orchestrator import PipelineOrchestrator, to_email_record
 from src.pipeline.validator import validate_submission_dict
 
 # Backward-compatibility alias
@@ -32,6 +33,8 @@ __all__ = [
     "Stage3Extractor",
     "extract_fields_from_text",
     "FIELD_ALIASES",
+    "PipelineOrchestrator",
+    "to_email_record",
     "Stage3Comparator",
     "rule_based_compare",
     "rule_based_compare_audit",

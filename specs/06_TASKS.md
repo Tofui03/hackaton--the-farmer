@@ -911,7 +911,7 @@ flowchart TD
 - **Acceptance Criteria**: Pipeline runs end-to-end on synthetic fixtures; emits fully compliant `AuditRecord` models.
 - **Verification Commands**: `pytest tests/test_pipeline_orchestrator.py -v`
 - **Expected Evidence**: Passing pipeline integration tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
