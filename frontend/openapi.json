@@ -1,0 +1,2269 @@
+{
+  "components": {
+    "schemas": {
+      "AttachmentReference": {
+        "additionalProperties": false,
+        "description": "Reference to an attachment file associated with an email.",
+        "properties": {
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "mime_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mime Type"
+          },
+          "path": {
+            "minLength": 1,
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "path"
+        ],
+        "title": "AttachmentReference",
+        "type": "object"
+      },
+      "AttemptRecord": {
+        "additionalProperties": false,
+        "description": "Monotonically increasing execution attempt within an operation (DC-06).",
+        "properties": {
+          "attempt_id": {
+            "minLength": 1,
+            "title": "Attempt Id",
+            "type": "string"
+          },
+          "attempt_number": {
+            "minimum": 1.0,
+            "title": "Attempt Number",
+            "type": "integer"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "kind": {
+            "enum": [
+              "primary",
+              "technical_retry",
+              "semantic_repair",
+              "fallback",
+              "ocr"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "model_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Identifier"
+          },
+          "operation_id": {
+            "minLength": 1,
+            "title": "Operation Id",
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "SUCCEEDED",
+              "FAILED",
+              "INVALID"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "prompt_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Version"
+          },
+          "provider_adapter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Adapter"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "enum": [
+                  "ingestion",
+                  "classification",
+                  "identification",
+                  "parsing",
+                  "ocr",
+                  "extraction",
+                  "normalization",
+                  "reliability",
+                  "comparison",
+                  "review",
+                  "serialization"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Stage"
+          },
+          "token_usage": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token Usage"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "operation_id",
+          "stage",
+          "kind",
+          "attempt_number",
+          "outcome"
+        ],
+        "title": "AttemptRecord",
+        "type": "object"
+      },
+      "AuditRecord": {
+        "additionalProperties": false,
+        "description": "Comprehensive, verifiable audit report for a processed email.",
+        "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/ClassificationResult"
+          },
+          "discrepancies": {
+            "items": {
+              "$ref": "#/components/schemas/Discrepancy"
+            },
+            "title": "Discrepancies",
+            "type": "array"
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentReference"
+            },
+            "title": "Documents",
+            "type": "array"
+          },
+          "email": {
+            "$ref": "#/components/schemas/EmailRecord"
+          },
+          "email_id": {
+            "minLength": 1,
+            "title": "Email Id",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/FieldEvidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "extractions": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentExtraction"
+            },
+            "title": "Extractions",
+            "type": "array"
+          },
+          "mismatch_detected": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mismatch Detected"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "MATCH",
+                  "MISMATCH",
+                  "NOT_APPLICABLE"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "parsers": {
+            "items": {
+              "$ref": "#/components/schemas/ParserResult"
+            },
+            "title": "Parsers",
+            "type": "array"
+          },
+          "partial_result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PartialResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "previous_revision": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Revision"
+          },
+          "processing": {
+            "$ref": "#/components/schemas/ProcessingMetadata"
+          },
+          "result_summary": {
+            "minLength": 1,
+            "title": "Result Summary",
+            "type": "string"
+          },
+          "review": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReviewCase"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "schema_version": {
+            "const": "1.0-draft",
+            "default": "1.0-draft",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "COMPLETE",
+              "NEEDS_REVIEW"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email_id",
+          "revision",
+          "email",
+          "classification",
+          "state",
+          "outcome",
+          "mismatch_detected",
+          "result_summary",
+          "documents",
+          "parsers",
+          "extractions",
+          "evidence",
+          "partial_result",
+          "discrepancies",
+          "review",
+          "processing"
+        ],
+        "title": "AuditRecord",
+        "type": "object"
+      },
+      "ClassificationResult": {
+        "additionalProperties": false,
+        "description": "Validated intent classification result or proposed review state.",
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EmailCategory"
+              },
+              {
+                "enum": [
+                  "document_comparison",
+                  "new_shipping_instruction",
+                  "invoice_query",
+                  "general",
+                  "spam"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "confidence_indicator": {
+            "anyOf": [
+              {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence Indicator"
+          },
+          "evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "reason": {
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "RESOLVED",
+              "NEEDS_REVIEW"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "category",
+          "reason",
+          "evidence_ids"
+        ],
+        "title": "ClassificationResult",
+        "type": "object"
+      },
+      "Discrepancy": {
+        "additionalProperties": false,
+        "description": "A confirmed difference between SI and BL for a comparison field.",
+        "properties": {
+          "bl_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Bl Value"
+          },
+          "field": {
+            "enum": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "si_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Si Value"
+          }
+        },
+        "required": [
+          "field",
+          "si_value",
+          "bl_value"
+        ],
+        "title": "Discrepancy",
+        "type": "object"
+      },
+      "DocumentExtraction": {
+        "additionalProperties": false,
+        "description": "Seven-field extraction mapping for a single identified document.",
+        "properties": {
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "fields": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ExtractedField"
+            },
+            "propertyNames": {
+              "enum": [
+                "shipper",
+                "consignee",
+                "notify_party",
+                "port_of_loading",
+                "port_of_discharge",
+                "container_count",
+                "gross_weight_kg"
+              ]
+            },
+            "title": "Fields",
+            "type": "object"
+          },
+          "role": {
+            "enum": [
+              "SI",
+              "BL"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "role",
+          "fields"
+        ],
+        "title": "DocumentExtraction",
+        "type": "object"
+      },
+      "DocumentReference": {
+        "additionalProperties": false,
+        "description": "Document identity, observed role, and identification evidence linkage.",
+        "properties": {
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "identification_evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Identification Evidence Ids",
+            "type": "array"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentRole"
+              },
+              {
+                "enum": [
+                  "SI",
+                  "BL",
+                  "UNKNOWN"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "document_id",
+          "role",
+          "identification_evidence_ids"
+        ],
+        "title": "DocumentReference",
+        "type": "object"
+      },
+      "DocumentRole": {
+        "description": "Document role in shipping comparison.",
+        "enum": [
+          "SI",
+          "BL",
+          "UNKNOWN"
+        ],
+        "title": "DocumentRole",
+        "type": "string"
+      },
+      "DynamicVerifyRequest": {
+        "additionalProperties": false,
+        "description": "On-demand verification payload for ad-hoc SI and BL text.\n\nAuthoritative contract citation: 03_DATA_CONTRACTS.md \u00a73.1, line 437.",
+        "properties": {
+          "bl_text": {
+            "title": "Bl Text",
+            "type": "string"
+          },
+          "email_id": {
+            "default": "example-on-demand",
+            "minLength": 1,
+            "title": "Email Id",
+            "type": "string"
+          },
+          "si_text": {
+            "title": "Si Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "si_text",
+          "bl_text"
+        ],
+        "title": "DynamicVerifyRequest",
+        "type": "object"
+      },
+      "EmailCategory": {
+        "description": "Canonical internal email category enumeration (5 approved categories).",
+        "enum": [
+          "document_comparison",
+          "new_shipping_instruction",
+          "invoice_query",
+          "general",
+          "spam"
+        ],
+        "title": "EmailCategory",
+        "type": "string"
+      },
+      "EmailRecord": {
+        "additionalProperties": false,
+        "description": "Ingested email message context and attachment references.",
+        "properties": {
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/AttachmentReference"
+            },
+            "title": "Attachments",
+            "type": "array"
+          },
+          "body": {
+            "title": "Body",
+            "type": "string"
+          },
+          "email_id": {
+            "minLength": 1,
+            "title": "Email Id",
+            "type": "string"
+          },
+          "sender": {
+            "title": "Sender",
+            "type": "string"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email_id",
+          "sender",
+          "subject",
+          "body",
+          "attachments"
+        ],
+        "title": "EmailRecord",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "description": "Structured error payload for failed requests or blocked exports (DC-08).",
+        "properties": {
+          "blocking_emails": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Blocking Emails"
+          },
+          "code": {
+            "minLength": 1,
+            "title": "Code",
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Details",
+            "type": "array"
+          },
+          "message": {
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "title": "Retryable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "details",
+          "retryable"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "description": "Supported source-grounded evidence types.",
+        "enum": [
+          "text_span",
+          "table_cell",
+          "page_region",
+          "document_metadata",
+          "processing_error",
+          "human_review"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "EvidenceLocation": {
+        "additionalProperties": false,
+        "description": "Structural coordinates within a source document.",
+        "properties": {
+          "bbox": {
+            "anyOf": [
+              {
+                "items": {
+                  "maximum": 1.0,
+                  "minimum": 0.0,
+                  "type": "number"
+                },
+                "maxItems": 4,
+                "minItems": 4,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bbox"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "page": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page"
+          },
+          "row": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Row"
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Section"
+          },
+          "table": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Table"
+          }
+        },
+        "title": "EvidenceLocation",
+        "type": "object"
+      },
+      "ExtractedField": {
+        "additionalProperties": false,
+        "description": "Field candidate tracking, reliability evaluation, and normalized value.",
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/FieldCandidate"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "explanation": {
+            "minLength": 1,
+            "title": "Explanation",
+            "type": "string"
+          },
+          "field": {
+            "enum": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "normalized": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NormalizedField"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reliability": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldReliability"
+              },
+              {
+                "enum": [
+                  "NOT_PROCESSED",
+                  "RELIABLE",
+                  "MISSING",
+                  "UNCERTAIN",
+                  "CONFLICTING",
+                  "UNREADABLE"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Reliability"
+          },
+          "selected_candidate": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Candidate"
+          }
+        },
+        "required": [
+          "field",
+          "reliability",
+          "candidates",
+          "selected_candidate",
+          "normalized",
+          "explanation"
+        ],
+        "title": "ExtractedField",
+        "type": "object"
+      },
+      "FieldCandidate": {
+        "additionalProperties": false,
+        "description": "Candidate field value extracted by parsers or AI adapters with supporting evidence.",
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "raw_value": {
+            "minLength": 1,
+            "title": "Raw Value",
+            "type": "string"
+          },
+          "source_unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Unit"
+          }
+        },
+        "required": [
+          "raw_value",
+          "evidence_ids"
+        ],
+        "title": "FieldCandidate",
+        "type": "object"
+      },
+      "FieldComparison": {
+        "additionalProperties": false,
+        "description": "Structural representation of comparison output between SI and BL for a reliable field.",
+        "properties": {
+          "bl_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Bl Value"
+          },
+          "field": {
+            "enum": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "MATCH",
+              "MISMATCH"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "rule_version": {
+            "minLength": 1,
+            "title": "Rule Version",
+            "type": "string"
+          },
+          "si_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Si Value"
+          }
+        },
+        "required": [
+          "field",
+          "si_value",
+          "bl_value",
+          "outcome",
+          "rule_version"
+        ],
+        "title": "FieldComparison",
+        "type": "object"
+      },
+      "FieldCorrection": {
+        "additionalProperties": false,
+        "description": "Correction applied by human reviewer to a specific document field.",
+        "properties": {
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "field": {
+            "enum": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "rationale": {
+            "minLength": 1,
+            "title": "Rationale",
+            "type": "string"
+          },
+          "raw_value": {
+            "minLength": 1,
+            "title": "Raw Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "field",
+          "raw_value",
+          "evidence_ids",
+          "rationale"
+        ],
+        "title": "FieldCorrection",
+        "type": "object"
+      },
+      "FieldEvidence": {
+        "additionalProperties": false,
+        "description": "Source-grounded evidence citation for an extracted value, role, or error.",
+        "properties": {
+          "detail": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "evidence_id": {
+            "minLength": 1,
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceKind"
+              },
+              {
+                "enum": [
+                  "text_span",
+                  "table_cell",
+                  "page_region",
+                  "document_metadata",
+                  "processing_error",
+                  "human_review"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Kind"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceLocation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote"
+          },
+          "source_id": {
+            "minLength": 1,
+            "title": "Source Id",
+            "type": "string"
+          },
+          "source_type": {
+            "enum": [
+              "email",
+              "document",
+              "processing",
+              "human_review"
+            ],
+            "title": "Source Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "source_type",
+          "source_id",
+          "kind"
+        ],
+        "title": "FieldEvidence",
+        "type": "object"
+      },
+      "FieldReliability": {
+        "description": "Reliability status assigned by the Reliability Gate.",
+        "enum": [
+          "NOT_PROCESSED",
+          "RELIABLE",
+          "MISSING",
+          "UNCERTAIN",
+          "CONFLICTING",
+          "UNREADABLE"
+        ],
+        "title": "FieldReliability",
+        "type": "string"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "LogicalReason": {
+        "description": "Internal 7-value HITL logical reason taxonomy (DC-02).",
+        "enum": [
+          "missing_attachment",
+          "unreadable_document",
+          "wrong_or_uncertain_document_type",
+          "missing_required_value",
+          "uncertain_result",
+          "conflicting_candidate_values",
+          "processing_or_provider_failure"
+        ],
+        "title": "LogicalReason",
+        "type": "string"
+      },
+      "NormalizedField": {
+        "additionalProperties": false,
+        "description": "Deterministically normalized field value and associated rule version.",
+        "properties": {
+          "field": {
+            "enum": [
+              "shipper",
+              "consignee",
+              "notify_party",
+              "port_of_loading",
+              "port_of_discharge",
+              "container_count",
+              "gross_weight_kg"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "rule_version": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Version"
+          },
+          "state": {
+            "enum": [
+              "VALID",
+              "INVALID",
+              "NOT_ATTEMPTED"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "field",
+          "state",
+          "value",
+          "rule_version"
+        ],
+        "title": "NormalizedField",
+        "type": "object"
+      },
+      "ParserResult": {
+        "additionalProperties": false,
+        "description": "Structured result returned by document parsers and OCR recovery.",
+        "properties": {
+          "attempt_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Attempt Ids",
+            "type": "array"
+          },
+          "clean_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clean Text"
+          },
+          "diagnostic_evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Diagnostic Evidence Ids",
+            "type": "array"
+          },
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "is_scanned": {
+            "default": false,
+            "title": "Is Scanned",
+            "type": "boolean"
+          },
+          "metadata": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Metadata",
+            "type": "object"
+          },
+          "page_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Count"
+          },
+          "raw_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Text"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ParserStatus"
+              },
+              {
+                "enum": [
+                  "SUCCESS",
+                  "PARTIAL",
+                  "UNREADABLE",
+                  "UNSUPPORTED"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Status"
+          },
+          "table_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Table Count"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "usable_for_extraction": {
+            "title": "Usable For Extraction",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "document_id",
+          "status",
+          "text",
+          "usable_for_extraction",
+          "diagnostic_evidence_ids",
+          "attempt_ids"
+        ],
+        "title": "ParserResult",
+        "type": "object"
+      },
+      "ParserStatus": {
+        "description": "Execution status of document parser.",
+        "enum": [
+          "SUCCESS",
+          "PARTIAL",
+          "UNREADABLE",
+          "UNSUPPORTED"
+        ],
+        "title": "ParserStatus",
+        "type": "string"
+      },
+      "PartialResult": {
+        "additionalProperties": false,
+        "description": "Disjoint partition of 7 mandatory fields into compared pairs and unresolved fields.",
+        "properties": {
+          "comparisons": {
+            "items": {
+              "$ref": "#/components/schemas/FieldComparison"
+            },
+            "title": "Comparisons",
+            "type": "array"
+          },
+          "unresolved_fields": {
+            "items": {
+              "enum": [
+                "shipper",
+                "consignee",
+                "notify_party",
+                "port_of_loading",
+                "port_of_discharge",
+                "container_count",
+                "gross_weight_kg"
+              ],
+              "type": "string"
+            },
+            "title": "Unresolved Fields",
+            "type": "array"
+          }
+        },
+        "required": [
+          "comparisons",
+          "unresolved_fields"
+        ],
+        "title": "PartialResult",
+        "type": "object"
+      },
+      "ProcessingMetadata": {
+        "additionalProperties": false,
+        "description": "Operational attempt tracking and bounded retry limits (DC-06).\n\nAuthoritative semantics (03_DATA_CONTRACTS.md \u00a76 & 02_AI_PIPELINE_SPEC.md):\n- technical_attempt_limit default: 3\n- semantic_attempt_limit default: 2\n- Both include the initial attempt.\n- Maximum nested provider invocation budget cap: 6 (technical_limit * semantic_limit <= 6).",
+        "properties": {
+          "attempts": {
+            "items": {
+              "$ref": "#/components/schemas/AttemptRecord"
+            },
+            "title": "Attempts",
+            "type": "array"
+          },
+          "semantic_attempt_limit": {
+            "default": 2,
+            "minimum": 1.0,
+            "title": "Semantic Attempt Limit",
+            "type": "integer"
+          },
+          "technical_attempt_limit": {
+            "default": 3,
+            "minimum": 1.0,
+            "title": "Technical Attempt Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "attempts"
+        ],
+        "title": "ProcessingMetadata",
+        "type": "object"
+      },
+      "ReviewAction": {
+        "description": "Human review update action.",
+        "enum": [
+          "CONFIRM",
+          "CORRECT"
+        ],
+        "title": "ReviewAction",
+        "type": "string"
+      },
+      "ReviewCase": {
+        "additionalProperties": false,
+        "description": "Structured human review case containing one or more issues.",
+        "properties": {
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewIssue"
+            },
+            "minItems": 1,
+            "title": "Issues",
+            "type": "array"
+          },
+          "review_id": {
+            "minLength": 1,
+            "title": "Review Id",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "OPEN",
+              "RESOLVED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "review_id",
+          "state",
+          "issues"
+        ],
+        "title": "ReviewCase",
+        "type": "object"
+      },
+      "ReviewIssue": {
+        "additionalProperties": false,
+        "description": "A specific issue requiring human review.",
+        "properties": {
+          "attempt_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Attempt Ids",
+            "type": "array"
+          },
+          "document_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Document Ids",
+            "type": "array"
+          },
+          "evaluation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Reason"
+          },
+          "evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "expected_role": {
+            "anyOf": [
+              {
+                "enum": [
+                  "SI",
+                  "BL"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Role"
+          },
+          "fields": {
+            "items": {
+              "enum": [
+                "shipper",
+                "consignee",
+                "notify_party",
+                "port_of_loading",
+                "port_of_discharge",
+                "container_count",
+                "gross_weight_kg"
+              ],
+              "type": "string"
+            },
+            "title": "Fields",
+            "type": "array"
+          },
+          "issue_id": {
+            "minLength": 1,
+            "title": "Issue Id",
+            "type": "string"
+          },
+          "logical_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LogicalReason"
+              },
+              {
+                "enum": [
+                  "missing_attachment",
+                  "unreadable_document",
+                  "wrong_or_uncertain_document_type",
+                  "missing_required_value",
+                  "uncertain_result",
+                  "conflicting_candidate_values",
+                  "processing_or_provider_failure"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Logical Reason"
+          },
+          "recovery_detail": {
+            "minLength": 1,
+            "title": "Recovery Detail",
+            "type": "string"
+          },
+          "recovery_state": {
+            "enum": [
+              "NOT_APPLICABLE",
+              "UNAVAILABLE",
+              "EXHAUSTED",
+              "UNRELIABLE"
+            ],
+            "title": "Recovery State",
+            "type": "string"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "enum": [
+                  "ingestion",
+                  "classification",
+                  "identification",
+                  "parsing",
+                  "ocr",
+                  "extraction",
+                  "normalization",
+                  "reliability",
+                  "comparison",
+                  "review",
+                  "serialization"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Stage"
+          },
+          "suggested_action": {
+            "minLength": 1,
+            "title": "Suggested Action",
+            "type": "string"
+          }
+        },
+        "required": [
+          "issue_id",
+          "stage",
+          "logical_reason",
+          "document_ids",
+          "fields",
+          "evidence_ids",
+          "suggested_action",
+          "recovery_state",
+          "recovery_detail",
+          "attempt_ids"
+        ],
+        "title": "ReviewIssue",
+        "type": "object"
+      },
+      "ReviewUpdate": {
+        "additionalProperties": false,
+        "description": "Human review mutation payload. Forbids direct mismatch/outcome mutation (REG-012).",
+        "properties": {
+          "action": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReviewAction"
+              },
+              {
+                "enum": [
+                  "CONFIRM",
+                  "CORRECT"
+                ],
+                "type": "string"
+              }
+            ],
+            "title": "Action"
+          },
+          "actor_id": {
+            "minLength": 1,
+            "title": "Actor Id",
+            "type": "string"
+          },
+          "added_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/FieldEvidence"
+            },
+            "title": "Added Evidence",
+            "type": "array"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "enum": [
+                  "document_comparison",
+                  "new_shipping_instruction",
+                  "invoice_query",
+                  "general",
+                  "spam"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "classification_evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Classification Evidence Ids",
+            "type": "array"
+          },
+          "corrections": {
+            "items": {
+              "$ref": "#/components/schemas/FieldCorrection"
+            },
+            "title": "Corrections",
+            "type": "array"
+          },
+          "expected_revision": {
+            "minimum": 1.0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "rationale": {
+            "minLength": 1,
+            "title": "Rationale",
+            "type": "string"
+          },
+          "review_id": {
+            "minLength": 1,
+            "title": "Review Id",
+            "type": "string"
+          },
+          "role_corrections": {
+            "items": {
+              "$ref": "#/components/schemas/RoleCorrection"
+            },
+            "title": "Role Corrections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "review_id",
+          "expected_revision",
+          "actor_id",
+          "action",
+          "rationale"
+        ],
+        "title": "ReviewUpdate",
+        "type": "object"
+      },
+      "RoleCorrection": {
+        "additionalProperties": false,
+        "description": "Correction applied by human reviewer to a document's assigned role.",
+        "properties": {
+          "assigned_role": {
+            "enum": [
+              "SI",
+              "BL",
+              "UNKNOWN"
+            ],
+            "title": "Assigned Role",
+            "type": "string"
+          },
+          "document_id": {
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "rationale": {
+            "minLength": 1,
+            "title": "Rationale",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "assigned_role",
+          "evidence_ids",
+          "rationale"
+        ],
+        "title": "RoleCorrection",
+        "type": "object"
+      },
+      "Stage": {
+        "description": "Workflow processing stages.",
+        "enum": [
+          "ingestion",
+          "classification",
+          "identification",
+          "parsing",
+          "ocr",
+          "extraction",
+          "normalization",
+          "reliability",
+          "comparison",
+          "review",
+          "serialization"
+        ],
+        "title": "Stage",
+        "type": "string"
+      },
+      "SubmissionRecord": {
+        "additionalProperties": false,
+        "description": "External evaluation format strictly matching official schema (DC-08).",
+        "properties": {
+          "category": {
+            "enum": [
+              "BL_COMPARISON",
+              "SI_REQUEST",
+              "INVOICE_QUERY",
+              "GENERAL",
+              "SPAM"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "defect_fields": {
+            "items": {
+              "enum": [
+                "shipper",
+                "consignee",
+                "notify_party",
+                "port_of_loading",
+                "port_of_discharge",
+                "container_count",
+                "gross_weight_kg"
+              ],
+              "type": "string"
+            },
+            "title": "Defect Fields",
+            "type": "array"
+          },
+          "has_defect": {
+            "title": "Has Defect",
+            "type": "boolean"
+          },
+          "review_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Reason"
+          },
+          "status": {
+            "enum": [
+              "OK",
+              "MISMATCH",
+              "NEEDS_REVIEW"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "category",
+          "status",
+          "has_defect",
+          "defect_fields"
+        ],
+        "title": "SubmissionRecord",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Shipping document verification, deterministic comparison, evidence tracing, and human review API.",
+    "title": "Shipping Document Verification & Audit API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Dynamic root status endpoint reporting live audit store metrics (REG-003).",
+        "operationId": "get_root__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Root"
+      }
+    },
+    "/audit": {
+      "get": {
+        "description": "Query audit records with optional filters (API-AUD-001).",
+        "operationId": "list_audits_audit_get",
+        "parameters": [
+          {
+            "description": "Filter by state (COMPLETE, NEEDS_REVIEW)",
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by state (COMPLETE, NEEDS_REVIEW)",
+              "title": "State"
+            }
+          },
+          {
+            "description": "Filter by category",
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by category",
+              "title": "Category"
+            }
+          },
+          {
+            "description": "Filter by outcome (MATCH, MISMATCH, NOT_APPLICABLE)",
+            "in": "query",
+            "name": "outcome",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by outcome (MATCH, MISMATCH, NOT_APPLICABLE)",
+              "title": "Outcome"
+            }
+          },
+          {
+            "description": "Filter by presence of discrepancies",
+            "in": "query",
+            "name": "has_discrepancy",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by presence of discrepancies",
+              "title": "Has Discrepancy"
+            }
+          },
+          {
+            "description": "Filter only records with confirmed discrepancies",
+            "in": "query",
+            "name": "mismatch_only",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "Filter only records with confirmed discrepancies",
+              "title": "Mismatch Only",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Filter only records needing human review",
+            "in": "query",
+            "name": "hitl_only",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "Filter only records needing human review",
+              "title": "Hitl Only",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AuditRecord"
+                  },
+                  "title": "Response List Audits Audit Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Audits"
+      }
+    },
+    "/audit/{email_id}": {
+      "get": {
+        "description": "Retrieve full detail for a single AuditRecord (API-AUD-002, API-AUD-003).",
+        "operationId": "get_single_audit_audit__email_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email_id",
+            "required": true,
+            "schema": {
+              "title": "Email Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Single Audit"
+      }
+    },
+    "/audit/{email_id}/review": {
+      "post": {
+        "description": "Submit human review update with optimistic concurrency control (API-REV-001/002/003, DC-07).",
+        "operationId": "submit_human_review_audit__email_id__review_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email_id",
+            "required": true,
+            "schema": {
+              "title": "Email Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditRecord"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Submit Human Review"
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Fast liveness check probe returning HTTP 200 (API-HLT-001).",
+        "operationId": "get_health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Health"
+      }
+    },
+    "/submission": {
+      "get": {
+        "description": "T13 HTTP translation only: store snapshot -> ExportService -> adapter.",
+        "operationId": "get_submission_submission_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/SubmissionRecord"
+                  },
+                  "title": "Response Get Submission Submission Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        },
+        "summary": "Get Submission"
+      }
+    },
+    "/verify": {
+      "post": {
+        "deprecated": true,
+        "description": "Dynamically audit an SI vs draft BL in real-time (deprecated compatibility shim for T12-04).",
+        "operationId": "verify_dynamic_text_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DynamicVerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Verify Dynamic Text"
+      }
+    }
+  }
+}

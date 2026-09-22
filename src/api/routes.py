@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 
 from src.adapters.evaluation_adapter import ExportBlockedException, ExportService
 from src.hitl.review_service import ReviewService
-from src.models.audit import AuditRecord, DynamicVerifyRequest, ErrorResponse
+from src.models.audit import AuditRecord, DynamicVerifyRequest, ErrorResponse, SubmissionRecord
 from src.models.ingestion import AttachmentReference, EmailRecord
 from src.models.review import ReviewUpdate
 from src.pipeline.orchestrator import PipelineOrchestrator
@@ -115,7 +115,7 @@ def _get_legacy_record(email_id: str) -> Optional[Dict[str, Any]]:
     return _legacy_cache.get(email_id)
 
 
-@router.get("/audit/{email_id}")
+@router.get("/audit/{email_id}", responses={404: {"model": ErrorResponse}})
 def get_single_audit(email_id: str, store: AuditStore = Depends(get_audit_store)):
     """Retrieve full detail for a single AuditRecord (API-AUD-002, API-AUD-003)."""
     rec = store.get(email_id)
@@ -137,7 +137,11 @@ def get_single_audit(email_id: str, store: AuditStore = Depends(get_audit_store)
     )
 
 
-@router.post("/audit/{email_id}/review", response_model=AuditRecord)
+@router.post(
+    "/audit/{email_id}/review",
+    response_model=AuditRecord,
+    responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
 def submit_human_review(
     email_id: str,
     update: ReviewUpdate,
@@ -198,7 +202,11 @@ def verify_dynamic_text(
     )
 
 
-@router.get("/submission")
+@router.get(
+    "/submission",
+    response_model=Dict[str, SubmissionRecord],
+    responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}},
+)
 def get_submission(store: AuditStore = Depends(get_audit_store)):
     """T13 HTTP translation only: store snapshot -> ExportService -> adapter."""
     records = store.list()

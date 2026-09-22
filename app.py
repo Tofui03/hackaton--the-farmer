@@ -1,15 +1,20 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from src.api.routes import router
 
 app = FastAPI(
     title="Shipping Document Verification & Audit API",
-    description="Production-grade AI Shipping Document Verification Engine featuring Zero False Alarms, Strict Golden SI Anchoring, and HITL Fallback.",
+    description="Shipping document verification, deterministic comparison, evidence tracing, and human review API.",
     version="1.0.0",
 )
 
-# Enable CORS for GitHub Pages frontend access
+# Local Vite development and separately hosted static deployments may use a
+# different origin. Production environments can narrow this policy externally.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,6 +24,20 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
+# T14: a Vite production build writes to docs/. Only mount the SPA when the
+# build assets exist, so the preserved legacy prototype is never served as the
+# production console by accident.
+_docs_dir = Path(__file__).resolve().parent / "docs"
+_assets_dir = _docs_dir / "assets"
+if _assets_dir.is_dir() and (_docs_dir / "index.html").is_file():
+    app.mount("/assets", StaticFiles(directory=_assets_dir), name="frontend-assets")
+
+    @app.get("/cases", include_in_schema=False)
+    @app.get("/cases/{spa_path:path}", include_in_schema=False)
+    def serve_frontend(spa_path: str = ""):
+        return FileResponse(_docs_dir / "index.html")
+
 
 if __name__ == "__main__":
     import os
