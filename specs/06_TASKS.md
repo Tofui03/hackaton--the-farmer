@@ -890,7 +890,7 @@ flowchart TD
 - **Acceptance Criteria**: `HITL-RSN-001` through `HITL-RSN-007` pass cleanly.
 - **Verification Commands**: `pytest tests/test_hitl.py -k "HITL-RSN" -v`
 - **Expected Evidence**: Passing HITL escalation test suite.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
