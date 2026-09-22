@@ -932,7 +932,7 @@ flowchart TD
 - **Acceptance Criteria**: `API-AUD-001`, `002`, `003`, `API-HLT-001` pass cleanly.
 - **Verification Commands**: `pytest tests/test_api_endpoints.py -k "API-AUD or API-HLT" -v`
 - **Expected Evidence**: Passing API endpoint tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -954,7 +954,7 @@ flowchart TD
 - **Acceptance Criteria**: `API-REV-001`, `API-REV-003`, `HITL-REV-001`–`005` pass cleanly.
 - **Verification Commands**: `pytest tests/test_api_endpoints.py -k "API-REV or HITL-REV" -v`
 - **Expected Evidence**: Passing review API tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -974,7 +974,7 @@ flowchart TD
 - **Acceptance Criteria**: `API-REV-002` and `HITL-REV-006` pass cleanly.
 - **Verification Commands**: `pytest tests/test_api_endpoints.py -k "API-REV-002 or HITL-REV-006" -v`
 - **Expected Evidence**: Passing concurrency conflict tests.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 
@@ -994,7 +994,7 @@ flowchart TD
 - **Acceptance Criteria**: Legacy `test_dynamic_verify_endpoint` passes; endpoint marked deprecated in OpenAPI spec.
 - **Verification Commands**: `pytest tests/test_api.py -k test_dynamic_verify_endpoint -v`
 - **Expected Evidence**: Legacy test green.
-- **Status**: `NOT_STARTED`
+- **Status**: `DONE`
 
 ---
 

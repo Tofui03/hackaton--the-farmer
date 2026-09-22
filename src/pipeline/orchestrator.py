@@ -147,34 +147,6 @@ class PipelineOrchestrator:
             if ev.source_type == "email" and ev.source_id != email_id:
                 ev.source_id = email_id
 
-        # Non-comparison categories terminate immediately (FR-004)
-        if cls_result.category != "document_comparison":
-            audit_rec = AuditRecord(
-                email_id=email_id,
-                revision=1,
-                previous_revision=None,
-                email=email_rec,
-                classification=cls_result,
-                state="COMPLETE",
-                outcome="NOT_APPLICABLE",
-                mismatch_detected=None,
-                result_summary=f"Non-comparison category: {cls_result.category}",
-                documents=[],
-                parsers=[],
-                extractions=[],
-                evidence=_dedup_evidence(all_evidence),
-                partial_result=None,
-                discrepancies=[],
-                review=None,
-                processing=ProcessingMetadata(
-                    technical_attempt_limit=3,
-                    semantic_attempt_limit=2,
-                    attempts=tracker.attempts,
-                ),
-            )
-            self.audit_store.save(audit_rec)
-            return audit_rec
-
         # Ambiguous classification intent (PIPE-CLS-006 / HITL-RSN-005)
         if cls_result.state == "NEEDS_REVIEW" or cls_result.category is None:
             ev_id = f"ev_cls_ambiguous_{email_id}"
@@ -218,12 +190,37 @@ class PipelineOrchestrator:
                 parsers=[],
                 extractions=[],
                 evidence=_dedup_evidence(all_evidence),
-                partial_result=PartialResult(
-                    comparisons=[],
-                    unresolved_fields=list(FIELD_NAMES),
-                ),
+                partial_result=None,
                 discrepancies=[],
                 review=review_case,
+                processing=ProcessingMetadata(
+                    technical_attempt_limit=3,
+                    semantic_attempt_limit=2,
+                    attempts=tracker.attempts,
+                ),
+            )
+            self.audit_store.save(audit_rec)
+            return audit_rec
+
+        # Non-comparison categories terminate immediately (FR-004)
+        if cls_result.category != "document_comparison":
+            audit_rec = AuditRecord(
+                email_id=email_id,
+                revision=1,
+                previous_revision=None,
+                email=email_rec,
+                classification=cls_result,
+                state="COMPLETE",
+                outcome="NOT_APPLICABLE",
+                mismatch_detected=None,
+                result_summary=f"Non-comparison category: {cls_result.category}",
+                documents=[],
+                parsers=[],
+                extractions=[],
+                evidence=_dedup_evidence(all_evidence),
+                partial_result=None,
+                discrepancies=[],
+                review=None,
                 processing=ProcessingMetadata(
                     technical_attempt_limit=3,
                     semantic_attempt_limit=2,
