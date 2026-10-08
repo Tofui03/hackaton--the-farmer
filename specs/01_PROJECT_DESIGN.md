@@ -1,7 +1,7 @@
 # 01_PROJECT_DESIGN.md — System Architecture & Technical Design Specification
 
 > **Document Type**: Technical Architecture & System Design Document  
-> **Implements**: [`specs/00_PRODUCT_SPEC.md`](file:///d:/ship/specs/00_PRODUCT_SPEC.md) / [`specs/PRODUCT_SPEC.md`](file:///d:/ship/specs/PRODUCT_SPEC.md)  
+> **Implements**: [`specs/00_PRODUCT_SPEC.md`](file:///d:/ship/specs/00_PRODUCT_SPEC.md)  
 > **Source of Truth**: [`Shipping Document Verification Use Case.pdf`](file:///d:/ship/Shipping%20Document%20Verification%20Use%20Case.pdf)  
 > **Methodology**: Spec-Driven Development (SDD) — Phase 2 Architecture & Design  
 > **Status**: APPROVED / BASELINED  

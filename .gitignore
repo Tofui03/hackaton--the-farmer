@@ -72,3 +72,9 @@ docs/404.html
 docs/audit_records.json
 docs/submission_records.json
 
+# Local AI Agent Playbooks (Private/Local only)
+/AGENTS.md
+/GEMINI.md
+/agent.md
+/gemini.md
+
