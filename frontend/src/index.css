@@ -4,12 +4,17 @@
 
 :root {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #f1f5f9;
-  background: #060709;
+  color: #0f172a;
+  background: #f8fafc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  color: #f1f5f9;
+  background: #060709;
 }
 
 html, body, #root {
@@ -20,11 +25,20 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(0, 47, 167, 0.02) 0%, transparent 50%);
+  background-attachment: fixed;
+  color: #0f172a;
+}
+
+.dark body {
   background-color: #060709;
   background-image: 
     radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 60%),
     radial-gradient(circle at 100% 100%, rgba(0, 47, 167, 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
+  color: #f1f5f9;
 }
 
 button, input, select, textarea {
@@ -39,30 +53,30 @@ button, input, select, textarea {
 @layer components {
   /* Awwwards Glass & Editorial Surfaces */
   .glass-panel {
-    @apply rounded-2xl border border-white/[0.08] bg-carbon-900/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
+    @apply rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/90 dark:bg-carbon-900/60 backdrop-blur-xl shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
   }
 
   .spotlight-border {
-    @apply relative border border-white/[0.08] transition duration-300 hover:border-white/[0.18];
+    @apply relative border border-slate-200/80 dark:border-white/[0.08] transition duration-300 hover:border-slate-300 dark:hover:border-white/[0.18];
   }
 
   .editorial-title {
-    @apply font-editorial italic font-normal tracking-tight text-white;
+    @apply font-editorial italic font-normal tracking-tight text-slate-900 dark:text-white;
   }
 
   .klein-badge {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-400;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-400;
   }
 
   /* Core UI Primitives */
   .panel {
-    @apply rounded-xl border border-carbon-800 bg-carbon-900/80 shadow-sm backdrop-blur-sm;
+    @apply rounded-xl border border-slate-200 dark:border-carbon-800 bg-white dark:bg-carbon-900/80 shadow-sm backdrop-blur-sm;
   }
   .muted {
-    @apply text-slate-400;
+    @apply text-slate-500 dark:text-slate-400;
   }
   .input {
-    @apply w-full rounded-lg border border-carbon-800 bg-carbon-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500;
+    @apply w-full rounded-lg border border-slate-300 dark:border-carbon-800 bg-white dark:bg-carbon-950 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500;
   }
   .btn {
     @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
@@ -71,7 +85,7 @@ button, input, select, textarea {
     @apply btn bg-klein-glow text-white shadow-[0_0_20px_-3px_rgba(37,99,235,0.4)] hover:bg-blue-500 hover:shadow-[0_0_25px_-3px_rgba(37,99,235,0.6)];
   }
   .btn-secondary {
-    @apply btn border border-carbon-700 bg-carbon-850 text-slate-200 hover:bg-carbon-800 hover:border-carbon-500;
+    @apply btn border border-slate-300 dark:border-carbon-700 bg-slate-100 dark:bg-carbon-850 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-carbon-800 hover:border-slate-400 dark:hover:border-carbon-500;
   }
   .btn-danger {
     @apply btn bg-rose-600 text-white hover:bg-rose-500 shadow-[0_0_20px_-3px_rgba(225,29,72,0.3)];
