@@ -4,7 +4,12 @@ from dataclasses import FrozenInstanceError
 from decimal import Decimal
 import pytest
 
-from src.domain.values import ContainerCount, GrossWeight, ValueObject
+from src.domain.values import (
+    ContainerCount,
+    GrossWeight,
+    NormalizedText,
+    ValueObject,
+)
 
 
 class TestValueObjectBase:
@@ -143,3 +148,61 @@ class TestGrossWeight:
             GrossWeight.from_input("22000 TO 23000 KG")
         with pytest.raises(ValueError, match="Range or alternation"):
             GrossWeight.from_input("22000 OR 23000 KG")
+
+
+class TestNormalizedText:
+    """Tests for NormalizedText Value Object (DEC-P06A pipeline)."""
+
+    def test_full_width_to_half_width_and_uppercase(self) -> None:
+        nt = NormalizedText.from_raw("ＳＨＡＮＧＨＡＩ")
+        assert nt.value == "SHANGHAI"
+        assert nt.to_canonical() == "SHANGHAI"
+
+    def test_quotation_standardization(self) -> None:
+        nt_double = NormalizedText.from_raw("“ACME” «LOGISTICS»")
+        assert nt_double.value == '"ACME" "LOGISTICS"'
+
+        nt_single = NormalizedText.from_raw("‘SHIPPER’ ‹PORT›")
+        assert nt_single.value == "'SHIPPER' 'PORT'"
+
+    def test_trailing_punctuation_stripped_while_preserving_internal(self) -> None:
+        # Trailing period and comma stripped
+        nt1 = NormalizedText.from_raw("Acme Industrial Corp.,")
+        assert nt1.value == "ACME INDUSTRIAL CORP"
+
+        # Trailing semicolon and colon stripped
+        nt2 = NormalizedText.from_raw("Notify Party:;")
+        assert nt2.value == "NOTIFY PARTY"
+
+        # Internal punctuation, periods and commas strictly preserved
+        nt3 = NormalizedText.from_raw("P.O. BOX 123, SHANGHAI, CHINA.")
+        assert nt3.value == "P.O. BOX 123, SHANGHAI, CHINA"
+
+    def test_whitespace_collapsing(self) -> None:
+        nt = NormalizedText.from_raw("   Acme   Industrial   \n\t  Corp.  ")
+        assert nt.value == "ACME INDUSTRIAL CORP"
+
+    def test_guards_and_rejections(self) -> None:
+        with pytest.raises(ValueError, match="non-null string"):
+            NormalizedText.from_raw(None)
+        with pytest.raises(ValueError, match="non-null string"):
+            NormalizedText.from_raw(12345)  # type: ignore[arg-type]
+        with pytest.raises(ValueError, match="empty string"):
+            NormalizedText.from_raw("")
+        with pytest.raises(ValueError, match="empty string"):
+            NormalizedText.from_raw("   \t\n  ")
+        with pytest.raises(ValueError, match="empty string"):
+            # String with only trailing punctuation that cleans to empty
+            NormalizedText.from_raw("... ,,, ;;; :::")
+
+    def test_direct_instantiation_validation(self) -> None:
+        with pytest.raises(ValueError, match="must be a str"):
+            NormalizedText(123)  # type: ignore[arg-type]
+        with pytest.raises(ValueError, match="empty or whitespace-only"):
+            NormalizedText("   ")
+
+    def test_immutability(self) -> None:
+        nt = NormalizedText.from_raw("VALID TEXT")
+        with pytest.raises(FrozenInstanceError):
+            nt.value = "ANOTHER TEXT"  # type: ignore[misc]
+
