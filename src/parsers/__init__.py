@@ -7,7 +7,9 @@ from src.parsers.base import BaseParser, DocumentParseResult
 from src.parsers.docai_adapter import DocumentAIAdapter
 from src.parsers.docx_parser import DocxParser
 from src.parsers.excel_parser import ExcelParser
+from src.parsers.factory import DocumentParserFactory
 from src.parsers.pdf_parser import PdfParser
+from src.parsers.registry import DEFAULT_PARSER_REGISTRY, DocumentParserRegistry
 from src.parsers.text_parser import TextParser
 from src.parsers.usability_validator import UsabilityAssessment, assess_text_usability
 from src.parsers.vision_adapter import (
@@ -120,4 +122,7 @@ __all__ = [
     "sanitize_attachment_path",
     "UsabilityAssessment",
     "assess_text_usability",
+    "DocumentParserRegistry",
+    "DEFAULT_PARSER_REGISTRY",
+    "DocumentParserFactory",
 ]
