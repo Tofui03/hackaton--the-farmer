@@ -43,7 +43,7 @@ export function KPICard({ label, value, hint, glow = 'default' }: Props) {
 
   return (
     <div
-      className={`spotlight-border group relative overflow-hidden rounded-2xl bg-carbon-900/70 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 ${cfg.border} ${cfg.shadow}`}
+      className={`spotlight-border group relative overflow-hidden rounded-2xl bg-white dark:bg-carbon-900/70 p-5 backdrop-blur-xl border border-slate-200/90 dark:border-white/[0.08] shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] dark:shadow-none transition-all duration-300 hover:-translate-y-1 ${cfg.border} ${cfg.shadow}`}
     >
       {/* Background Soft Glow Blob */}
       <div
@@ -53,13 +53,13 @@ export function KPICard({ label, value, hint, glow = 'default' }: Props) {
       <span className={`absolute right-4 top-4 h-1.5 w-1.5 rounded-full ${cfg.indicator}`} />
 
       {/* Label, Value, and Hint */}
-      <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 font-sans">
+      <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 font-sans">
         {label}
       </div>
-      <div className="mt-3 font-mono text-3xl font-bold tracking-tight text-white">
+      <div className="mt-3 font-mono text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
         {value}
       </div>
-      <div className="mt-1 font-sans text-xs text-slate-500">
+      <div className="mt-1 font-sans text-xs text-slate-500 dark:text-slate-400 font-medium">
         {hint}
       </div>
     </div>

@@ -103,13 +103,13 @@ export function CaseQueueView() {
       {/* Hero Header Section */}
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
         <div>
-          <div className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-blue-400">
+          <div className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400">
             Operations Control · Data Horizon
           </div>
-          <h1 className="mt-1 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="mt-1 font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Verification Cases
           </h1>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Live operational telemetry synthesized across inbound shipping document verification pipelines.
           </p>
         </div>
@@ -148,7 +148,7 @@ export function CaseQueueView() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-            <span className="rounded border border-white/[0.08] bg-carbon-950 px-1.5 py-0.5 font-mono text-[10px] text-slate-400">
+            <span className="rounded border border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-carbon-950 px-1.5 py-0.5 font-mono text-[10px] text-slate-600 dark:text-slate-400">
               ⌘K
             </span>
           </div>
@@ -213,7 +213,7 @@ export function CaseQueueView() {
         <div className="glass-panel overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
-              <thead className="border-b border-white/[0.06] bg-carbon-950/80 font-mono text-xs uppercase tracking-wider text-slate-400">
+              <thead className="border-b border-slate-200 dark:border-white/[0.06] bg-slate-100/90 dark:bg-carbon-950/80 font-mono text-xs uppercase tracking-wider text-slate-700 dark:text-slate-400">
                 <tr>
                   <th className="px-5 py-3.5">Email ID</th>
                   <th className="px-5 py-3.5">Subject / Sender</th>
@@ -225,25 +225,25 @@ export function CaseQueueView() {
                   <th className="px-5 py-3.5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-slate-100 dark:divide-white/[0.04]">
                 {filtered.map((record) => (
                   <tr
                     key={record.email_id}
-                    className="group transition duration-150 hover:bg-carbon-800/40 hover:shadow-[inset_2px_0_0_0_#2563eb]"
+                    className="group transition duration-150 hover:bg-slate-50 dark:hover:bg-carbon-800/40 hover:shadow-[inset_2px_0_0_0_#2563eb]"
                   >
                     <td className="px-5 py-4 font-mono text-xs">
                       <Link
                         to={`/cases/${encodeURIComponent(record.email_id)}`}
-                        className="font-bold text-white transition hover:text-blue-300"
+                        className="font-bold text-blue-700 dark:text-blue-400 transition hover:underline"
                       >
                         {record.email_id}
                       </Link>
                     </td>
                     <td className="max-w-xs px-5 py-4">
-                      <div className="font-medium text-slate-100 transition group-hover:text-white">
+                      <div className="font-semibold text-slate-900 dark:text-slate-100 transition group-hover:text-blue-700 dark:group-hover:text-white">
                         {record.email.subject || '(No subject)'}
                       </div>
-                      <div className="mt-1 font-mono text-xs text-slate-400">
+                      <div className="mt-1 font-mono text-xs text-slate-600 dark:text-slate-400">
                         {record.email.sender}
                       </div>
                     </td>
@@ -264,10 +264,10 @@ export function CaseQueueView() {
                     <td className="px-5 py-4">
                       <OutcomeBadge record={record} />
                     </td>
-                    <td className="max-w-sm px-5 py-4 text-xs text-slate-400 leading-relaxed">
+                    <td className="max-w-sm px-5 py-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                       {record.result_summary}
                     </td>
-                    <td className="px-5 py-4 font-mono text-xs text-slate-400">
+                    <td className="px-5 py-4 font-mono text-xs text-slate-600 dark:text-slate-400">
                       r{record.revision}
                     </td>
                     <td className="px-5 py-4 text-right">

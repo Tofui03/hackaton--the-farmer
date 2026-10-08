@@ -62,28 +62,28 @@ export function ReviewControls({ record, draft, onChange, onSubmit, submitting }
   return (
     <div className="space-y-5">
       <section className="panel p-4">
-        <div className="text-xs font-semibold uppercase tracking-widest text-amber-400">Active Review Issues</div>
+        <div className="text-xs font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400">Active Review Issues</div>
         <div className="mt-3 space-y-3">
           {issues.map((issue) => (
-            <div key={issue.issue_id} className="rounded-lg border border-amber-900/70 bg-amber-950/20 p-3">
-              <div className="font-semibold text-amber-200">{humanizeReason(String(issue.logical_reason))}</div>
-              <div className="mt-1 text-xs text-slate-400">{issue.suggested_action}</div>
-              <div className="mt-1 text-[11px] font-mono text-slate-600">{String(issue.logical_reason)}</div>
+            <div key={issue.issue_id} className="rounded-lg border border-amber-300 dark:border-amber-900/70 bg-amber-50 dark:bg-amber-950/20 p-3">
+              <div className="font-semibold text-amber-900 dark:text-amber-200">{humanizeReason(String(issue.logical_reason))}</div>
+              <div className="mt-1 text-xs text-slate-600 dark:text-slate-400">{issue.suggested_action}</div>
+              <div className="mt-1 text-[11px] font-mono text-slate-500 dark:text-slate-500">{String(issue.logical_reason)}</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="panel p-4">
-        <h3 className="font-semibold text-white">Operator & rationale</h3>
+        <h3 className="font-semibold text-slate-900 dark:text-white">Operator & rationale</h3>
         <div className="mt-3 grid gap-3">
-          <label className="text-xs text-slate-400">Operator ID<input className="input mt-1" value={draft.actorId} onChange={(e) => update({ actorId: e.target.value })} placeholder="operator-01" /></label>
-          <label className="text-xs text-slate-400">Review rationale<textarea className="input mt-1 min-h-20" value={draft.rationale} onChange={(e) => update({ rationale: e.target.value })} placeholder="Explain the source-level decision" /></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Operator ID<input className="input mt-1" value={draft.actorId} onChange={(e) => update({ actorId: e.target.value })} placeholder="operator-01" /></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Review rationale<textarea className="input mt-1 min-h-20" value={draft.rationale} onChange={(e) => update({ rationale: e.target.value })} placeholder="Explain the source-level decision" /></label>
         </div>
       </section>
 
       <section className="panel p-4">
-        <h3 className="font-semibold text-white">Classification correction</h3>
+        <h3 className="font-semibold text-slate-900 dark:text-white">Classification correction</h3>
         <select className="input mt-3" value={draft.category} onChange={(e) => update({ category: e.target.value })}>
           <option value="">Keep current classification</option>
           {CATEGORY_OPTIONS.map((category) => <option key={category} value={category}>{category}</option>)}
@@ -91,21 +91,21 @@ export function ReviewControls({ record, draft, onChange, onSubmit, submitting }
       </section>
 
       <section className="panel p-4">
-        <h3 className="font-semibold text-white">Document role assignment</h3>
+        <h3 className="font-semibold text-slate-900 dark:text-white">Document role assignment</h3>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <label className="text-xs text-slate-400">Shipping Instruction<select className="input mt-1" value={draft.siDocument} onChange={(e) => update({ siDocument: e.target.value })}><option value="">No change</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id}>{a.document_id}</option>)}</select></label>
-          <label className="text-xs text-slate-400">Draft Bill of Lading<select className="input mt-1" value={draft.blDocument} onChange={(e) => update({ blDocument: e.target.value })}><option value="">No change</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id} disabled={a.document_id === draft.siDocument}>{a.document_id}</option>)}</select></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Shipping Instruction<select className="input mt-1" value={draft.siDocument} onChange={(e) => update({ siDocument: e.target.value })}><option value="">No change</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id}>{a.document_id}</option>)}</select></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Draft Bill of Lading<select className="input mt-1" value={draft.blDocument} onChange={(e) => update({ blDocument: e.target.value })}><option value="">No change</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id} disabled={a.document_id === draft.siDocument}>{a.document_id}</option>)}</select></label>
         </div>
       </section>
 
       <section className="panel p-4">
-        <h3 className="font-semibold text-white">Field candidate correction</h3>
+        <h3 className="font-semibold text-slate-900 dark:text-white">Field candidate correction</h3>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <label className="text-xs text-slate-400">Target document<select className="input mt-1" value={draft.fieldDocument} onChange={(e) => update({ fieldDocument: e.target.value })}><option value="">No field correction</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id}>{a.document_id}</option>)}</select></label>
-          <label className="text-xs text-slate-400">Field<select className="input mt-1" value={draft.field} onChange={(e) => update({ field: e.target.value as FieldName })}>{FIELD_NAMES.map((field) => <option key={field} value={field}>{field}</option>)}</select></label>
-          <label className="text-xs text-slate-400 sm:col-span-2">Correct raw value<input className="input mt-1" value={draft.rawValue} onChange={(e) => update({ rawValue: e.target.value })} /></label>
-          <label className="text-xs text-slate-400">Evidence citation<select className="input mt-1" value={draft.evidenceId} onChange={(e) => update({ evidenceId: e.target.value })}><option value="">Select grounded evidence</option>{record.evidence.map((evidence) => <option key={evidence.evidence_id} value={evidence.evidence_id}>{evidence.evidence_id} · {evidence.source_id}</option>)}</select></label>
-          <label className="text-xs text-slate-400">Correction rationale<input className="input mt-1" value={draft.correctionRationale} onChange={(e) => update({ correctionRationale: e.target.value })} /></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Target document<select className="input mt-1" value={draft.fieldDocument} onChange={(e) => update({ fieldDocument: e.target.value })}><option value="">No field correction</option>{attachments.map((a) => <option key={a.document_id} value={a.document_id}>{a.document_id}</option>)}</select></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Field<select className="input mt-1" value={draft.field} onChange={(e) => update({ field: e.target.value as FieldName })}>{FIELD_NAMES.map((field) => <option key={field} value={field}>{field}</option>)}</select></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium sm:col-span-2">Correct raw value<input className="input mt-1" value={draft.rawValue} onChange={(e) => update({ rawValue: e.target.value })} /></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Evidence citation<select className="input mt-1" value={draft.evidenceId} onChange={(e) => update({ evidenceId: e.target.value })}><option value="">Select grounded evidence</option>{record.evidence.map((evidence) => <option key={evidence.evidence_id} value={evidence.evidence_id}>{evidence.evidence_id} · {evidence.source_id}</option>)}</select></label>
+          <label className="text-xs text-slate-700 dark:text-slate-400 font-medium">Correction rationale<input className="input mt-1" value={draft.correctionRationale} onChange={(e) => update({ correctionRationale: e.target.value })} /></label>
         </div>
       </section>
 

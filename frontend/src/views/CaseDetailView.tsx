@@ -52,16 +52,16 @@ export function CaseDetailView() {
       {/* Hero Document Identity Section */}
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
         <div>
-          <div className="text-xs text-slate-400">
-            <Link to="/cases" className="text-blue-400 hover:text-blue-300">
+          <div className="text-xs text-slate-600 dark:text-slate-400">
+            <Link to="/cases" className="text-blue-700 dark:text-blue-400 hover:underline">
               Cases
             </Link>{' '}
-            / <span className="font-mono text-slate-300">{record.email_id}</span>
+            / <span className="font-mono text-slate-700 dark:text-slate-300">{record.email_id}</span>
           </div>
-          <h1 className="mt-2 font-mono text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="mt-2 font-mono text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             {record.email_id}
           </h1>
-          <div className="mt-1 font-editorial italic text-lg text-slate-300">
+          <div className="mt-1 font-editorial italic text-lg text-slate-700 dark:text-slate-300">
             {record.email.subject || '(No subject)'}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -101,7 +101,7 @@ export function CaseDetailView() {
       {/* Context Panel (Email & Attachments) */}
       <section className="glass-panel p-6">
         <details open className="group">
-          <summary className="flex cursor-pointer items-center justify-between font-display text-base font-bold text-white">
+          <summary className="flex cursor-pointer items-center justify-between font-display text-base font-bold text-slate-900 dark:text-white">
             <span>Email & Attachment Context</span>
             <span className="font-mono text-xs text-slate-500 group-open:rotate-180 transition-transform">
               ▼
@@ -109,33 +109,33 @@ export function CaseDetailView() {
           </summary>
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             <div>
-              <div className="font-mono text-xs uppercase tracking-wider text-slate-400">
+              <div className="font-mono text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 Sender
               </div>
-              <div className="mt-1 font-mono text-sm text-slate-200">
+              <div className="mt-1 font-mono text-sm text-slate-900 dark:text-slate-200">
                 {record.email.sender}
               </div>
             </div>
             <div className="lg:col-span-2">
-              <div className="font-mono text-xs uppercase tracking-wider text-slate-400">
+              <div className="font-mono text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 Subject
               </div>
-              <div className="mt-1 text-sm font-medium text-slate-200">
+              <div className="mt-1 text-sm font-medium text-slate-900 dark:text-slate-200">
                 {record.email.subject || '(No subject)'}
               </div>
             </div>
             <div className="lg:col-span-3">
-              <div className="font-mono text-xs uppercase tracking-wider text-slate-400">
+              <div className="font-mono text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 Inbound Email Body
               </div>
-              <pre className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap rounded-xl border border-white/[0.06] bg-carbon-950 p-4 font-mono text-xs text-slate-300 leading-relaxed">
+              <pre className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap rounded-xl border border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-carbon-950 p-4 font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed">
                 {record.email.body}
               </pre>
             </div>
           </div>
 
-          <div className="mt-6 border-t border-white/[0.06] pt-5">
-            <div className="font-mono text-xs uppercase tracking-wider text-slate-400 mb-3">
+          <div className="mt-6 border-t border-slate-200 dark:border-white/[0.06] pt-5">
+            <div className="font-mono text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3">
               Attachment Ingestion & Parsers
             </div>
             <div className="grid gap-3 md:grid-cols-2">
@@ -146,12 +146,12 @@ export function CaseDetailView() {
                 return (
                   <div
                     key={attachment.document_id}
-                    className="spotlight-border rounded-xl bg-carbon-950/80 p-4"
+                    className="spotlight-border rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-carbon-950/80 p-4"
                   >
-                    <div className="font-mono text-xs font-semibold text-blue-300">
+                    <div className="font-mono text-xs font-semibold text-blue-700 dark:text-blue-300">
                       {attachment.document_id}
                     </div>
-                    <div className="mt-1 font-mono text-xs text-slate-500">
+                    <div className="mt-1 font-mono text-xs text-slate-600 dark:text-slate-500">
                       {attachment.path}
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -179,7 +179,7 @@ export function CaseDetailView() {
                 );
               })}
               {record.email.attachments.length === 0 ? (
-                <div className="text-sm text-slate-500">No attachments supplied.</div>
+                <div className="text-sm text-slate-600 dark:text-slate-500">No attachments supplied.</div>
               ) : null}
             </div>
           </div>
@@ -188,7 +188,7 @@ export function CaseDetailView() {
 
       {/* Document Role Resolution Panel */}
       <section className="glass-panel p-6">
-        <h2 className="font-display text-lg font-bold text-white">
+        <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white">
           Document Role Resolution
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -197,23 +197,23 @@ export function CaseDetailView() {
             return (
               <div
                 key={role}
-                className="spotlight-border rounded-xl bg-carbon-950/80 p-5"
+                className="spotlight-border rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-carbon-950/80 p-5"
               >
-                <div className="font-mono text-xs uppercase tracking-wider text-blue-400">
+                <div className="font-mono text-xs uppercase tracking-wider text-blue-700 dark:text-blue-400 font-semibold">
                   {role === 'SI' ? 'Shipping Instruction (SI)' : 'Draft Bill of Lading (BL)'}
                 </div>
-                <div className="mt-2 font-mono text-base font-bold text-white">
+                <div className="mt-2 font-mono text-base font-bold text-slate-900 dark:text-white">
                   {doc?.document_id ?? 'Unresolved'}
                 </div>
                 {doc ? (
-                  <div className="mt-2 font-mono text-xs text-slate-400">
+                  <div className="mt-2 font-mono text-xs text-slate-600 dark:text-slate-400">
                     Evidence ID:{' '}
-                    <span className="text-slate-300">
+                    <span className="text-slate-800 dark:text-slate-300 font-semibold">
                       {doc.identification_evidence_ids.join(', ') || '—'}
                     </span>
                   </div>
                 ) : (
-                  <div className="mt-2 text-xs text-amber-300">
+                  <div className="mt-2 text-xs text-amber-700 dark:text-amber-300 font-medium">
                     Document role has not been uniquely resolved.
                   </div>
                 )}
@@ -228,10 +228,10 @@ export function CaseDetailView() {
         <section className="space-y-4">
           <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-end">
             <div>
-              <h2 className="font-display text-xl font-bold tracking-tight text-white">
+              <h2 className="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                 Deterministic 7-Field Cinema Stage
               </h2>
-              <p className="mt-1 font-editorial italic text-xs text-slate-400">
+              <p className="mt-1 font-editorial italic text-xs text-slate-600 dark:text-slate-400">
                 Deterministic 7-Field Cinema Stage · Source Integrity Guaranteed
               </p>
             </div>
@@ -243,35 +243,35 @@ export function CaseDetailView() {
         </section>
       ) : (
         <section className="glass-panel p-6">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white">
             Non-Comparison Case
           </h2>
-          <p className="mt-2 text-sm text-slate-400">{record.result_summary}</p>
+          <p className="mt-2 text-sm text-slate-700 dark:text-slate-400">{record.result_summary}</p>
         </section>
       )}
 
       {/* Audit Lineage & Processing Metadata */}
       <section className="glass-panel p-6">
         <details className="group">
-          <summary className="flex cursor-pointer items-center justify-between font-display text-base font-bold text-white">
+          <summary className="flex cursor-pointer items-center justify-between font-display text-base font-bold text-slate-900 dark:text-white">
             <span>Audit lineage & processing metadata</span>
             <span className="font-mono text-xs text-slate-500 group-open:rotate-180 transition-transform">
               ▼
             </span>
           </summary>
-          <div className="mt-5 grid gap-4 text-xs text-slate-400 md:grid-cols-3">
-            <div className="rounded-lg bg-carbon-950 p-3 border border-white/[0.04]">
-              Revision: <span className="font-mono font-bold text-white">r{record.revision}</span>
+          <div className="mt-5 grid gap-4 text-xs text-slate-600 dark:text-slate-400 md:grid-cols-3">
+            <div className="rounded-lg bg-slate-50 dark:bg-carbon-950 p-3 border border-slate-200 dark:border-white/[0.04]">
+              Revision: <span className="font-mono font-bold text-slate-900 dark:text-white">r{record.revision}</span>
             </div>
-            <div className="rounded-lg bg-carbon-950 p-3 border border-white/[0.04]">
+            <div className="rounded-lg bg-slate-50 dark:bg-carbon-950 p-3 border border-slate-200 dark:border-white/[0.04]">
               Technical limit:{' '}
-              <span className="font-mono font-bold text-white">
+              <span className="font-mono font-bold text-slate-900 dark:text-white">
                 {record.processing.technical_attempt_limit}
               </span>
             </div>
-            <div className="rounded-lg bg-carbon-950 p-3 border border-white/[0.04]">
+            <div className="rounded-lg bg-slate-50 dark:bg-carbon-950 p-3 border border-slate-200 dark:border-white/[0.04]">
               Semantic limit:{' '}
-              <span className="font-mono font-bold text-white">
+              <span className="font-mono font-bold text-slate-900 dark:text-white">
                 {record.processing.semantic_attempt_limit}
               </span>
             </div>
@@ -280,10 +280,10 @@ export function CaseDetailView() {
             {record.processing.attempts.map((attempt) => (
               <div
                 key={attempt.attempt_id}
-                className="flex items-center justify-between rounded-lg border border-white/[0.04] bg-carbon-950 p-3 font-mono text-xs"
+                className="flex items-center justify-between rounded-lg border border-slate-200 dark:border-white/[0.04] bg-slate-50 dark:bg-carbon-950 p-3 font-mono text-xs"
               >
-                <span className="text-blue-300 font-semibold">{attempt.attempt_id}</span>
-                <span className="text-slate-400">
+                <span className="text-blue-700 dark:text-blue-300 font-semibold">{attempt.attempt_id}</span>
+                <span className="text-slate-600 dark:text-slate-400 font-medium">
                   {attempt.stage} · {attempt.kind} · {attempt.outcome}
                 </span>
               </div>

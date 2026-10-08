@@ -63,24 +63,37 @@ export function ReviewWorkspaceView() {
     }
   };
 
-  if (loading) return <div className="panel p-8 text-sm text-slate-400">Loading review workspace…</div>;
-  if (error && !record) return <div className="rounded-lg border border-rose-800 bg-rose-950/30 p-4 text-sm text-rose-200">{error}</div>;
+  if (loading) return <div className="panel p-8 text-sm text-slate-600 dark:text-slate-400">Loading review workspace…</div>;
+  if (error && !record) return <div className="rounded-lg border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 p-4 text-sm text-rose-800 dark:text-rose-200">{error}</div>;
   if (!record) return null;
 
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-        <div><div className="text-xs text-slate-500"><Link to="/cases" className="text-blue-400">Cases</Link> / <Link to={`/cases/${encodeURIComponent(record.email_id)}`} className="text-blue-400">{record.email_id}</Link> / review</div><h1 className="mt-2 text-2xl font-bold text-white">Human Review Workspace</h1><p className="mt-1 text-sm text-slate-400">Revision r{record.revision}. Reliable work stays visible while you correct only the unresolved source information.</p></div>
+        <div>
+          <div className="text-xs text-slate-600 dark:text-slate-500">
+            <Link to="/cases" className="text-blue-700 dark:text-blue-400 hover:underline">Cases</Link> /{' '}
+            <Link to={`/cases/${encodeURIComponent(record.email_id)}`} className="text-blue-700 dark:text-blue-400 hover:underline">{record.email_id}</Link> / review
+          </div>
+          <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Human Review Workspace</h1>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Revision r{record.revision}. Reliable work stays visible while you correct only the unresolved source information.
+          </p>
+        </div>
         <Link className="btn-secondary" to={`/cases/${encodeURIComponent(record.email_id)}`}>Back to Case Detail</Link>
       </div>
 
-      {record.state !== 'NEEDS_REVIEW' ? <div className="rounded-lg border border-emerald-800 bg-emerald-950/20 p-4 text-sm text-emerald-200">This case is already complete. Review submission is not required.</div> : null}
-      {error ? <div className="rounded-lg border border-rose-800 bg-rose-950/30 p-4 text-sm text-rose-200">{error}</div> : null}
+      {record.state !== 'NEEDS_REVIEW' ? <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/20 p-4 text-sm text-emerald-800 dark:text-emerald-200">This case is already complete. Review submission is not required.</div> : null}
+      {error ? <div className="rounded-lg border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 p-4 text-sm text-rose-800 dark:text-rose-200">{error}</div> : null}
 
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(360px,0.8fr)]">
         <div className="space-y-4">
-          <section className="panel p-4"><div className="text-xs uppercase tracking-widest text-slate-500">Source context</div><div className="mt-2 font-semibold text-white">{record.email.subject || '(No subject)'}</div><div className="mt-1 text-xs text-slate-400">{record.email.sender} · {record.email.attachments.length} attachment(s)</div></section>
-          {record.classification.category === 'document_comparison' ? <ComparisonMatrix record={record} onEvidence={(field, evidence) => setDrawer({ field, evidence })} /> : <section className="panel p-5 text-sm text-slate-400">Classification is unresolved or non-comparison. Use the correction controls to confirm the source-level intent.</section>}
+          <section className="panel p-4">
+            <div className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 font-semibold">Source context</div>
+            <div className="mt-2 font-semibold text-slate-900 dark:text-white">{record.email.subject || '(No subject)'}</div>
+            <div className="mt-1 text-xs text-slate-600 dark:text-slate-400">{record.email.sender} · {record.email.attachments.length} attachment(s)</div>
+          </section>
+          {record.classification.category === 'document_comparison' ? <ComparisonMatrix record={record} onEvidence={(field, evidence) => setDrawer({ field, evidence })} /> : <section className="panel p-5 text-sm text-slate-600 dark:text-slate-400">Classification is unresolved or non-comparison. Use the correction controls to confirm the source-level intent.</section>}
         </div>
         <ReviewControls record={record} draft={draft} onChange={setDraft} onSubmit={(payload) => void submit(payload)} submitting={submitting} />
       </div>

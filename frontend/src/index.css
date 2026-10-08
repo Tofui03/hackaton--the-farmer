@@ -92,3 +92,73 @@ button, input, select, textarea {
   }
 }
 
+/* ========================================================
+   LIGHT MODE: HIGH-CONTRAST EYE-COMFORT PALETTE
+   Guarantees all text is deep slate/charcoal (#0f172a) on light surfaces.
+   ======================================================== */
+html:not(.dark),
+html.light {
+  color-scheme: light;
+}
+
+html:not(.dark) body,
+html.light body {
+  color: #0f172a;
+  background-color: #f8fafc;
+}
+
+/* Guard against washed-out text utilities on light surfaces */
+html:not(.dark) .text-slate-100,
+html.light .text-slate-100,
+html:not(.dark) .text-slate-200,
+html.light .text-slate-200 {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .text-slate-300,
+html.light .text-slate-300 {
+  color: #1e293b !important;
+}
+
+html:not(.dark) .text-slate-400,
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+html:not(.dark) .text-slate-500,
+html.light .text-slate-500 {
+  color: #475569 !important;
+}
+
+/* Links and IDs */
+html:not(.dark) a.font-bold,
+html.light a.font-bold {
+  color: #1d4ed8 !important;
+}
+
+html:not(.dark) a.font-bold:hover,
+html.light a.font-bold:hover {
+  color: #1e40af !important;
+}
+
+/* Table headers & cards */
+html:not(.dark) thead,
+html.light thead {
+  background-color: #f1f5f9 !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+}
+
+html:not(.dark) thead th,
+html.light thead th {
+  color: #1e293b !important;
+}
+
+html:not(.dark) .panel,
+html.light .panel,
+html:not(.dark) .glass-panel,
+html.light .glass-panel {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05) !important;
+}
+
