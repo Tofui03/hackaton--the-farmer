@@ -177,3 +177,37 @@ def test_fastapi_startup_integration():
             resp_detail = client.get(f"/audit/{DEMO_MATCH_ID}")
             assert resp_detail.status_code == 200
             assert resp_detail.json()["outcome"] == "MATCH"
+
+
+def test_seed_custom_count_250():
+    """Verify that SDOC_UAT_SEED_COUNT=250 seeds 250 valid records idempotently."""
+    store = AuditStore()
+    with patch.dict(os.environ, {"SDOC_UAT_DEMO_SEED": "1", "SDOC_UAT_SEED_COUNT": "250"}):
+        seeded = maybe_seed_uat_demo_records(store)
+        assert seeded is not None
+        assert len(seeded) == 250
+        assert store.count() == 250
+
+        # Verify idempotency
+        second_seed = maybe_seed_uat_demo_records(store)
+        assert second_seed is not None
+        assert len(second_seed) == 250
+        assert store.count() == 250
+
+        # Check variety across all records
+        outcomes = {r.outcome for r in seeded}
+        assert "MATCH" in outcomes
+        assert "MISMATCH" in outcomes
+        assert "NOT_APPLICABLE" in outcomes
+        assert any(r.state == "NEEDS_REVIEW" for r in seeded)
+
+
+def test_render_environment_auto_seed():
+    """Verify that on Render (RENDER=true), demo seed is automatically enabled and defaults to 250."""
+    store = AuditStore()
+    with patch.dict(os.environ, {"RENDER": "true"}, clear=True):
+        assert is_uat_demo_seed_enabled() is True
+        seeded = maybe_seed_uat_demo_records(store)
+        assert seeded is not None
+        assert len(seeded) == 250
+        assert store.count() == 250

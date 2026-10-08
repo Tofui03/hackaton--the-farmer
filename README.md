@@ -166,11 +166,13 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# (Optional) Enable UAT demo seed data for live UI testing
+# (Optional) Enable UAT demo seed data for live UI testing (default: 250 cases on Render)
 # Windows PowerShell:
 $env:SDOC_UAT_DEMO_SEED="1"
+$env:SDOC_UAT_SEED_COUNT="250"
 # Linux / macOS:
 export SDOC_UAT_DEMO_SEED=1
+export SDOC_UAT_SEED_COUNT=250
 
 # Start the API server
 uvicorn app:app --reload --port 10000

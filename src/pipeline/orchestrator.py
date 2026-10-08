@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional, Sequence, Tuple, Union
 import uuid
 
-from src.application.use_cases.verify_email import EmailVerificationUseCase
 from src.comparator.field_comparator import compare_seven_fields
 from src.hitl.escalation_engine import EscalationEngine
 from src.llm.base_adapter import BaseAIAdapter
@@ -124,6 +123,8 @@ class PipelineOrchestrator:
         self.role_binder = Stage2RoleBinder(base_dir=base_dir, ai_adapter=ai_adapter)
         self.extractor = Stage3Extractor(ai_adapter=ai_adapter)
         self.escalation_engine = EscalationEngine()
+        from src.application.use_cases.verify_email import EmailVerificationUseCase
+
         self.verification_use_case = EmailVerificationUseCase(
             classifier=self.classifier,
             role_binder=self.role_binder,

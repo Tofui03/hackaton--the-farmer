@@ -101,13 +101,82 @@ Description: INDUSTRIAL MACHINERY COMPONENTS
 """
 
 
+CARRIERS = [
+    ("MAERSK LINE", "copenhagen-docs@maersk.com"),
+    ("MEDITERRANEAN SHIPPING COMPANY (MSC)", "geneva-ops@msc.com"),
+    ("CMA CGM S.A.", "marseille-export@cma-cgm.com"),
+    ("COSCO SHIPPING LINES", "shanghai-docs@coscoshipping.com"),
+    ("HAPAG-LLOYD AG", "hamburg-booking@hlag.com"),
+    ("OCEAN NETWORK EXPRESS (ONE)", "singapore-ops@one-line.com"),
+    ("EVERGREEN MARINE CORP", "taipei-export@evergreen-marine.com"),
+    ("YANG MING MARINE TRANSPORT", "keelung-docs@yangming.com"),
+    ("KUEHNE + NAGEL LOGISTICS", "seafreight@kuehne-nagel.com"),
+    ("DB SCHENKER OCEAN", "ocean-docs@dbschenker.com"),
+]
+
+PORTS = [
+    ("SINGAPORE (SGSIN)", "ROTTERDAM (NLRTM)"),
+    ("SHANGHAI (CNSHA)", "LOS ANGELES (USLAX)"),
+    ("NINGBO-ZHOUSHAN (CNNGB)", "HAMBURG (DEHAM)"),
+    ("BUSAN (KRPUS)", "LONG BEACH (USLGB)"),
+    ("SHENZHEN (CNSZX)", "ANTWERP (BEANR)"),
+    ("TOKYO (JPTYO)", "SOUTHAMPTON (GBSOU)"),
+    ("QINGDAO (CNTAO)", "FELIXSTOWE (GBFXT)"),
+    ("PORT KLANG (MYPKG)", "LE HAVRE (FRLEH)"),
+    ("KAOHSIUNG (TWKHH)", "NEW YORK (USNYC)"),
+    ("TANJUNG PELEPAS (MYTPP)", "VALENCIA (ESVLC)"),
+]
+
+COMMODITIES = [
+    "INDUSTRIAL MACHINERY COMPONENTS",
+    "PHOTOVOLTAIC SOLAR MODULES & INVERTERS",
+    "AUTOMOTIVE LITHIUM-ION BATTERY PACKS",
+    "PRECISION MEDICAL DIAGNOSTIC WORKSTATIONS",
+    "SPECIALTY GRADE ARABICA COFFEE BEANS",
+    "SEMICONDUCTOR WAFER FABRICATION SPARES",
+    "REFRIGERATED SEAFOOD COLD CHAIN CONTAINERS",
+    "TELECOMMUNICATION OPTICAL SWITCHES",
+    "AEROSPACE GRADE TITANIUM FASTENERS",
+    "TECHNICAL TEXTILES AND POLYMER ROLLS",
+]
+
+CONSIGNEES = [
+    "PACIFIC IMPORT DISTRIBUTORS B.V. WESTERDOKSDIJK 40 1013 AD AMSTERDAM",
+    "ATLANTIC OCEAN IMPORTS GMBH SPEICHERSTRASSE 12 20457 HAMBURG",
+    "WEST COAST FREIGHT RECEIVERS LLC 500 S GRAND AVE LOS ANGELES CA 90071",
+    "EAST COAST CARGO LOGISTICS INC 111 8TH AVENUE NEW YORK NY 10011",
+    "EUROPEAN SUPPLY CHAIN PARTNERS N.V. NOORDERLAAN 147 2030 ANTWERP",
+]
+
+ALT_CONSIGNEES = [
+    "GLOBAL TRANSIT WAREHOUSING S.A. RUE DU RHONE 42 1204 GENEVA",
+    "BENELUX LOGISTICS DISTRIBUTION B.V. MAASVLAKTE 2 3000 AA ROTTERDAM",
+    "NORDIC MARITIME FREIGHT OY ETELARANTA 10 00130 HELSINKI",
+    "MEDITERRANEAN CARGO TERMINALS S.L. MOLL DE BARCELONA 08039 BARCELONA",
+]
+
+ALT_PORTS = [
+    "BREMERHAVEN (DEBRV)",
+    "OAKLAND (USOAK)",
+    "BARCELONA (ESBCN)",
+    "GENOA (ITGOA)",
+    "SAVANNAH (USSAV)",
+]
+
+
 def is_uat_demo_seed_enabled() -> bool:
-    """Check if SDOC_UAT_DEMO_SEED is enabled in environment."""
+    """Check if SDOC_UAT_DEMO_SEED is enabled in environment or running on Render."""
     val = os.environ.get("SDOC_UAT_DEMO_SEED", "").strip().lower()
-    return val in ("1", "true", "yes", "on")
+    if val in ("1", "true", "yes", "on"):
+        return True
+    if val in ("0", "false", "no", "off"):
+        return False
+    return bool(os.environ.get("RENDER"))
 
 
-def seed_uat_demo_records(store: AuditStore) -> List[AuditRecord]:
+def seed_uat_demo_records(
+    store: AuditStore, count: Optional[int] = None
+) -> List[AuditRecord]:
     """Seed synthetic UAT demo records into the target AuditStore idempotently."""
     seeded: List[AuditRecord] = []
     orchestrator = PipelineOrchestrator(audit_store=store)
@@ -220,6 +289,236 @@ def seed_uat_demo_records(store: AuditStore) -> List[AuditRecord]:
         existing_general = store.get(DEMO_GENERAL_ID)
         if existing_general:
             seeded.append(existing_general)
+
+    # Additional bulk cases to populate realistic high-density verification queues (up to count)
+    if count is not None:
+        target_count = count
+    else:
+        env_count = os.environ.get("SDOC_UAT_SEED_COUNT", "").strip()
+        if env_count:
+            target_count = int(env_count)
+        elif os.environ.get("RENDER"):
+            target_count = 250
+        else:
+            target_count = 4
+
+    if target_count > 4:
+        for i in range(4, target_count):
+            c_name, c_email = CARRIERS[i % len(CARRIERS)]
+            pol, pod = PORTS[i % len(PORTS)]
+            cargo = COMMODITIES[i % len(COMMODITIES)]
+            consignee = CONSIGNEES[i % len(CONSIGNEES)]
+            cnt = 2 + (i % 12)
+            wt = 14500.0 + (i * 275.5) % 32000.0
+
+            bucket = i % 10
+            if bucket in (0, 1, 2, 3, 4):  # Clean Match
+                eid = f"uat-case-{i+1:03d}-match"
+                if store.get(eid) is None:
+                    si = f"""[SHIPPING INSTRUCTION]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                    bl = si
+                    email = EmailRecord(
+                        email_id=eid,
+                        sender=c_email,
+                        subject=f"[UAT] Verification Request - Booking #UAT-{1000+i} (Clean Match)",
+                        body="Please verify attached Draft BL against our SI.",
+                        attachments=[
+                            AttachmentReference(document_id=f"{eid}_SI.txt", path=f"{eid}_SI.txt"),
+                            AttachmentReference(document_id=f"{eid}_BL.txt", path=f"{eid}_BL.txt"),
+                        ],
+                    )
+                    rec = orchestrator.process_email(
+                        email,
+                        document_texts={f"{eid}_SI.txt": si, f"{eid}_BL.txt": bl},
+                    )
+                    seeded.append(rec)
+                else:
+                    existing = store.get(eid)
+                    if existing:
+                        seeded.append(existing)
+
+            elif bucket in (5, 6):  # Mismatch across diverse fields
+                eid = f"uat-case-{i+1:03d}-mismatch"
+                if store.get(eid) is None:
+                    sub_type = i % 4
+                    if sub_type == 0:
+                        diff_label = "Container Count Mismatch"
+                        bl_cnt = cnt + 1
+                        bl_wt = wt
+                        bl_pod = pod
+                        bl_consignee = consignee
+                    elif sub_type == 1:
+                        diff_label = "Gross Weight Discrepancy"
+                        bl_cnt = cnt
+                        bl_wt = wt + 850.0
+                        bl_pod = pod
+                        bl_consignee = consignee
+                    elif sub_type == 2:
+                        diff_label = "Discharge Port Mismatch"
+                        bl_cnt = cnt
+                        bl_wt = wt
+                        bl_pod = ALT_PORTS[i % len(ALT_PORTS)]
+                        bl_consignee = consignee
+                    else:
+                        diff_label = "Consignee Entity Mismatch"
+                        bl_cnt = cnt
+                        bl_wt = wt
+                        bl_pod = pod
+                        bl_consignee = ALT_CONSIGNEES[i % len(ALT_CONSIGNEES)]
+
+                    si = f"""[SHIPPING INSTRUCTION]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                    bl = f"""[BILL OF LADING]
+Shipper: {c_name}
+Consignee: {bl_consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {bl_pod}
+Container Count: {bl_cnt}
+Gross Weight: {bl_wt:,.2f} KGS
+Description: {cargo}
+"""
+                    email = EmailRecord(
+                        email_id=eid,
+                        sender=c_email,
+                        subject=f"[UAT] Discrepancy Alert - Booking #UAT-{1000+i} ({diff_label})",
+                        body="Please verify attached Draft BL against our SI.",
+                        attachments=[
+                            AttachmentReference(document_id=f"{eid}_SI.txt", path=f"{eid}_SI.txt"),
+                            AttachmentReference(document_id=f"{eid}_BL.txt", path=f"{eid}_BL.txt"),
+                        ],
+                    )
+                    rec = orchestrator.process_email(
+                        email,
+                        document_texts={f"{eid}_SI.txt": si, f"{eid}_BL.txt": bl},
+                    )
+                    seeded.append(rec)
+                else:
+                    existing = store.get(eid)
+                    if existing:
+                        seeded.append(existing)
+
+            elif bucket in (7, 8):  # Review Required
+                eid = f"uat-case-{i+1:03d}-review"
+                if store.get(eid) is None:
+                    sub_type = i % 3
+                    if sub_type == 0:
+                        issue_label = "Missing Weight in SI"
+                        si = f"""[SHIPPING INSTRUCTION]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Description: {cargo}
+"""
+                        bl = f"""[BILL OF LADING]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                    elif sub_type == 1:
+                        issue_label = "Missing Container Count in BL"
+                        si = f"""[SHIPPING INSTRUCTION]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                        bl = f"""[BILL OF LADING]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                    else:
+                        issue_label = "Missing Port of Loading in SI"
+                        si = f"""[SHIPPING INSTRUCTION]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+                        bl = f"""[BILL OF LADING]
+Shipper: {c_name}
+Consignee: {consignee}
+Notify Party: SAME AS CONSIGNEE
+Port of Loading: {pol}
+Port of Discharge: {pod}
+Container Count: {cnt}
+Gross Weight: {wt:,.2f} KGS
+Description: {cargo}
+"""
+
+                    email = EmailRecord(
+                        email_id=eid,
+                        sender=c_email,
+                        subject=f"[UAT] Review Required - Booking #UAT-{1000+i} ({issue_label})",
+                        body="Please review documentation. Required shipping data must be audited by reviewer.",
+                        attachments=[
+                            AttachmentReference(document_id=f"{eid}_SI.txt", path=f"{eid}_SI.txt"),
+                            AttachmentReference(document_id=f"{eid}_BL.txt", path=f"{eid}_BL.txt"),
+                        ],
+                    )
+                    rec = orchestrator.process_email(
+                        email,
+                        document_texts={f"{eid}_SI.txt": si, f"{eid}_BL.txt": bl},
+                    )
+                    seeded.append(rec)
+                else:
+                    existing = store.get(eid)
+                    if existing:
+                        seeded.append(existing)
+
+            else:  # General auxiliary inquiry
+                eid = f"uat-case-{i+1:03d}-general"
+                if store.get(eid) is None:
+                    email = EmailRecord(
+                        email_id=eid,
+                        sender=c_email,
+                        subject=f"[UAT] Sailing Schedule Update - Asia to Europe #UAT-{1000+i}",
+                        body=f"Good day, please find latest vessel sailing schedule update for {pol} to {pod}.",
+                        attachments=[],
+                    )
+                    rec = orchestrator.process_email(email)
+                    seeded.append(rec)
+                else:
+                    existing = store.get(eid)
+                    if existing:
+                        seeded.append(existing)
 
     logger.info("Seeded %d synthetic UAT demo records into AuditStore.", len(seeded))
     return seeded

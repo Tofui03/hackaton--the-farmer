@@ -10,3 +10,7 @@ services:
         value: 3.12.8
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
+      - key: SDOC_UAT_DEMO_SEED
+        value: "1"
+      - key: SDOC_UAT_SEED_COUNT
+        value: "250"
