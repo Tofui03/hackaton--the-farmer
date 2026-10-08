@@ -65,3 +65,10 @@ frontend/*.tsbuildinfo
 frontend/vite.config.js
 frontend/vite.config.d.ts
 
+# Compiled Frontend Bundles & Generated Static Artifacts (Built dynamically by CI / Render)
+docs/assets/
+docs/index.html
+docs/404.html
+docs/audit_records.json
+docs/submission_records.json
+
