@@ -503,22 +503,88 @@ Description: {cargo}
                     if existing:
                         seeded.append(existing)
 
-            else:  # General auxiliary inquiry
-                eid = f"uat-case-{i+1:03d}-general"
-                if store.get(eid) is None:
-                    email = EmailRecord(
-                        email_id=eid,
-                        sender=c_email,
-                        subject=f"[UAT] Sailing Schedule Update - Asia to Europe #UAT-{1000+i}",
-                        body=f"Good day, please find latest vessel sailing schedule update for {pol} to {pod}.",
-                        attachments=[],
-                    )
-                    rec = orchestrator.process_email(email)
-                    seeded.append(rec)
+            else:  # Multi-category auxiliary distribution (new_si, invoice, spam, general, unresolved)
+                sub = (i // 10) % 5
+                if sub == 0:
+                    eid = f"uat-case-{i+1:03d}-si"
+                    if store.get(eid) is None:
+                        email = EmailRecord(
+                            email_id=eid,
+                            sender=c_email,
+                            subject=f"[UAT] Request SI Submission _ Booking #UAT-{1000+i}",
+                            body=f"Please find attached new shipping instruction for booking UAT-{1000+i}.",
+                            attachments=[],
+                        )
+                        rec = orchestrator.process_email(email)
+                        seeded.append(rec)
+                    else:
+                        existing = store.get(eid)
+                        if existing:
+                            seeded.append(existing)
+                elif sub == 1:
+                    eid = f"uat-case-{i+1:03d}-invoice"
+                    if store.get(eid) is None:
+                        email = EmailRecord(
+                            email_id=eid,
+                            sender=c_email,
+                            subject=f"[UAT] Query on Invoice #INV-{1000+i} - Demurrage Charges",
+                            body=f"Good day, please clarify telex release charges and local charges for booking UAT-{1000+i}.",
+                            attachments=[],
+                        )
+                        rec = orchestrator.process_email(email)
+                        seeded.append(rec)
+                    else:
+                        existing = store.get(eid)
+                        if existing:
+                            seeded.append(existing)
+                elif sub == 2:
+                    eid = f"uat-case-{i+1:03d}-spam"
+                    if store.get(eid) is None:
+                        email = EmailRecord(
+                            email_id=eid,
+                            sender="promo@freight-specials.com",
+                            subject=f"[UAT] Exclusive Offer: Increase your shipping revenue by 50%",
+                            body="Click here for promotional offer and casino prizes. Marketing solicitation.",
+                            attachments=[],
+                        )
+                        rec = orchestrator.process_email(email)
+                        seeded.append(rec)
+                    else:
+                        existing = store.get(eid)
+                        if existing:
+                            seeded.append(existing)
+                elif sub == 3:
+                    eid = f"uat-case-{i+1:03d}-general"
+                    if store.get(eid) is None:
+                        email = EmailRecord(
+                            email_id=eid,
+                            sender=c_email,
+                            subject=f"[UAT] Sailing Schedule Update - Asia to Europe #UAT-{1000+i}",
+                            body=f"Good day, please find latest vessel sailing schedule update for {pol} to {pod}.",
+                            attachments=[],
+                        )
+                        rec = orchestrator.process_email(email)
+                        seeded.append(rec)
+                    else:
+                        existing = store.get(eid)
+                        if existing:
+                            seeded.append(existing)
                 else:
-                    existing = store.get(eid)
-                    if existing:
-                        seeded.append(existing)
+                    eid = f"uat-case-{i+1:03d}-unresolved"
+                    if store.get(eid) is None:
+                        email = EmailRecord(
+                            email_id=eid,
+                            sender=c_email,
+                            subject=f"[UAT] Inbound inquiry regarding shipment reference #{1000+i}",
+                            body=f"Hello operational team, following up on our previous correspondence. Best regards, {c_name}.",
+                            attachments=[],
+                        )
+                        rec = orchestrator.process_email(email)
+                        seeded.append(rec)
+                    else:
+                        existing = store.get(eid)
+                        if existing:
+                            seeded.append(existing)
 
     logger.info("Seeded %d synthetic UAT demo records into AuditStore.", len(seeded))
     return seeded
