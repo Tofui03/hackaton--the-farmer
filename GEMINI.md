@@ -5,7 +5,7 @@
 - **Dataset & Ground Truth**:
   - `sdoc-hackathon-bundle/inbox/`: 520 operational shipping emails (`email_001` to `email_520`).
   - `sdoc-hackathon-bundle/attachments/`: Associated SI and BL document attachments (`.txt`, `.pdf`, `.docx`, `.xlsx`).
-  - `Shipping Document Verification Use Case.pdf` & `SPEC-shipping-verification.md`: Complete business domain specification.
+  - `Shipping Document Verification Use Case.pdf` & `specs/`: Complete business domain specification.
 - **Core Invariant**: Exact comparison of 7 mandatory fields:
   1. `shipper` (Entity text, suffix-insensitive, semantic match)
   2. `consignee` (Entity text, semantic match)
