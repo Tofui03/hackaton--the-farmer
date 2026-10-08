@@ -49,9 +49,19 @@ Desktop.ini
 *.env
 .cache_pipeline.json
 .pytest_cache/
+.coverage
+htmlcov/
+*.log
+logs/
 
+# Temporary Pipeline Execution Outputs (Do not commit to root)
+/audit_report.json
+/submission.json
 
+# Frontend build artifacts & dependencies
+frontend/dist/
 frontend/node_modules/
 frontend/*.tsbuildinfo
 frontend/vite.config.js
 frontend/vite.config.d.ts
+

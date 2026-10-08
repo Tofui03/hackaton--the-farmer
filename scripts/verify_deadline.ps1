@@ -34,4 +34,4 @@ if ($bundleDiff) {
 
 Write-Host ''
 Write-Host 'ALL DEADLINE VERIFICATION CHECKS PASSED.' -ForegroundColor Green
-Write-Host 'The frontend production build is in docs/ and docs/reference/ui_prototype.html remains the preserved prototype.'
+Write-Host 'The production React 18 frontend build is in docs/ ready for FastAPI and GitHub Pages.'

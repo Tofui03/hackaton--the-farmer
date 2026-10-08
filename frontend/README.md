@@ -24,6 +24,6 @@ npm run test
 npm run build
 ```
 
-The Vite production build writes into `../docs/`. The original approved HTML prototype is preserved at `docs/reference/ui_prototype.html`; it is not a production data source. When `docs/assets/` exists, FastAPI serves the built SPA at `/cases` and `/cases/:email_id/...`.
+The Vite production build writes into `../docs/` (serving root for both FastAPI and GitHub Pages). When `docs/assets/` exists, FastAPI serves the built React 18 SPA at `/cases` and `/cases/:email_id/...`.
 
 The UI never computes match/mismatch decisions. It renders canonical `AuditRecord` data and submits source-level `ReviewUpdate` corrections to the backend.

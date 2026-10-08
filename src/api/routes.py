@@ -103,7 +103,9 @@ _legacy_cache: Optional[Dict[str, Any]] = None
 def _get_legacy_record(email_id: str) -> Optional[Dict[str, Any]]:
     global _legacy_cache
     if _legacy_cache is None:
-        p = Path("audit_report.json")
+        p = Path("docs/audit_report.json")
+        if not p.exists():
+            p = Path("audit_report.json")
         if p.exists():
             try:
                 data = json.loads(p.read_text(encoding="utf-8"))
