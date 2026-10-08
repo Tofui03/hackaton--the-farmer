@@ -4,6 +4,7 @@ import re
 import unicodedata
 from typing import Final
 
+from src.domain.values import NormalizedText
 from src.models.extraction import FieldName, NormalizedField
 
 RULE_VERSION: Final[str] = "norm-v1.0"
@@ -66,18 +67,7 @@ def normalize_whitespace_and_case(text: str) -> str:
 
 
 def normalize_text(field: FieldName, raw_value: str | None) -> NormalizedField:
-    """Deterministically normalize shipping text fields (shipper, consignee, ports, etc.).
-
-    Pipeline:
-    1. Unicode NFKC normalization
-    2. Punctuation standardization and trailing punctuation trimming
-    3. Whitespace collapsing and uppercase folding
-
-    Strict Guardrails:
-    - Do NOT strip legal entity suffixes (LTD, CORP, INC, etc.) per DEC-P06D.
-    - Do NOT map port aliases or codes (SHANGHAI != PORT OF SHANGHAI) per DEC-P06C.
-    - Preserve internal token order and address lines.
-    """
+    """Normalize raw text using domain NormalizedText Value Object (DEC-P06A)."""
     if raw_value is None or not isinstance(raw_value, str):
         return NormalizedField(
             field=field,
@@ -85,25 +75,18 @@ def normalize_text(field: FieldName, raw_value: str | None) -> NormalizedField:
             value=None,
             rule_version=None,
         )
-
-    # 1. Unicode NFKC
-    val = normalize_unicode(raw_value)
-    # 2. Punctuation cleanup (quotes & trailing punctuation)
-    val = clean_punctuation(val)
-    # 3. Spacing & Case folding
-    val = normalize_whitespace_and_case(val)
-
-    if not val:
+    try:
+        val_obj = NormalizedText.from_raw(raw_value)
+        return NormalizedField(
+            field=field,
+            state="VALID",
+            value=val_obj.to_canonical(),
+            rule_version=RULE_VERSION,
+        )
+    except ValueError:
         return NormalizedField(
             field=field,
             state="INVALID",
             value=None,
             rule_version=None,
         )
-
-    return NormalizedField(
-        field=field,
-        state="VALID",
-        value=val,
-        rule_version=RULE_VERSION,
-    )
