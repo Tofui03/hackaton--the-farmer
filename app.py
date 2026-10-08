@@ -46,6 +46,7 @@ _docs_dir = Path(__file__).resolve().parent / "docs"
 _assets_dir = _docs_dir / "assets"
 if _assets_dir.is_dir() and (_docs_dir / "index.html").is_file():
     app.mount("/assets", StaticFiles(directory=_assets_dir), name="frontend-assets")
+    app.mount("/cases/assets", StaticFiles(directory=_assets_dir), name="frontend-cases-assets")
 
     @app.get("/cases", include_in_schema=False)
     @app.get("/cases/{spa_path:path}", include_in_schema=False)
