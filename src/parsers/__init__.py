@@ -20,10 +20,12 @@ from src.parsers.vision_adapter import (
     validate_bounding_box,
 )
 
-_text_parser = TextParser()
-_docx_parser = DocxParser()
-_excel_parser = ExcelParser()
-_pdf_parser = PdfParser()
+DEFAULT_PARSER_FACTORY = DocumentParserFactory(DEFAULT_PARSER_REGISTRY)
+
+_text_parser = DEFAULT_PARSER_REGISTRY.get_parser(".txt") or TextParser()
+_docx_parser = DEFAULT_PARSER_REGISTRY.get_parser(".docx") or DocxParser()
+_excel_parser = DEFAULT_PARSER_REGISTRY.get_parser(".xlsx") or ExcelParser()
+_pdf_parser = DEFAULT_PARSER_REGISTRY.get_parser(".pdf") or PdfParser()
 _docai_adapter = DocumentAIAdapter()
 
 
@@ -67,27 +69,21 @@ def parse_document(file_path: Path, document_id: Optional[str] = None) -> Parser
             metadata={"file_path": str(file_path)},
         )
 
-    ext = file_path.suffix.lower()
+    parser = DEFAULT_PARSER_FACTORY.get_parser_for_path(file_path)
+    if parser is not None:
+        return parser.parse(file_path, document_id=doc_id)
 
-    if ext == ".txt":
-        return _text_parser.parse(file_path, document_id=doc_id)
-    elif ext == ".docx":
-        return _docx_parser.parse(file_path, document_id=doc_id)
-    elif ext == ".xlsx":
-        return _excel_parser.parse(file_path, document_id=doc_id)
-    elif ext == ".pdf":
-        return _pdf_parser.parse(file_path, document_id=doc_id)
-    else:
-        return ParserResult(
-            document_id=doc_id,
-            status=ParserStatus.UNSUPPORTED,
-            text=None,
-            usable_for_extraction=False,
-            diagnostic_evidence_ids=[f"unsupported_ext_{ext}"],
-            attempt_ids=[f"att_{doc_id}_router"],
-            error_message=f"Unsupported attachment extension: {ext}",
-            metadata={"file_extension": ext},
-        )
+    ext = file_path.suffix.lower()
+    return ParserResult(
+        document_id=doc_id,
+        status=ParserStatus.UNSUPPORTED,
+        text=None,
+        usable_for_extraction=False,
+        diagnostic_evidence_ids=[f"unsupported_ext_{ext}"],
+        attempt_ids=[f"att_{doc_id}_router"],
+        error_message=f"Unsupported attachment extension: {ext}",
+        metadata={"file_extension": ext},
+    )
 
 
 def parse_attachment(file_path: Path) -> DocumentParseResult:
