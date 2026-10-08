@@ -3,6 +3,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Final, Literal
 
+from src.comparator.strategies import DEFAULT_STRATEGY_REGISTRY
 from src.models.base import Contract, Text, require
 from src.models.comparison import (
     ComparisonOutcome,
@@ -40,29 +41,11 @@ def is_field_reliable_and_valid(extracted_field: ExtractedField | None) -> bool:
 def canonical_equal(field: FieldName, si_val: Canonical, bl_val: Canonical) -> bool:
     """Evaluate exact deterministic equality between two canonical values (DEC-01).
 
-    Guards:
-    - Text fields: exact string equality (no fuzzy matching, no suffix stripping, no port aliases).
-    - container_count: exact integer equality (no floats, no booleans).
-    - gross_weight_kg: exact Decimal mathematical equality (canonical Decimal only; no string conversion,
-      no floats, no undocumented tolerance). T04 performs equality, NOT coercion.
+    Refactored to delegate to domain FieldComparisonStrategy via registry.
     """
-    validate_canonical(field, si_val)
-    validate_canonical(field, bl_val)
+    strategy = DEFAULT_STRATEGY_REGISTRY.get_strategy(field)
+    return strategy.are_equal(si_val, bl_val)
 
-    if field == "container_count":
-        return si_val == bl_val
-    elif field == "gross_weight_kg":
-        require(
-            isinstance(si_val, Decimal) and not isinstance(si_val, bool) and si_val.is_finite(),
-            "gross_weight_kg canonical value must be a finite Decimal, not string or float",
-        )
-        require(
-            isinstance(bl_val, Decimal) and not isinstance(bl_val, bool) and bl_val.is_finite(),
-            "gross_weight_kg canonical value must be a finite Decimal, not string or float",
-        )
-        return si_val == bl_val
-    else:
-        return si_val == bl_val
 
 
 def compare_canonical_field(

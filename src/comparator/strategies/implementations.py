@@ -63,8 +63,8 @@ class GrossWeightStrategy(FieldComparisonStrategy):
         validate_canonical(self.target_field, bl_val)
 
         if not isinstance(si_val, Decimal) or isinstance(si_val, bool) or not si_val.is_finite():
-            raise ValueError("gross_weight_kg canonical SI value must be a finite Decimal, not string or float")
+            raise ValueError("gross_weight_kg canonical value must be a finite Decimal, not string or float")
         if not isinstance(bl_val, Decimal) or isinstance(bl_val, bool) or not bl_val.is_finite():
-            raise ValueError("gross_weight_kg canonical BL value must be a finite Decimal, not string or float")
+            raise ValueError("gross_weight_kg canonical value must be a finite Decimal, not string or float")
 
         return si_val == bl_val

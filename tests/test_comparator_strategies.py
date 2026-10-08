@@ -127,3 +127,51 @@ class TestGrossWeightStrategy:
             strategy.are_equal(Decimal("NaN"), Decimal("25000.00"))
         with pytest.raises(ValueError):
             strategy.are_equal(Decimal("25000.00"), Decimal("-Infinity"))
+
+
+class TestComparisonStrategyRegistry:
+    """Tests for ComparisonStrategyRegistry."""
+
+    def test_default_registry_covers_all_seven_fields(self) -> None:
+        from src.comparator.strategies import DEFAULT_STRATEGY_REGISTRY
+        from src.models.extraction import FIELD_NAMES
+
+        for field in FIELD_NAMES:
+            strategy = DEFAULT_STRATEGY_REGISTRY.get_strategy(field)
+            assert strategy.target_field == field
+
+        # Specific strategy type checks
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("container_count"), ContainerCountStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("gross_weight_kg"), GrossWeightStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("shipper"), TextExactStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("consignee"), TextExactStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("notify_party"), TextExactStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("port_of_loading"), TextExactStrategy)
+        assert isinstance(DEFAULT_STRATEGY_REGISTRY.get_strategy("port_of_discharge"), TextExactStrategy)
+
+    def test_unregistered_field_raises_key_error(self) -> None:
+        from src.comparator.strategies import ComparisonStrategyRegistry
+
+        registry = ComparisonStrategyRegistry()
+        with pytest.raises(KeyError, match="No comparison strategy registered for field: 'unknown_field'"):
+            registry.get_strategy("unknown_field")  # type: ignore[arg-type]
+
+    def test_register_allows_override_and_extension(self) -> None:
+        from src.comparator.strategies import ComparisonStrategyRegistry, FieldComparisonStrategy
+        from src.models.extraction import Canonical, FieldName
+
+        class DummyShipperStrategy(FieldComparisonStrategy):
+            @property
+            def target_field(self) -> FieldName:
+                return "shipper"
+
+            def are_equal(self, si_val: Canonical, bl_val: Canonical) -> bool:
+                return True
+
+        registry = ComparisonStrategyRegistry()
+        custom = DummyShipperStrategy()
+        registry.register(custom)
+
+        assert registry.get_strategy("shipper") is custom
+        assert registry.get_strategy("shipper").are_equal("A", "B") is True
+
