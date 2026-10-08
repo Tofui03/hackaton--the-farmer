@@ -3,23 +3,85 @@ import { Link, NavLink } from 'react-router-dom';
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
-          <Link to="/cases" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 font-bold text-white">SD</div>
-            <div>
-              <div className="font-bold tracking-tight text-white">Shipping Document Verification</div>
-              <div className="text-xs text-slate-500">Operational audit & human review console</div>
+    <div className="min-h-screen bg-carbon-950 text-slate-100 font-sans selection:bg-klein selection:text-white antialiased">
+      {/* Floating Capsule Header */}
+      <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-carbon-950/80 backdrop-blur-md transition-all duration-300">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
+          {/* Brand Logo & Editorial Typography */}
+          <Link to="/cases" className="group flex items-center gap-3.5 focus:outline-none">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-klein-glow via-klein to-blue-900 font-display text-sm font-extrabold tracking-wider text-white shadow-[0_0_20px_-2px_rgba(37,99,235,0.4)] ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-105">
+              SD
+            </div>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="font-display text-base font-bold tracking-tight text-white transition group-hover:text-blue-100">
+                  Shipping Document Verification
+                </span>
+                <span className="hidden font-editorial italic text-xs text-slate-400 sm:inline">
+                  Console
+                </span>
+              </div>
+              <span className="text-xs text-slate-400">
+                Operational audit & human review console
+              </span>
             </div>
           </Link>
-          <nav className="flex items-center gap-2 text-sm">
-            <NavLink to="/cases" className={({ isActive }) => isActive ? 'rounded-lg bg-slate-800 px-3 py-2 font-semibold text-white' : 'rounded-lg px-3 py-2 text-slate-400 hover:text-white'}>Cases</NavLink>
-            <a href="/docs" className="rounded-lg px-3 py-2 text-slate-400 hover:text-white">API Docs</a>
+
+          {/* Emerald Engine Live Pulse Badge */}
+          <div className="hidden items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-950/30 px-3 py-1 text-xs md:flex">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+            </span>
+            <span className="font-mono text-[11px] font-medium tracking-wide text-emerald-400 uppercase">
+              Engine Live <span className="text-emerald-500/60 font-sans">| 305 Tests Active</span>
+            </span>
+          </div>
+
+          {/* Navigation Capsules & Keyboard Shortcuts */}
+          <nav className="flex items-center gap-3">
+            <div className="flex items-center rounded-xl border border-white/[0.06] bg-carbon-900/60 p-1 backdrop-blur">
+              <NavLink
+                to="/cases"
+                className={({ isActive }) =>
+                  `group relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition duration-200 ${
+                    isActive
+                      ? 'bg-white/10 text-white shadow-sm ring-1 ring-white/10'
+                      : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
+                  }`
+                }
+              >
+                <span>Cases</span>
+                <span className="hidden rounded bg-carbon-950/80 px-1 py-0.5 font-mono text-[10px] text-slate-400 border border-white/[0.06] lg:inline">
+                  ⌘1
+                </span>
+              </NavLink>
+              <a
+                href="/docs"
+                className="group flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-400 transition duration-200 hover:bg-white/[0.04] hover:text-white"
+              >
+                <span>API Docs</span>
+                <span className="hidden rounded bg-carbon-950/80 px-1 py-0.5 font-mono text-[10px] text-slate-400 border border-white/[0.06] lg:inline">
+                  ⌘2
+                </span>
+              </a>
+            </div>
+
+            {/* Keyboard Shortcuts Hint Pill */}
+            <div className="hidden items-center gap-1.5 rounded-lg border border-white/[0.06] bg-carbon-900/40 px-2.5 py-1.5 font-mono text-[11px] text-slate-400 xl:flex">
+              <span className="rounded bg-carbon-950 px-1.5 py-0.5 text-slate-400 border border-white/[0.06]">⌘K</span>
+              <span>Search</span>
+              <span className="mx-1 text-carbon-700">|</span>
+              <span className="rounded bg-carbon-950 px-1 py-0.5 text-slate-400 border border-white/[0.06]">J</span>
+              <span className="rounded bg-carbon-950 px-1 py-0.5 text-slate-400 border border-white/[0.06]">K</span>
+              <span>Navigate</span>
+            </div>
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">{children}</main>
+
+      {/* Main Content Area */}
+      <main className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">{children}</main>
     </div>
   );
 }

@@ -2,14 +2,66 @@ interface Props {
   label: string;
   value: number;
   hint: string;
+  glow?: 'blue' | 'rose' | 'emerald' | 'amber' | 'default';
 }
 
-export function KPICard({ label, value, hint }: Props) {
+const GLOW_CONFIG = {
+  blue: {
+    border: 'hover:border-blue-500/40',
+    shadow: 'hover:shadow-[0_0_35px_-5px_rgba(37,99,235,0.3)]',
+    indicator: 'bg-blue-500 shadow-[0_0_8px_rgba(37,99,235,0.8)]',
+    blob: 'bg-blue-600/10',
+  },
+  rose: {
+    border: 'hover:border-rose-500/40',
+    shadow: 'hover:shadow-[0_0_35px_-5px_rgba(244,63,94,0.3)]',
+    indicator: 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
+    blob: 'bg-rose-600/10',
+  },
+  emerald: {
+    border: 'hover:border-emerald-500/40',
+    shadow: 'hover:shadow-[0_0_35px_-5px_rgba(16,185,129,0.3)]',
+    indicator: 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
+    blob: 'bg-emerald-600/10',
+  },
+  amber: {
+    border: 'hover:border-amber-500/40',
+    shadow: 'hover:shadow-[0_0_35px_-5px_rgba(245,158,11,0.3)]',
+    indicator: 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]',
+    blob: 'bg-amber-600/10',
+  },
+  default: {
+    border: 'hover:border-white/20',
+    shadow: 'hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.06)]',
+    indicator: 'bg-slate-400',
+    blob: 'bg-white/5',
+  },
+};
+
+export function KPICard({ label, value, hint, glow = 'default' }: Props) {
+  const cfg = GLOW_CONFIG[glow] || GLOW_CONFIG.default;
+
   return (
-    <div className="panel p-4">
-      <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">{label}</div>
-      <div className="mt-2 text-3xl font-bold text-white">{value}</div>
-      <div className="mt-1 text-xs text-slate-500">{hint}</div>
+    <div
+      className={`spotlight-border group relative overflow-hidden rounded-2xl bg-carbon-900/70 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 ${cfg.border} ${cfg.shadow}`}
+    >
+      {/* Background Soft Glow Blob */}
+      <div
+        className={`pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full blur-2xl transition duration-500 group-hover:scale-125 ${cfg.blob}`}
+      />
+      {/* Tiny Status Indicator Light */}
+      <span className={`absolute right-4 top-4 h-1.5 w-1.5 rounded-full ${cfg.indicator}`} />
+
+      {/* Label, Value, and Hint */}
+      <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 font-sans">
+        {label}
+      </div>
+      <div className="mt-3 font-mono text-3xl font-bold tracking-tight text-white">
+        {value}
+      </div>
+      <div className="mt-1 font-sans text-xs text-slate-500">
+        {hint}
+      </div>
     </div>
   );
 }
